@@ -1,0 +1,28 @@
+# Archivos temporales de revisión
+/tmp/
+
+# Referencia docente local, ajena a la aplicación propia
+/dsy1105-ejemplo-agenda-eventos-main/
+
+# Android / Gradle: archivos generados y configuración de cada equipo
+.gradle/
+.kotlin/
+**/build/
+local.properties
+.idea/
+*.iml
+.externalNativeBuild/
+.cxx/
+captures/
+
+# Secretos y firma local; nunca agregar al repositorio
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+keystore.properties
+
+# Archivos del sistema
+Thumbs.db
+.DS_Store
