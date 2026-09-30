@@ -8,7 +8,7 @@
 - Una guía o ejemplo del profesor no constituye un requerimiento de Kaiju. No trasladar eventos, cupos, validaciones, valores predeterminados o pantallas del ejemplo.
 - No confundir mención general con especificación completa. No inferir CRUD, autenticación, permisos, reglas de stock, descuentos automáticos, gráficos o sincronización automática.
 - Cada funcionalidad propuesta debe citar fuente y sección o respuesta validada. Los criterios de aceptación no pueden introducir comportamiento nuevo.
-- Estado actual: documentación previa a la reunión. No desarrollar funcionalidades por iniciativa propia; avanzar en la etapa que solicite el usuario.
+- Estado actual: avance previo a la reunión por partes independientes de ambigüedades. El usuario autorizó explorar diseño con Lovable, separar capacidades y continuar paso a paso. Leer `docs/04-capacidades-y-construccion.md` y `docs/05-responsabilidades-construccion.md`; no bloquear toda construcción porque algunas reglas estén pendientes. No implementar comportamientos que dependan de respuestas faltantes.
 
 ## Cuidado del proyecto
 
