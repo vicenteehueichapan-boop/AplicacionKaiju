@@ -48,7 +48,9 @@ Estas prácticas no autorizan reglas de negocio. El ejemplo valida eventos y usa
 
 ## 3. Git desde el comienzo
 
-El repositorio propio quedó inicializado en la raíz de este espacio de trabajo, con rama `main` y sin remote. El ejemplo docente permanece local y excluido; no se borra ni se convierte en proyecto propio. Versionar documentación, reglas y fuente del caso conservada. Los renders temporales, cachés, builds y configuración local de Android quedan excluidos.
+El repositorio propio quedó inicializado en la raíz de este espacio de trabajo, con rama `main`. Por solicitud posterior del usuario se conectó `origin` a `https://github.com/vicenteehueichapan-boop/AplicacionKaiju.git` y se integró su commit inicial, conservando ambos historiales. El ejemplo docente permanece local y excluido; no se borra ni se convierte en proyecto propio. Versionar documentación, reglas y fuente del caso conservada. Los renders temporales, cachés, builds y configuración local de Android quedan excluidos.
+
+GitHub informa visibilidad pública para este repositorio, mientras A-07 §8 solicita un repositorio privado. La diferencia queda registrada y pendiente; no se modificó la visibilidad por iniciativa propia. El usuario autorizó subir el proyecto a este repositorio, sin autorizar invitaciones ni otras acciones externas.
 
 La comprobación inicial detectó que faltaba identidad de autor. El usuario proporcionó su nombre de cuenta de GitHub y correo para configurarlos solo en este repositorio, sin cambiar configuración global. El primer commit documenta la auditoría y las reglas; no afirma que exista una estructura MVVM propia.
 

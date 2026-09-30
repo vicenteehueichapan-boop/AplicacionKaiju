@@ -1,4 +1,4 @@
-# Kaiju · Proyecto semestral DSY1105
+# AplicacionKaiju · Proyecto semestral DSY1105
 
 Estado al 30-09-2026: toma de requerimientos documental, previa a la reunión con el cliente. No se han desarrollado funcionalidades ni creado la aplicación Android propia.
 
@@ -14,7 +14,9 @@ El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta 
 
 ## Datos de equipo pendientes
 
-Nombre académico de la aplicación, número de grupo, integrantes, repositorio privado, docente colaborador, enlaces de Drive y Trello: pendientes de aportar. No se inventan ni se crean servicios externos en esta etapa.
+Nombre académico de la aplicación, número de grupo, integrantes, docente colaborador, enlaces de Drive y Trello: pendientes de aportar. No se inventan ni se crean servicios externos en esta etapa.
+
+Repositorio de trabajo: [vicenteehueichapan-boop/AplicacionKaiju](https://github.com/vicenteehueichapan-boop/AplicacionKaiju). Su visibilidad actual es pública; la guía 07 solicita un repositorio privado. Esta diferencia queda pendiente de resolver, sin cambiar la visibilidad automáticamente.
 
 Contexto académico previsto: Kotlin, Jetpack Compose y MVVM según las guías. No es una exigencia tecnológica del cliente. Versiones, paquete, SDK y dependencias de la aplicación propia quedan por decidir y verificar cuando corresponda crearla.
 
@@ -27,4 +29,4 @@ Contexto académico previsto: Kotlin, Jetpack Compose y MVVM según las guías. 
 
 La raíz es el repositorio de trabajo propio. El proyecto Android se creará en una etapa posterior; el ejemplo del profesor no es la aplicación del equipo.
 
-Git local inicializado en `main`, sin remote, con identidad local proporcionada por el usuario. La primera entrega versionada contiene la auditoría, las preguntas, las reglas y el caso fuente; no incluye una aplicación Android propia.
+Git local inicializado en `main`, con identidad local proporcionada por el usuario y `origin` conectado al repositorio de trabajo. Se conserva el commit inicial de GitHub junto con el historial local. La primera entrega versionada contiene la auditoría, las preguntas, las reglas y el caso fuente; no incluye una aplicación Android propia.
