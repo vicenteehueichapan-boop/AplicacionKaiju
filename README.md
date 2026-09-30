@@ -1,6 +1,6 @@
 # AplicacionKaiju · Proyecto semestral DSY1105
 
-Estado al 30-09-2026: toma de requerimientos documental, previa a la reunión con el cliente. No se han desarrollado funcionalidades ni creado la aplicación Android propia.
+Estado al 30-09-2026: toma de requerimientos y preparación de construcción por capacidades, previa a la reunión con el cliente. Hay tres propuestas visuales en Lovable; todavía no se creó la aplicación Android propia ni se implementaron reglas de negocio. Ver límites y revisión pendiente en la documentación de exploración.
 
 El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta contiene el caso original, documentación del equipo y un ejemplo docente de Agenda de Eventos que sirve como referencia.
 
@@ -9,6 +9,9 @@ El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta 
 1. [Auditoría del caso](docs/01-auditoria-caso.md): evidencia explícita, capacidades, datos, restricciones y pendientes.
 2. [Preguntas para la reunión](docs/02-preguntas-cliente.md): preguntas trazables, sin respuestas supuestas.
 3. [Reglas y contexto académico](docs/03-reglas-proyecto.md): trabajo con Git, referencias y pasos siguientes.
+4. [Capacidades y construcción](docs/04-capacidades-y-construccion.md): partes que podemos avanzar y partes que dependen de respuestas.
+5. [Responsabilidades de construcción](docs/05-responsabilidades-construccion.md): UI, estado, muestra y reglas futuras.
+6. [Exploración visual en Lovable](docs/06-exploracion-visual.md): tres propuestas de apariencia y límites de su uso.
 
 "Confirmado documentalmente" significa que aparece explícitamente en el caso; no significa que ya se acordó su detalle con el cliente ni que está listo para programarse.
 

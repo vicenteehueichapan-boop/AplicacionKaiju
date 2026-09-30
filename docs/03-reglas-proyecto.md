@@ -77,10 +77,10 @@ Al implementar más adelante, separar responsabilidades conforme al contexto del
 ## 5. Secuencia siguiente
 
 1. Revisar con el equipo la auditoría y las preguntas, sin completar respuestas.
-2. Completar integrantes, grupo, nombre académico y confirmar exigencias académicas con el docente.
-3. Obtener MA-01 a MA-03 y preparar la reunión con el cliente.
-4. Registrar respuestas y acordar alcance, datos, reglas y criterios de aceptación.
-5. Decidir configuración técnica de la aplicación Android propia y verificar compatibilidad vigente.
-6. Diseñar y construir por capacidades con evidencia suficiente, verificando cada incremento.
+2. Separar las partes construibles de cada capacidad según `04-capacidades-y-construccion.md` y responsabilidades según `05-responsabilidades-construccion.md`.
+3. Explorar y elegir apariencia de una consulta en Lovable, sin reglas de negocio supuestas; completar integrantes, grupo y nombre académico.
+4. Decidir configuración técnica de la aplicación Android propia y verificar compatibilidad, compilación y ejecución. No es necesario esperar todas las respuestas para esta base.
+5. Construir la consulta visual elegida con datos ficticios; en paralelo obtener MA-01 a MA-03 y preparar la reunión.
+6. Registrar respuestas y construir las partes funcionales cuando sus reglas y criterios estén definidos. Bloquear únicamente decisiones dependientes, no todo el proyecto.
 
 La oportunidad de continuidad laboral justifica cuidar la calidad del proceso; no elimina el límite académico ni permite usar datos productivos o ampliar funcionalidades sin acuerdo.

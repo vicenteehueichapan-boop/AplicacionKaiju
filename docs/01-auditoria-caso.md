@@ -163,4 +163,4 @@ Se puede revisar y corregir esta matriz, preparar la reunión, reunir el materia
 
 Antes de programar una capacidad, registrar su alcance acordado, reglas, datos, dependencias y criterios de aceptación derivados de una fuente. Si un detalle sigue abierto, conservar el bloqueo únicamente sobre las decisiones dependientes; no fingir que todo el caso es desconocido ni inventar una respuesta para avanzar.
 
-No se definieron historias, pantallas, modelo de datos definitivo ni criterios de aceptación funcionales porque requerirían completar información aún pendiente. La base documental está identificada; la validación con el cliente continúa pendiente.
+En la auditoría inicial no se definieron historias, pantallas, modelo de datos definitivo ni criterios de aceptación funcionales. Por solicitud posterior del usuario, `04-capacidades-y-construccion.md` separa partes construibles y pendientes, y se inició una propuesta visual de consulta sin reglas de negocio. Ese avance no completa información faltante ni equivale a validación del cliente. La base documental está identificada; la validación con el cliente continúa pendiente.
