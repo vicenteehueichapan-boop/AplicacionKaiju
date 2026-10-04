@@ -1,6 +1,6 @@
 # AplicacionKaiju · Proyecto semestral DSY1105
 
-Estado al 30-09-2026: toma de requerimientos y preparación de construcción por capacidades, previa a la reunión con el cliente. Hay tres propuestas visuales en Lovable; todavía no se creó la aplicación Android propia ni se implementaron reglas de negocio. Ver límites y revisión pendiente en la documentación de exploración.
+Estado al 04-10-2026: auditoría del material nuevo y preparación de entrevista/SRS preliminar. No se aportaron convocatoria, acta ni reglas de stock del cliente. Hay propuestas visuales previas en Lovable; todavía no se creó la aplicación Android propia ni se implementaron reglas de negocio.
 
 El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta contiene el caso original, documentación del equipo y un ejemplo docente de Agenda de Eventos que sirve como referencia.
 
@@ -12,6 +12,14 @@ El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta 
 4. [Capacidades y construcción](docs/04-capacidades-y-construccion.md): partes que podemos avanzar y partes que dependen de respuestas.
 5. [Responsabilidades de construcción](docs/05-responsabilidades-construccion.md): UI, estado, muestra y reglas futuras.
 6. [Exploración visual en Lovable](docs/06-exploracion-visual.md): tres propuestas de apariencia y límites de su uso.
+
+## Material nuevo y trabajo actual
+
+7. [Auditoría del 04-10-2026](docs/07-auditoria-material-nuevo.md): qué cambió, qué exige el curso y cómo usar las diez pestañas de la plantilla.
+8. [Preparación de entrevista](docs/08-preparacion-entrevista.md): doce preguntas principales con fuente, roles por asignar y estructura de acta sin respuestas.
+9. [Borrador previo SRS](docs/09-borrador-previo-srs.md): contexto, glosario provisional, roles y candidatos RF/RNF con pendientes explícitos.
+
+Las fuentes nuevas están preservadas en `docs/fuentes/2026-10-04/`. La plantilla Excel es una copia exacta sin completar ni modificar. Las restricciones fijas del curso ahora explicitan persistencia local y al menos dos recursos nativos; eso no aporta reglas de negocio ni respuestas del cliente.
 
 "Confirmado documentalmente" significa que aparece explícitamente en el caso; no significa que ya se acordó su detalle con el cliente ni que está listo para programarse.
 

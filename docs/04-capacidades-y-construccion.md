@@ -2,6 +2,8 @@
 
 Fecha: 30-09-2026. Decisión de trabajo del equipo, autorizada por el usuario: avanzar por partes que no requieren resolver reglas ambiguas. No se modifica el alcance documental del cliente ni se registran respuestas nuevas a P-01 a P-20.
 
+Actualización 04-10-2026: material nuevo auditado en `07-auditoria-material-nuevo.md`. P-21 a P-28 complementan la entrevista. La plantilla introduce restricciones académicas fijas; no resuelve las reglas pendientes. La solicitud actual se enfoca en análisis/preparación; no se ejecutan los pasos de construcción de esta matriz todavía.
+
 ## 1. Tres estados distintos
 
 - **Construible como base técnica:** organización del proyecto, compilación y ejecución; no determina negocio.
@@ -33,8 +35,8 @@ Las fuentes detalladas de RC, DT, RE y CO se conservan en `01-auditoria-caso.md`
 | Consulta del público general | Inclusión y disponibilidad publicada pendientes. La propuesta visual no asigna usuario ni permisos. | P-05. |
 | Talla, color, modelo, lote y vencimiento | Atributos condicionales, fuera de la primera propuesta. | P-07. |
 | Internet para sincronizar | Contexto explícito de uso, sin elección de backend ni actualización automática. | P-15, P-20. |
-| Persistencia local | Evaluable; usar datos de muestra en memoria no significa que el producto final pierda sus datos. | P-16. |
-| Notificaciones y cámara QR/barras | Opciones condicionadas; no añadir botones, permisos ni librerías. | P-17. |
+| Persistencia local | Evaluable en C-01; N-04 RD-03 la exige por el curso. Datos relevantes y funcionamiento sin conexión/sincronización son decisiones distintas, aún pendientes. | P-16; D-03, D-05. |
+| Notificaciones y cámara QR/barras | Opciones condicionadas en C-01; N-04 RD-04 exige dos recursos nativos, sin elegirlos ni definir funciones de negocio. No añadir botones/acciones por inferencia. | P-17; D-04. |
 | Integraciones existentes / futuras | No exigidas para el MVP; no habilitar servicios como consecuencia de usar Lovable. | RS-05, FU-01. |
 
 ## 4. Primer incremento propuesto: consulta visual de productos

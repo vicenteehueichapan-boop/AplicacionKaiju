@@ -1,0 +1,254 @@
+
++
+Guía extra
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Caso semestral Kaiju: contexto y requerimientos
+Tipo: Guía extra del proyecto semestral
+Caso: Gestión y trazabilidad de inventario
+Cliente: Kaiju, cliente real
+0
+Para qué sirve esta guía
+Esta guía no reemplaza a ninguna de las guías del recorrido, es un apoyo extra para el proyecto semestral. La idea es que la tengan a mano durante todo el semestre, porque cada vez que tengan dudas sobre qué debe hacer la app, la respuesta parte por acá.
+
+Este semestre no trabajan con una idea inventada: el caso lo planteó una persona real, el cliente de Kaiju, y llegó a ustedes a través del CITT de la sede San Bernardo. Durante el semestre van a conversar directamente con el cliente, y para eso tienen que llegar preparados. Eso cambia la meta. En un ejercicio de clase basta con que el código compile y entregue el resultado esperado; en el proyecto, lo que importa es que la app resuelva el problema de Kaiju. Por eso, antes de abrir Android Studio, su trabajo es leer bien el caso, entenderlo y preparar la entrevista con el cliente.
+
+Lo que van a lograr con esta guía: entender el problema de Kaiju, aprender con un caso de ejemplo cómo se pasa de un problema a requerimientos funcionales, no funcionales y reglas de negocio, y después hacer ese mismo trabajo con Kaiju para llegar preparados a la entrevista con el cliente.
+1
+Leer el caso
+Secciones 1 a 6
+2
+Preparar la entrevista
+Sección 7
+3
+Entrevistar al cliente
+Con la pauta lista
+4
+Escribir los requerimientos
+Plantilla Excel
+5
+Revisar con el cuestionario
+Cuestionario IEEE 830
+El recorrido de esta guía, de principio a fin.
+
+Sobre los ejemplos: esta guía no les entrega los requerimientos de Kaiju resueltos. Todos los ejemplos resueltos usan otro caso, inventado, el del Club Deportivo Los Aromos. Fíjense en cómo se razona en ese caso y después hagan ustedes el mismo trabajo con Kaiju.
+Caso de ejemplo · Club Deportivo Los Aromos (ficticio)
+El club arrienda tres canchas (fútbol 7, tenis y pádel) a sus socios. Hoy las reservas se anotan en un cuaderno en la recepción y se confirman por WhatsApp. Pasa seguido que dos socios llegan a la misma hora a la misma cancha, que alguien reserva y no aparece, y que el administrador no sabe qué horarios se usan más. El club quiere una app Android donde los socios reserven, la recepción controle la asistencia y el administrador vea qué canchas y horarios rinden más.
+
+1
+Quién es Kaiju y qué le pasa
+Ficha del caso
+Título del desafío	Gestión y trazabilidad de inventario para Kaiju
+Organización	Kaiju
+Rubro	Comercio, servicios y gestión de productos
+Sede y coordinación CITT	San Bernardo, coordinadora Paz Morales
+Asignatura	DSY1105, Desarrollo de Aplicaciones Móviles
+De dónde sale este documento: el caso es un resumen que se armó a partir de lo que contó el cliente. Lo que está escrito es su punto de partida; lo que falta, se lo preguntan a él en la entrevista.
+Cómo trabajan hoy
+Kaiju administra productos, materiales e insumos que se reciben, se guardan, se usan o se venden. Hoy el inventario se lleva con registros manuales, planillas y otros mecanismos que hay que estar actualizando todo el tiempo. Los responsables anotan cuando entra mercadería, cuando sale por venta o por consumo, revisan cuánto queda y hacen conteos para saber qué hay que reponer. El resultado es que la información queda repartida en varios lados o desactualizada, y nadie puede saber rápido cuál es el stock real.
+
+El problema de fondo
+Lo que Kaiju necesita es control y trazabilidad del inventario. Trazabilidad quiere decir poder responder, para cualquier producto, cuánto hay, qué movimientos tuvo y quién los hizo. Hoy pasa lo siguiente:
+
+y el ciclo vuelve a empezar
+Recibirproductos
+Guardaren bodega
+Vendero usar
+Revisarexistencias
+Reponer
+!
+Se olvida anotarlo que entra
+!
+Se olvida anotarlo que sale
+!
+Lo anotado no calzacon lo que hay
+!
+No se ve a tiempoqué se está acabando
+Resultado: quiebres de stock, compras innecesarias y tiempo perdido contando
+El ciclo del inventario de Kaiju hoy, y dónde aparecen los problemas que describe el caso.
+
+Eso termina en quiebres de stock (un cliente pide algo y no hay), compras innecesarias (se compra lo que sí había), tiempo perdido contando y poco control sobre los recursos.
+
+La mejora que espera Kaiju: un inventario ordenado, actualizado y trazable, donde sea fácil ver qué hay disponible, registrar cada movimiento y detectar a tiempo qué hay que reponer. Si la app que construyan no ayuda a esto, no importa lo bonita que sea.
+2
+Quiénes usan la app
+El caso describe cuatro perfiles. Cada uno ve la app de forma distinta y necesita cosas distintas, así que van a ser la base de la hoja 2 de la plantilla (Roles), que en IEEE 830 corresponde a las características de los usuarios, y de los permisos dentro de la app.
+
+AppKaiju
+Administrador o encargado
+Productos, categorías, stock,ventas, usuarios e indicadores
+Encargado de inventario
+Registra ingresos, salidas yajustes; controla el stock
+Personal de venta
+Consulta disponibilidady registra ventas
+Público general o cliente
+Consulta productos ydisponibilidad publicada
+Línea punteada: solo si se decide incluirlo
+Los cuatro perfiles del caso y lo que hace cada uno en la app.
+
+Ojo con el último perfil: el caso dice "cuando corresponda", o sea, no es obligatorio. Es una decisión que tienen que conversar con el cliente en la entrevista y dejar escrita en la hoja 5 (Alcance). Si lo incluyen, definan qué ve exactamente: no es lo mismo mostrar "quedan 3 unidades" que mostrar solo "disponible" o "agotado".
+El caso también nombra las tres dificultades que hoy tienen estos usuarios: mantener los datos al día, detectar el stock bajo a tiempo y tener una visión consolidada de cómo se está vendiendo. Cada una de esas dificultades debería terminar convertida en uno o más requerimientos.
+
+3
+Qué información maneja
+Para el MVP, el caso Kaiju pide considerar esta información:
+
+Código o identificador del producto, nombre, descripción, categoría, tipo de producto y precio.
+Cantidad disponible y stock mínimo.
+Fecha y tipo de movimiento, y cantidad de entrada o salida.
+Ventas realizadas.
+Según el tipo de producto: talla, color, modelo, lote o fecha de vencimiento.
+Para analizar inventario y ventas: fechas, cantidades vendidas, categorías y productos.
+Esa lista viene desordenada a propósito, tal como llega casi siempre desde un cliente. Ordenarla y desglosarla es parte de su trabajo, y termina en la hoja 7 de la plantilla (Modelo de Datos).
+
+Así se razona en el caso de ejemplo
+En el club aparecen datos como código de cancha, deporte, precio por hora, si es techada, nombre del socio, fecha, hora de inicio, duración y si el socio llegó o no. Al leerlos con calma se ve que hay dos tipos de cosas: las que existen (las canchas y los socios) y las que ocurren en una fecha (las reservas). El desglose queda así:
+
+Ejemplo · Desglose de la información del club
+Elemento	Tipo	Datos que lo describen	Cuándo cambia
+Cancha	Existe	Código, deporte, si es techada, precio por hora.	Casi nunca. Solo si el club cambia el precio o habilita una cancha nueva.
+Socio	Existe	Identificador, nombre, forma de contacto, si está habilitado o bloqueado.	Cuando actualiza sus datos o cuando lo bloquean por inasistencias.
+Reserva	Ocurre	Qué cancha, qué socio, fecha, hora de inicio, duración y estado (confirmada, cancelada, asistió, no asistió).	Se crea una nueva cada vez que alguien reserva, y su estado avanza hasta que se juega o se cancela.
+Después se mira cómo se relacionan:
+
+Socio
+EXISTE
+identificador, nombre,contacto, habilitado
+Reserva
+OCURRE
+cancha, socio, fecha,hora de inicio, duración,estado
+Cancha
+EXISTE
+código, deporte,techada, precio por hora
+1
+muchas
+1
+muchas
+Cada reserva pertenece a un solo socio y a una sola cancha
+Caso de ejemplo: lo que existe (azul) y lo que ocurre (verde), y cómo se relacionan.
+
+La lógica de la regla principal
+La regla más importante del club es que dos reservas no pueden ocupar la misma cancha a la misma hora. Antes de pensar en cómo programarla, se describe lo que la app tiene que revisar cuando un socio intenta reservar:
+
+El socio pide una reserva
+¿Hay otra reserva confirmadaen la misma cancha, el mismo díay con un horario que se cruce?
+Sí
+No
+Rechaza y muestralos horarios libres
+Confirmala reserva
+Caso de ejemplo: la regla principal del club como una sola pregunta con dos salidas.
+
+Fíjense que para escribir esa lógica se usaron solo datos que ya estaban en el desglose. Si una regla necesita un dato que no aparece en ninguna parte, falta algo en el desglose.
+
+Por qué separar Cancha y Reserva: si el club solo guardara "cancha ocupada sí o no", sabría cómo está hoy pero no qué pasó ayer, quién reservó ni cuántas veces alguien faltó. Guardando cada reserva como un registro aparte se puede reconstruir la historia completa.
+Ahora ustedes: lean de nuevo la lista de Kaiju y separen lo que existe de lo que ocurre. Piensen también qué hacer con los atributos que solo aplican a algunos productos. Con eso armen su propio desglose en la hoja 7 y describan paso a paso la lógica de las reglas más importantes.
+4
+Funcionales, no funcionales y reglas de negocio
+Para ordenar lo que pide un cliente, la plantilla del proyecto se basa en IEEE 830, la práctica recomendada del IEEE para escribir especificaciones de requerimientos. IEEE 830 distingue las funciones del software de sus atributos de calidad y de sus restricciones; la plantilla agrega aparte las reglas de negocio para que no se pierdan. Cada tipo lleva su propio identificador. Los ejemplos son del club:
+
+Tipo	Qué describe	Ejemplo en el club
+RF · Funcional	Lo que la app hace.	El socio reserva una cancha eligiendo deporte, fecha y hora de inicio.
+RNF · No funcional	Qué tan bien lo hace: tiempo, seguridad, usabilidad, plataforma.	Solo los socios con cuenta pueden reservar, y la sesión se cierra sola después de 15 minutos sin uso.
+RN · Regla de negocio	Una condición del negocio que la app tiene que respetar siempre.	Una reserva se puede cancelar sin costo hasta 2 horas antes de su inicio.
+Además, IEEE 830 pide que cada requerimiento tenga una prioridad (esencial, condicional u opcional), un origen claro (de dónde salió) y una forma de verificarlo. La plantilla tiene una columna para cada una de esas tres cosas.
+
+Escribirlos bien: de lo vago a lo verificable
+Un requerimiento bien escrito se puede probar. Si dos personas lo leen y entienden cosas distintas, está mal escrito. Comparen, otra vez con el club:
+
+Así no	Así sí
+La app evita los choques de horario.	RN: No se puede confirmar una reserva si la misma cancha ya tiene otra reserva confirmada que se cruza en fecha y horario.
+Reservar tiene que ser rápido.	RNF: Desde que el socio presiona "Reservar", la confirmación aparece en menos de 3 segundos con conexión 4G.
+El administrador puede ver estadísticas.	RF: El administrador ve el porcentaje de ocupación de cada cancha por franja horaria, filtrando por mes.
+Se controla a los que no llegan.	RF: La recepción marca cada reserva como "asistió" o "no asistió". RN: Un socio con 3 inasistencias en el mes no puede reservar hasta el mes siguiente.
+Fíjense en esto: los números de la columna "Así sí" (2 horas, 3 segundos, 3 inasistencias) no los inventa el equipo, los confirma el club. Con Kaiju va a pasar lo mismo: cada vez que necesiten un número o un límite que el caso no trae, eso se convierte en una pregunta para la entrevista con el cliente.
+5
+Alcance del MVP y restricciones
+Lo que van a construir es un Producto Mínimo Viable (MVP) académico, no una aplicación productiva definitiva. Eso obliga a decidir qué entra y qué no, y a dejarlo escrito en la hoja 5 (Alcance). Así quedó el alcance del club:
+
+Ejemplo · Club Deportivo Los Aromos
+Dentro del MVP	Fuera del MVP
+Reservar y cancelar canchas. Ver horarios libres. Marcar asistencia. Bloquear socios con inasistencias. Reporte de ocupación por cancha y horario.	Pago en línea de la reserva. Integración con el sistema contable del club. Torneos y campeonatos.
+Para Kaiju, el caso ya les da varias pistas: algunas cosas se exigen, otras aparecen con palabras como "pueden considerarse" o "cuando corresponda", y otras quedan explícitamente fuera. Encontrarlas y decidir con argumentos es parte de la actividad.
+
+Condiciones de uso que fija el caso
+La app se usa principalmente desde teléfonos Android, por personal autorizado.
+Se considera conexión a internet para sincronizar la información, y se puede evaluar guardar datos en el teléfono para consultas o registros temporales.
+Pueden considerarse notificaciones de stock mínimo y el uso de la cámara para leer códigos QR o de barras.
+Restricciones que no se negocian:
+Se trabaja solo con datos ficticios, sintéticos, públicos o anonimizados.
+No se usan datos personales reales, credenciales, llaves, tokens, respaldos ni accesos a sistemas internos de Kaiju.
+Si prueban la cámara, háganlo sin capturar a personas reales.
+No se exige integrar la app con sistemas que Kaiju ya tenga.
+Material de apoyo
+Se va a entregar un catálogo ficticio de productos, ejemplos ficticios de movimientos y las reglas generales de stock que define Kaiju. Mientras no lleguen, pueden inventar sus propios datos de prueba, pero dejen claro en la planilla que son supuestos.
+
+6
+Cómo sabremos que la app sirve
+Todo caso trae, dicho o no, lo que el cliente considera éxito. Cada señal de éxito debería llevar a uno o más requerimientos concretos, y eso es lo que se registra en la hoja 8 (Trazabilidad). En el club se veía así:
+
+Ejemplo · Club Deportivo Los Aromos
+Señal de éxito	Requerimientos que la cubren
+No más socios que llegan a una cancha ocupada	RF de reserva con horarios libres a la vista y RN que impide reservas que se crucen.
+Menos canchas vacías por reservas fantasma	RF para marcar asistencia y RN que bloquea a quien acumula inasistencias.
+Saber qué horarios rinden más	RF de reporte de ocupación por cancha y franja horaria.
+Kaiju sí dejó sus señales de éxito por escrito. Estas son las del caso; armar la columna de la derecha les toca a ustedes:
+
+Stock actualizado y trazable por producto.
+Disminución de quiebres de stock y diferencias de inventario.
+Identificación rápida de productos más vendidos y menos vendidos.
+Visualización de tendencias de venta por período, categoría o tipo de producto.
+Mayor rapidez en el registro de entradas, salidas y ventas.
+Información de disponibilidad más clara para usuarios internos y público general.
+7
+La entrevista con el cliente
+El documento del caso es un resumen de lo que contó el cliente. Un resumen siempre deja cosas afuera, y esas cosas son las que después hacen que dos equipos construyan apps completamente distintas a partir del mismo papel. La única forma de cerrarlas es preguntarle directamente a quien conoce el negocio. Por eso la entrevista no es un trámite: es la fuente principal de sus requerimientos.
+
+Tengan presente que el cliente no es informático. Conoce su inventario, sus productos y sus problemas mejor que nadie, pero no va a hablar de clases, tablas ni pantallas. Traducir lo que cuenta a requerimientos es trabajo de ustedes.
+
+Antes, durante y después
+Antes
+Lean el caso en equipo y anoten lo que quede abierto.
+Armen la pauta, de la pregunta más importante a la menos importante.
+Repartan roles: quien conduce, quien anota y quien controla el tiempo.
+Preparen una presentación corta del equipo.
+Durante
+Partan con preguntas abiertas: "¿nos cuenta cómo es un día normal con el inventario?".
+Pidan que les muestre cómo lo anotan hoy.
+Si pide algo concreto, pregunten para qué lo necesita.
+No prometan funciones ni fechas.
+Al cerrar, resuman lo que entendieron y pidan que los corrija.
+Después
+Escriban el acta el mismo día.
+Ajusten los requerimientos y anoten la entrevista como su origen.
+Lo que quedó ambiguo va como pendiente, no se inventa.
+Cómo se ve una buena pauta
+Así preparó sus preguntas el equipo del club. Fíjense que cada una nace de algo que el caso no dejaba claro:
+
+Ejemplo · Pauta para el club
+¿Nos puede contar cómo funciona hoy una reserva, desde que el socio llama hasta que juega?
+¿Con cuánta anticipación se puede reservar: una semana, un mes?
+¿Una persona que no es socia puede reservar? ¿Paga distinto?
+¿Qué pasa si llueve y la cancha no es techada? ¿Se cancela sin costo?
+¿Quién puede desbloquear a un socio castigado?
+¿El reporte de ocupación lo quieren por día, por semana o por mes?
+Pista para Kaiju: subrayen en el caso cada palabra que deje algo abierto ("pueden", "según", "cuando corresponda", "deseable") y cada dato que no traiga un número o un responsable. Casi todas sus preguntas van a salir de ahí. En el Cuestionario IEEE 830, en esta misma carpeta, hay más preguntas de ejemplo ordenadas por cada hoja de la plantilla.
+Recuerden que es un cliente real: está dedicando su tiempo a ayudarlos. Lleguen puntuales, con la pauta lista y con el caso leído. Preguntar algo que ya está escrito en el documento da muy mala impresión.
+8
+Para trabajar en equipo
+✏ Actividad en equipo: primer borrador de requerimientos de Kaiju
+Trabajen sobre la plantilla Excel del caso Kaiju, que encuentran en esta misma carpeta de Material Complementario. Las celdas amarillas las completa el equipo y las blancas son datos fijos del caso o del curso. La primera hoja explica a qué sección de IEEE 830 corresponde cada hoja.
+
+Antes de la entrevista
+Hoja 1 (Introducción y Contexto) con el negocio, el problema y el objetivo de Kaiju escritos con sus palabras, más un primer glosario.
+Hoja 2 (Roles) con los perfiles de la sección 2 y lo que hace cada uno.
+Un primer borrador de requerimientos, aunque tenga dudas: así llegan sabiendo qué necesitan confirmar.
+La pauta de entrevista con al menos 8 preguntas ordenadas por importancia, cada una indicando qué parte del caso la motivó, y los roles del equipo para la conversación.
+Después de la entrevista
+El acta de la entrevista, con fecha, asistentes, preguntas y respuestas.
+Al menos 8 requerimientos funcionales, 3 no funcionales y 3 reglas de negocio, todos con su identificador (RF-01, RNF-01, RN-01), prioridad, origen y criterio de aceptación.
+Hoja 5 (Alcance) diciendo qué queda dentro y qué queda fuera del MVP, con una frase que justifique cada decisión, y la lista de lo que sigue pendiente.
+Hoja 7 (Modelo de Datos) con el desglose de la información y la lógica de las reglas principales, como el del club en la sección 3.
+Hoja 8 (Trazabilidad) con la relación entre cada señal de éxito de la sección 6 y los requerimientos que la cubren.
+Cuando tengan el borrador, revísenlo con el Cuestionario IEEE 830, que está en esta misma carpeta de Material Complementario. Si un requerimiento no pasa el cuestionario, vuelvan a escribirlo antes de entregar.
+
+Regla práctica: si no se les ocurre cómo probar un requerimiento, todavía no está bien especificado.
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía extra · Caso Kaiju

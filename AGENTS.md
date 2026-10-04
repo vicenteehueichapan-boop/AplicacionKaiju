@@ -9,6 +9,7 @@
 - No confundir mención general con especificación completa. No inferir CRUD, autenticación, permisos, reglas de stock, descuentos automáticos, gráficos o sincronización automática.
 - Cada funcionalidad propuesta debe citar fuente y sección o respuesta validada. Los criterios de aceptación no pueden introducir comportamiento nuevo.
 - Estado actual: avance previo a la reunión por partes independientes de ambigüedades. El usuario autorizó explorar diseño con Lovable, separar capacidades y continuar paso a paso. Leer `docs/04-capacidades-y-construccion.md` y `docs/05-responsabilidades-construccion.md`; no bloquear toda construcción porque algunas reglas estén pendientes. No implementar comportamientos que dependan de respuestas faltantes.
+- Actualización 04-10-2026: la solicitud actual prioriza auditar material nuevo y preparar entrevista antes de construir. Leer `docs/07-auditoria-material-nuevo.md`, `docs/08-preparacion-entrevista.md` y `docs/09-borrador-previo-srs.md`. La plantilla fija RD-01 a RD-05 de origen académico, incluyendo persistencia local y dos recursos nativos; no confundirlos con acuerdos de negocio. Las fuentes nuevas están preservadas sin cambios en `docs/fuentes/2026-10-04/`. No rellenar reglas/métricas para completar las cuotas del curso.
 
 ## Cuidado del proyecto
 

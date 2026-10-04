@@ -1,6 +1,6 @@
 # Preguntas para la reunión de requerimientos
 
-Fecha de preparación: 30-09-2026. Estado de P-01 a P-20: pendiente, sin respuesta registrada. La reunión aún no se ha realizado.
+Fecha inicial: 30-09-2026. Complemento: 04-10-2026. Estado de P-01 a P-28: pendiente, sin respuesta registrada. En los nuevos materiales no se aportó convocatoria ni acta de entrevista.
 
 Estas preguntas aclaran elementos presentes en el caso. No son nuevos requerimientos ni propuestas de funcionalidades. La fuente C-01 y los IDs relacionados están en `01-auditoria-caso.md`.
 
@@ -43,7 +43,24 @@ Comenzar por estas preguntas: sus respuestas determinan las tareas y la informac
 
 La mención de casos simultáneos, correcciones o datos de movimiento busca precisar capacidades existentes; no confirma por sí misma nuevas funciones. Si el interlocutor amplía el alcance, registrar esa ampliación como tal, con su fuente y responsable.
 
-## 4. Registro de respuestas
+## 4. Complemento del 04-10-2026
+
+Se conservan P-01 a P-20 y sus IDs. Las siguientes preguntas surgen de la guía extra N-02 y cuestionario N-03, identificados en `07-auditoria-material-nuevo.md`. Son preguntas, no requerimientos adicionales. Para ordenar la conversación usar `08-preparacion-entrevista.md`.
+
+| ID | Pregunta neutral | Fuente y motivo |
+|---|---|---|
+| P-21 | ¿Cómo transcurre hoy el manejo de un producto desde que llega hasta que se vende o utiliza? ¿Puede explicarlo con una muestra ficticia o depurada del registro actual? | C-01 §2.1-2.2; N-02 §7; N-03 §1 proceso. Distinguir proceso actual y esperado sin copiar registros productivos. |
+| P-22 | La guía explica trazabilidad incluyendo quién hizo cada movimiento: ¿qué información necesitan conservar para identificar al responsable y cómo se revisa? | N-02 §1; C-01 §2.4/§4.1; complementa P-11. No presupone login ni datos personales reales. |
+| P-23 | ¿Con qué frecuencia utilizaría la app cada perfil y qué experiencia tienen usando aplicaciones móviles? | N-03 §1 usuarios; N-04 hoja 2. Nivel técnico/frecuencia no recibidos. |
+| P-24 | ¿Qué excepciones existen a las reglas que nos describa y quién puede autorizarlas? ¿Cómo se tratan los errores de registro? | N-03 §1 reglas; complementa P-09/P-11. No presuponer reglas ni excepciones específicas. |
+| P-25 | ¿Qué espera considerar una consulta o registro suficientemente rápido y en qué condiciones lo evaluaríamos? | C-01 §4.1; N-03 §1 calidad; complementa P-18. Métricas/umbrales sin inventar cifras. |
+| P-26 | ¿Qué consecuencias tendría no poder usar la app y qué información considera delicada o limitada a ciertos perfiles? | N-03 §1 calidad/usuarios; C-01 §3.3; complementa P-04/P-15. Evaluar condiciones sin pedir datos sensibles reales. |
+| P-27 | ¿Qué restricciones relevantes de equipos, tiempo o presupuesto debemos considerar y qué cambios próximos podrían afectar las necesidades descritas? | N-03 §1 restricciones/estabilidad. No fijar presupuesto, cronograma o alcance futuro por cuenta propia. |
+| P-28 | Al resumir lo conversado, ¿qué corregiría o falta preguntar? ¿Cómo podemos validar esta minuta y resolver las preguntas que sigan pendientes? | N-02 §7; N-03 §1 cierre. No asumir aprobación por redactar acta. |
+
+Las aclaraciones académicas D-01 a D-14 están en `07-auditoria-material-nuevo.md`; se dirigen al docente/coordinación según competencia. Las respuestas a P-xx siguen vacías.
+
+## 5. Registro de respuestas
 
 Usar una entrada por pregunta respondida. Mantener lo no respondido como pendiente; no llenar este registro con respuestas del equipo ni con inferencias.
 

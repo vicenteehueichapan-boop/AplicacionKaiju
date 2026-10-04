@@ -2,6 +2,8 @@
 
 Fecha: 30-09-2026. Estas son reglas de trabajo del equipo derivadas de la solicitud del usuario. No agregan funciones al producto ni reemplazan las restricciones del caso.
 
+Actualización 04-10-2026: leer `07-auditoria-material-nuevo.md`. La nueva plantilla fija RD-01 a RD-05 como restricciones académicas, incluyendo persistencia local (Room y/o DataStore) y dos recursos nativos. La petición actual prioriza auditar, preparar borrador y entrevista; la secuencia anterior se conserva como planificación histórica, sujeta a los entregables nuevos. No se implementan funcionalidades en esta revisión.
+
 ## 1. Fuentes y autoridad
 
 | Fuente | Uso permitido en esta etapa | Lo que no autoriza |
