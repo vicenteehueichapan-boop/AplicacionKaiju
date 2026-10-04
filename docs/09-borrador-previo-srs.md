@@ -128,4 +128,4 @@ La matriz final añadirá pantalla, componente, prueba e indicador de rúbrica, 
 
 Tenemos textos base de contexto/roles, glosario provisional, quince RF candidatos, ejes RNF, temas para obtener RN y preguntas para resolverlos. Todavía faltan datos de equipo, convocatoria, acta, reglas, materiales y prioridades/criterios acordados.
 
-Siguiente acción: revisar este borrador con el equipo y preparar la entrevista. El llenado de una copia del Excel será una etapa explícita posterior; no modificar el original ni marcar hojas/checklist como terminadas solo porque existe este borrador.
+Actualización de preparación: el usuario solicitó los documentos de apoyo. La copia de trabajo está en `entregables/kaiju-requerimientos-previos-entrevista.xlsx` y el kit editable en `10-kit-reunion-kaiju.md`, con PDF imprimible en `../output/pdf/kit-reunion-kaiju.pdf`. El original sigue sin modificar. La copia conserva pendientes y no marca hojas/checklist como terminadas. El siguiente paso es revisar con el equipo, completar convocatoria y repartir responsabilidades reales antes de entrevistar.

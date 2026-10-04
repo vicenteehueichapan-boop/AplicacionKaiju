@@ -18,6 +18,14 @@ El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta 
 7. [Auditoría del 04-10-2026](docs/07-auditoria-material-nuevo.md): qué cambió, qué exige el curso y cómo usar las diez pestañas de la plantilla.
 8. [Preparación de entrevista](docs/08-preparacion-entrevista.md): doce preguntas principales con fuente, roles por asignar y estructura de acta sin respuestas.
 9. [Borrador previo SRS](docs/09-borrador-previo-srs.md): contexto, glosario provisional, roles y candidatos RF/RNF con pendientes explícitos.
+10. [Kit editable para la reunión](docs/10-kit-reunion-kaiju.md): preparación, preguntas con fuente y motivo, registro de respuestas, dudas docentes y acta vacía.
+
+## Documentos para llevar a la reunión
+
+- [Kit imprimible de entrevista](output/pdf/kit-reunion-kaiju.pdf): diez páginas de apoyo; pauta principal en páginas 4-7, aclaraciones docentes en página 8 y acta en página 9.
+- [Excel previo a la entrevista](docs/entregables/kaiju-requerimientos-previos-entrevista.xlsx): copia de trabajo con hojas 1 y 2, quince RF candidatos, tres ejes RNF sin completar y pendientes de hoja 5. RN, alcance acordado, pantallas, modelo y trazabilidad final quedan para completar con evidencia. No se marcaron verificaciones técnicas como realizadas.
+
+Completar integrantes/grupo, convocatoria y responsables de conducción, registro y tiempo; ensayar presentación y cierre. La documentación no reemplaza la entrevista ni acredita aprobación del cliente. Se preservan valores fijos, formato de celdas, listas de validación, RD y fórmula/pesos de rúbrica de la plantilla; solo se ajustaron alturas de filas rellenadas para que el texto sea legible.
 
 Las fuentes nuevas están preservadas en `docs/fuentes/2026-10-04/`. La plantilla Excel es una copia exacta sin completar ni modificar. Las restricciones fijas del curso ahora explicitan persistencia local y al menos dos recursos nativos; eso no aporta reglas de negocio ni respuestas del cliente.
 
