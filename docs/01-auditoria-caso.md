@@ -2,6 +2,8 @@
 
 Fecha: 30-09-2026. Versión de trabajo: 0.1. Reunión con el cliente: aún no realizada.
 
+Nota de vigencia 07-10-2026: esta auditoría conserva lo afirmable desde C-01. La Guía 10 aporta una base académica posterior con comportamientos antes no especificados (login de prueba, búsqueda, reglas y alertas, entre otros). Ver `11-auditoria-guia-10.md` antes de usar los bloqueos históricos como límite del trabajo académico. No son respuestas comerciales del cliente; en esta revisión no se programa.
+
 ## 1. Método y fuente
 
 Se revisaron las cuatro páginas completas del caso, mediante extracción de texto y revisión visual de las páginas. Una segunda revisión independiente contrastó la clasificación. No se utilizaron fuentes web para completar el alcance.

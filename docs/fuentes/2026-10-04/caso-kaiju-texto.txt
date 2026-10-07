@@ -1,0 +1,87 @@
+Duoc UC · ESCUELA DE INFORMÁTICA Y TELECOMUNICACIONES · CITT
+Formato de caso · DSY1105 | 1
+FORMATO DE CASO PARA DOCENTES Y
+ESTUDIANTES
+Desarrollo de Aplicaciones Móviles · DSY1105
+1. Identificación del caso
+Antecedente Información para el caso
+Título breve del desafío Gestión y trazabilidad de inventario para Kaiju
+Organización Kaiju
+Rubro o ámbito Comercio / servicios / gestión de productos
+Sede / coordinador(a) CITT San Bernardo / Paz Morales
+Asignatura DSY1105 - Desarrollo de Aplicaciones Móviles
+Fecha de entrega al docente 07-09-2026
+2. Caso que se presentará a los equipos
+2.1 Contexto de la organización.
+Kaiju desarrolla actividades vinculadas al comercio, los servicios y la gestión de productos. En su operación administra
+productos, materiales e insumos que deben ser recibidos, almacenados, utilizados o vendidos. Para apoyar su
+funcionamiento requiere disponer de información clara y actualizada sobre las cantidades disponibles, los movimientos
+de inventario y las necesidades de reposición.
+2.2 Situación actual.
+Actualmente, el control de inventario se realiza mediante registros manuales, planillas u otros mecanismos que requieren
+actualización constante. Los responsables registran ingresos de productos, salidas por venta o consumo, revisan las
+existencias disponibles y realizan conteos para determinar qué productos deben reponerse. La información puede quedar
+distribuida o desactualizada, dificultando la consulta rápida del stock real.
+2.3 Necesidad o problema.
+La necesidad principal es mejorar el control y la trazabilidad del inventario. Pueden producirse diferencias entre el stock
+registrado y el stock disponible, olvidos en el registro de entradas o salidas, falta de visibilidad sobre productos con pocas
+unidades y dificultades para conocer oportunamente qué artículos requieren reposición. Esto puede generar quiebres de
+stock, compras innecesarias, pérdida de tiempo y menor control de los recursos.
+2.4 Mejora esperada.
+Se espera contar con un proceso de inventario más ordenado, actualizado y trazable, que facilite conocer las
+existencias disponibles, registrar los movimientos de productos y detectar oportunamente las necesidades de
+reposición. La mejora debe contribuir a disminuir errores de registro, facilitar el control operativo y apoyar la
+toma de decisiones.
+Duoc UC · ESCUELA DE INFORMÁTICA Y TELECOMUNICACIONES · CITT
+Formato de caso · DSY1105 | 2
+3. Información necesaria para desarrollar la propuesta
+3.1 Tareas o funciones de los perfiles usuarios.
+Los perfiles usuarios realizan tareas asociadas al registro y consulta de productos, control de existencias, registro de ventas
+y revisión del movimiento de artículos. El perfil administrador o encargado gestiona productos, categorías, stock, ventas,
+usuarios e indicadores; el personal de venta consulta disponibilidad y registra ventas; el encargado de inventario registra
+ingresos, salidas y ajustes, y controla niveles de stock. Cuando corresponda, el público general o cliente puede consultar
+productos, características y disponibilidad publicada. Entre las principales dificultades se encuentran mantener los datos
+actualizados, detectar oportunamente stock bajo y obtener una visión consolidada del comportamiento comercial.
+3.2 Información necesaria para el proceso.
+Para el MVP se requiere considerar información como: código o identificador del producto, nombre, descripción, categoría,
+tipo de producto, precio, cantidad disponible, stock mínimo, fecha y tipo de movimiento, cantidad de entrada o salida y
+ventas realizadas. Según el tipo de producto, se podrán considerar atributos como talla, color, modelo, lote o fecha de
+vencimiento. Para analizar el comportamiento del inventario y las ventas se requerirán fechas, cantidades vendidas,
+categorías y productos.
+3.3 Condiciones de uso de la aplicación móvil.
+La aplicación se utilizaría principalmente desde teléfonos Android por personal autorizado. Se considera conexión a
+internet para sincronizar información, pudiendo evaluarse persistencia local para consultas o registros temporales.
+También pueden considerarse notificaciones asociadas a niveles mínimos de stock y el uso de la cámara para lectura de
+códigos QR o códigos de barras, siempre que se encuentre dentro del alcance académico.
+3.4 Conexión con otros sistemas o herramientas.
+Para el MVP no se exige integración con sistemas externos existentes. Se considera deseable que la propuesta pueda
+evolucionar hacia una futura integración con herramientas de venta, catálogos digitales o sistemas de facturación. El
+trabajo académico deberá realizarse con datos ficticios o anonimizados, sin utilizar credenciales ni información productiva
+real.
+Duoc UC · ESCUELA DE INFORMÁTICA Y TELECOMUNICACIONES · CITT
+Formato de caso · DSY1105 | 3
+4. Criterios para considerar útil la propuesta
+4.1 Resultados o señales de éxito.
+• Stock actualizado y trazable por producto.
+• Disminución de quiebres de stock y diferencias de inventario.
+• Identificación rápida de productos más vendidos y menos vendidos.
+• Visualización de tendencias de venta por período, categoría o tipo de producto.
+• Mayor rapidez en el registro de entradas, salidas y ventas.
+• Información de disponibilidad más clara para usuarios internos y público general.
+5. Restricciones que deben considerar los equipos
+5.1 Condiciones o límites del caso.
+El desafío corresponde al desarrollo académico de un Producto Mínimo Viable (MVP) móvil y no a una aplicación
+productiva definitiva. Debe trabajarse únicamente con datos ficticios, sintéticos, agregados, públicos o debidamente
+anonimizados. No se deben utilizar datos personales reales, credenciales, llaves, tokens, respaldos, registros productivos
+ni accesos a sistemas internos. Los permisos del dispositivo, como cámara u otros recursos, deberán probarse sin capturar
+datos reales de personas. Para el MVP no se exige integración con sistemas externos existentes.
+Duoc UC · ESCUELA DE INFORMÁTICA Y TELECOMUNICACIONES · CITT
+Formato de caso · DSY1105 | 4
+6 . Material de apoyo que se entregará
+Registrar únicamente material necesario, depurado y autorizado para uso académico.
+Material Para qué se utilizará Revisión
+Catálogo ficticio de
+productos Ejemplificar la estructura del inventario Institución
+Ejemplos ficticios de
+movimientos Probar entradas, salidas y trazabilidad Institución/ Empresa
+Reglas generales de stock Definir alertas y comportamiento esperado Empresa
