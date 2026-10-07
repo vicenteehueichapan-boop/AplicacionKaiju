@@ -2,6 +2,8 @@
 
 Fecha: 30-09-2026. Decisión de trabajo del equipo, autorizada por el usuario: avanzar por partes que no requieren resolver reglas ambiguas. No se modifica el alcance documental del cliente ni se registran respuestas nuevas a P-01 a P-20.
 
+Vigencia 07-10-2026: la matriz siguiente describe la etapa anterior. A-10 fija una base más amplia para evaluación; el plan actual está en `11-auditoria-guia-10.md`. No mantener bloqueadas por ausencia en C-01 las capacidades ahora explícitas en A-10, ni extrapolar sus detalles todavía abiertos. La solicitud actual sigue siendo análisis sin programación.
+
 Actualización 04-10-2026: material nuevo auditado en `07-auditoria-material-nuevo.md`. P-21 a P-28 complementan la entrevista. La plantilla introduce restricciones académicas fijas; no resuelve las reglas pendientes. La solicitud actual se enfoca en análisis/preparación; no se ejecutan los pasos de construcción de esta matriz todavía.
 
 ## 1. Tres estados distintos

@@ -2,6 +2,8 @@
 
 Fecha: 30-09-2026. Propuesta técnica del equipo para una aplicación Android propia, en el contexto académico Kotlin + Compose + MVVM. No es arquitectura exigida por el cliente ni código ya creado.
 
+Vigencia 07-10-2026: la organización mínima siguiente era para consulta visual. A-10 §3 exige ahora navegación, repositorio, modelos y ViewModels concretos. Ver responsabilidades actualizadas en `11-auditoria-guia-10.md` §5. Se conserva esta propuesta como antecedente; no reemplaza la estructura académica nueva ni demuestra implementación.
+
 ## 1. Responsabilidades por parte
 
 | Parte | Responsabilidad | No debe decidir | Aplicación al primer incremento |

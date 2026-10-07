@@ -2,6 +2,8 @@
 
 Fecha inicial: 30-09-2026. Complemento: 04-10-2026. Estado de P-01 a P-28: pendiente, sin respuesta registrada. En los nuevos materiales no se aportó convocatoria ni acta de entrevista.
 
+Actualización 07-10-2026: A-10 establece respuestas de base académica para parte de estos temas, sin constituir respuestas del cliente. Ver `11-auditoria-guia-10.md`, especialmente §4 y §7. En la reunión contrastar esa base con el negocio; no preguntar como si el profesor no hubiera definido nada ni marcar P-xx como validada comercialmente. Nuevas aclaraciones específicas G10-01 a G10-10 documentadas allí.
+
 Estas preguntas aclaran elementos presentes en el caso. No son nuevos requerimientos ni propuestas de funcionalidades. La fuente C-01 y los IDs relacionados están en `01-auditoria-caso.md`.
 
 ## 1. Alcance, perfiles y datos

@@ -2,6 +2,8 @@
 
 Fecha: 04-10-2026. Preparación documental para N-02 §8 y las hojas 1-3/5 de N-04. No es el Excel rellenado, una especificación final ni un acta. Todas las prioridades comerciales y criterios funcionales incompletos siguen pendientes. No se han recibido respuestas nuevas del cliente.
 
+Vigencia 07-10-2026: borrador histórico previo a A-10. Sus RF-01 a RF-15 no coinciden con la numeración ahora exigida por la Guía 10. Ver equivalencias y plan de conciliación en `11-auditoria-guia-10.md` §6. El Excel y kit de reunión del 04-10 no se han regenerado para esa base nueva; no mezclar IDs ni considerar que ya contienen las seis RN docentes.
+
 ## 1. Introducción y contexto propuestos
 
 **Propósito del documento:** registrar qué necesita resolver el MVP académico de Kaiju y dejar identificadas las definiciones que debemos aclarar. Lo consultarán el cliente, el docente y el equipo para revisar alcance, reglas y evidencias.

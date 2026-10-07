@@ -1,6 +1,8 @@
 # AplicacionKaiju · Proyecto semestral DSY1105
 
-Estado al 04-10-2026: auditoría del material nuevo y preparación de entrevista/SRS preliminar. No se aportaron convocatoria, acta ni reglas de stock del cliente. Hay propuestas visuales previas en Lovable; todavía no se creó la aplicación Android propia ni se implementaron reglas de negocio.
+Estado al 07-10-2026: Guía 10 analizada, sin programación por instrucción del usuario. La guía ahora fija diez RF, seis RN y una base para revisar en semana 10; su origen académico se mantiene separado de validación comercial del cliente. Hay documentación, Git y propuestas visuales previas, pero todavía no una aplicación Android propia. No se aportó acta de entrevista ni fecha exacta de revisión.
+
+Lectura actual: [Auditoría de Guía 10 y plan por incrementos](docs/11-auditoria-guia-10.md). Incluye brecha B-01 a B-09, cambios de alcance académico, conflicto de IDs con el borrador previo, ambigüedades y responsabilidades. Los documentos/Excel/PDF del 04-10 son versiones previas a esta guía; no deben usarse como especificación actualizada sin conciliación.
 
 El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta contiene el caso original, documentación del equipo y un ejemplo docente de Agenda de Eventos que sirve como referencia.
 
@@ -19,6 +21,7 @@ El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta 
 8. [Preparación de entrevista](docs/08-preparacion-entrevista.md): doce preguntas principales con fuente, roles por asignar y estructura de acta sin respuestas.
 9. [Borrador previo SRS](docs/09-borrador-previo-srs.md): contexto, glosario provisional, roles y candidatos RF/RNF con pendientes explícitos.
 10. [Kit editable para la reunión](docs/10-kit-reunion-kaiju.md): preparación, preguntas con fuente y motivo, registro de respuestas, dudas docentes y acta vacía.
+11. [Auditoría de Guía 10](docs/11-auditoria-guia-10.md): base académica explícita, entregables por etapa y plan de desarrollo aún no ejecutado.
 
 ## Documentos para llevar a la reunión
 
