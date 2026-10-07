@@ -13,6 +13,8 @@
 
 ## Cuidado del proyecto
 
+- Actualización 07-10-2026: el usuario autorizó desarrollar la base de Guía 10. Leer `docs/11-auditoria-guia-10.md`, `docs/12-definicion-base-semana-10.md` y `docs/13-entrega-base-android.md`. Vicente Hueichapan es el único integrante informado; grupo y autorización docente de trabajo individual pendientes. No iniciar emuladores: el usuario hará personalmente la revisión visual para evitar sobrecargar su PC. Compilar y probar lógica sí está autorizado.
+
 - Mantener el PDF fuente y el ejemplo docente sin modificaciones.
 - No introducir datos personales reales, datos productivos, accesos internos ni credenciales del cliente. Usar material académico autorizado conforme a las restricciones del caso.
 - No publicar, crear repositorios externos, invitar personas ni enviar mensajes por iniciativa propia.

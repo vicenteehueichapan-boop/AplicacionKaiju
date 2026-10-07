@@ -1,0 +1,198 @@
+
+10
+Guía
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Proyecto Kaiju: base del proyecto y avance
+Experiencia: EA2 · Componentes visuales y funcionalidades nativas
+Tema: Solicitud base del cliente, estructura del proyecto y plan hacia el Parcial 2
+Modalidad: Equipos de 3 integrantes · clase + trabajo autónomo
+0
+Dónde quedamos y hacia dónde vamos
+En la Guía 09 armaron navegación, MVVM y un formulario validado sobre el ejemplo de la Agenda. Desde hoy el trabajo pasa a ser su proyecto: la app de inventario para Kaiju. La entrega del Parcial 2 es en la semana 11, así que quedan pocas clases y no conviene dejar el desarrollo para los últimos días.
+
+Como la entrevista con el cliente todavía puede dejar detalles abiertos, esta guía les entrega una solicitud base: lo mínimo que la app tiene que hacer según el caso, una estructura de proyecto común y una lista de lo que deben traer funcionando la próxima semana. Así nadie parte desde cero y todos los equipos llegan al Parcial 2 con una base sólida.
+
+Esta guía se apoya en el material del caso que ya tienen en Material Complementario: la guía extra del caso Kaiju, el Cuestionario IEEE 830 y la plantilla de requerimientos. Lo que definan aquí va directo a esa plantilla.
+
+9
+Armar la base
+Esta guía: estructura, modelo, datos de prueba y navegación
+10
+Revisión de la base
+Traen lo de la sección 8 funcionando
+10
+Estado, persistencia y recursos nativos
+Guías 12 y 13 aplicadas a su app
+11
+Entrega del Parcial 2
+GitHub, Trello y AVA
+El camino hasta el Parcial 2. El número indica la semana.
+
+La base es común, la solución no. Todos los equipos parten de la misma solicitud base, pero cada uno tiene que tomar sus propias decisiones: qué recursos nativos usa y por qué, qué animaciones aportan algo, qué módulo propio agrega y cómo se ve su app. Eso está en la sección 6 y también se evalúa.
+1
+La solicitud base del cliente
+Esto es lo que la app de Kaiju tiene que hacer como mínimo. Sale directo del caso: control de existencias, registro de movimientos, trazabilidad y alertas de reposición. Usen estos identificadores en su plantilla de requerimientos; los requerimientos propios del equipo siguen la numeración desde RF-11.
+
+ID	Requerimiento	Quién lo usa
+RF-01	Iniciar sesión con un usuario de prueba. La app sabe qué perfil está activo y muestra solo lo que le corresponde.	Todos
+RF-02	Ver el catálogo de productos con nombre, categoría, precio y cantidad disponible.	Todos
+RF-03	Buscar productos por nombre o código y filtrarlos por categoría.	Todos
+RF-04	Ver el detalle de un producto con su historial de movimientos.	Todos
+RF-05	Crear y editar productos con un formulario validado.	Administrador
+RF-06	Registrar una entrada de productos (llegada de mercadería).	Encargado de inventario, administrador
+RF-07	Registrar una salida por venta o por consumo.	Personal de venta (ventas), encargado de inventario
+RF-08	Registrar un ajuste de inventario indicando el motivo.	Encargado de inventario, administrador
+RF-09	Marcar los productos con stock bajo y listarlos en una pantalla de alertas.	Encargado de inventario, administrador
+RF-10	Mantener los datos al cerrar y volver a abrir la app (persistencia local).	Todos
+Reglas de negocio base
+ID	Regla
+RN-01	Una salida o venta nunca puede dejar la cantidad disponible bajo cero.
+RN-02	El precio es mayor que cero y el stock mínimo es mayor o igual a cero.
+RN-03	El código del producto es obligatorio y no se repite.
+RN-04	Todo ajuste de inventario exige un motivo.
+RN-05	Cada movimiento guarda fecha, tipo, cantidad y quién lo registró. Un movimiento no se edita ni se borra: si hubo un error, se corrige con un ajuste. Eso es lo que da trazabilidad.
+RN-06	Un producto está en alerta cuando su cantidad disponible es igual o menor a su stock mínimo.
+Supuestos que pueden cambiar: el umbral de la alerta (RN-06) y qué perfil puede hacer cada acción son supuestos razonables para avanzar. Si en la entrevista el cliente define algo distinto, ajusten la regla y anoten la entrevista como origen. Como el código va a estar ordenado en capas, el cambio se hace en un solo lugar: el ViewModel.
+2
+Pantallas y navegación
+La solicitud base se resuelve con seis pantallas. Tres de ellas van en el menú inferior, como en la Guía 09:
+
+
+Mapa de navegación base. Es interactivo: toquen una pantalla para enfocarla y ver sus conexiones, usen RUTA para ver el camino entre dos pantallas y el zoom para acercar.
+
+Pantalla	Qué muestra o captura	RF
+PantallaLogin	Elegir usuario de prueba e ingresar. Valida que se haya elegido uno.	RF-01
+PantallaCatalogo	Lista de productos con buscador, filtro por categoría y marca de stock bajo.	RF-02, RF-03, RF-09
+PantallaDetalleProducto	Datos del producto e historial de sus movimientos, del más reciente al más antiguo.	RF-04
+PantallaFormularioProducto	Crear o editar un producto. Solo la ve el administrador.	RF-05
+PantallaMovimiento	Registrar entrada, salida (venta o consumo) o ajuste.	RF-06, RF-07, RF-08
+PantallaAlertas	Productos en alerta; al tocar uno se abre su detalle.	RF-09
+3
+Estructura del proyecto
+Es la misma organización de la Guía 09, con una carpeta nueva: repository/. El repositorio es quien guarda y entrega los datos. Hoy guarda todo en listas en memoria; cuando veamos persistencia local en clases, se cambia solo el repositorio, sin tocar ninguna pantalla. Esa separación es justamente lo que mide el indicador IE 2.3.1 del Parcial 2.
+
+
+Cómo viajan los datos: la pantalla avisa, el ViewModel decide y el repositorio guarda. Toquen una capa para ver qué entra y qué sale de ella.
+
+app/src/main/java/(su paquete)/
+(su paquete)/
+├── MainActivity.kt                    // solo llama a AppNavHost()
+├── navigation/
+│   ├── Rutas.kt                       // sealed class con las 6 rutas
+│   └── AppNavHost.kt                  // NavHost + menú inferior + ViewModels compartidos
+├── model/
+│   ├── Producto.kt                    // data class (sección 4)
+│   ├── Movimiento.kt                  // data class + enum TipoMovimiento
+│   ├── Usuario.kt                     // data class + enum Rol
+│   ├── FormularioProductoEstado.kt    // estado del formulario + errores
+│   └── FormularioMovimientoEstado.kt
+├── repository/
+│   ├── InventarioRepository.kt        // hoy: listas en memoria · después: persistencia local
+│   └── DatosDePrueba.kt               // productos y usuarios ficticios
+├── viewmodel/
+│   ├── SesionViewModel.kt             // usuario activo y su perfil
+│   └── InventarioViewModel.kt         // catálogo, formularios, reglas RN
+└── ui/
+    ├── screen/                         // las 6 pantallas de la sección 2
+    ├── components/
+    │   ├── TarjetaProducto.kt
+    │   └── IndicadorStock.kt          // la marca de stock bajo
+    └── theme/                          // colores y tipografía de su app
+Dónde va cada regla: todas las reglas RN se revisan en el InventarioViewModel, antes de llamar al repositorio. Las pantallas solo muestran el estado y avisan lo que hizo el usuario, igual que en la Guía 09. Si una pantalla tiene un if que decide si un dato es válido, está en el lugar equivocado.
+4
+Modelo de datos y datos de prueba
+Estas son las tres clases base. Escríbanlas como data class en model/, con los mismos nombres de campo, para que los ejemplos de clase les sirvan directo.
+
+Clase	Campos	Comentario
+Producto	codigo, nombre, descripcion, categoria, tipo, precio, stockActual, stockMinimo, detalle	detalle es un texto opcional para lo que depende del tipo: talla y color, lote o fecha de vencimiento.
+Movimiento	id, codigoProducto, tipo, cantidad, motivo, fecha, usuario	tipo es un enum TipoMovimiento: ENTRADA, SALIDA_VENTA, SALIDA_CONSUMO, AJUSTE.
+Usuario	id, nombre, rol	rol es un enum Rol: ADMINISTRADOR, VENDEDOR, ENCARGADO_INVENTARIO.
+¿Por qué stockActual y también movimientos? stockActual permite mostrar el catálogo rápido. Los movimientos permiten explicar cómo se llegó a esa cantidad. Cada vez que se registra un movimiento, el ViewModel actualiza el stockActual del producto en la misma operación.
+Datos de prueba
+En repository/DatosDePrueba.kt carguen al menos 10 productos y 3 usuarios, uno por perfil. Todo ficticio: el caso prohíbe usar datos reales de Kaiju o de personas. Incluyan a propósito algunos productos con stock bajo, para poder probar las alertas desde el primer día.
+
+Ojo con el precio: guárdenlo como Int en pesos chilenos, sin decimales. En el formulario se escribe como texto y se convierte al validar, igual que los cupos en la Guía 09.
+5
+Formularios y validaciones
+El Parcial 2 revisa que estén todos los formularios y que cada campo tenga retroalimentación visual (IE 2.1.2), con la validación en el ViewModel (IE 2.2.1). La base tiene tres formularios. Repitan el patrón de la Guía 09: una data class de estado, otra de errores y una función validar...().
+
+Formulario	Campo	Validación
+Login	Usuario	Obligatorio elegir uno.
+Producto	Código	Obligatorio y no repetido (RN-03).
+Nombre	Obligatorio, al menos 3 caracteres.
+Categoría	Obligatorio elegir una de la lista.
+Precio	Número entero mayor que cero (RN-02).
+Stock mínimo	Número entero mayor o igual a cero (RN-02).
+Movimiento	Producto	Obligatorio elegir uno.
+Tipo	Obligatorio elegir uno.
+Cantidad	Número entero mayor que cero; si es salida, no puede superar la cantidad disponible (RN-01).
+Motivo	Obligatorio si el tipo es ajuste (RN-04).
+Recuerden los íconos: la rúbrica pide "validaciones visuales por campo, retroalimentación clara e íconos adecuados". Además de isError y supportingText, usen leadingIcon o trailingIcon en los campos.
+6
+Decisiones propias del equipo
+Sobre la base común, cada equipo decide lo que hace distinta a su app. Estas decisiones van en el README.md del repositorio, cada una con su justificación. La regla es la misma de toda la asignatura: el contexto define la necesidad y la tecnología permite construir la solución, no al revés.
+
+Decisión	Qué deben definir	Ideas para partir (no son obligatorias)
+Dos recursos nativos	Para cada uno: qué necesidad del caso resuelve, qué recurso usa y qué requerimiento cumple.	Cámara para escanear el código de un producto o fotografiarlo, galería para la imagen del producto, notificaciones de stock bajo, vibración al confirmar un registro.
+Animaciones	Dónde aparecen y qué le comunican al usuario.	Una alerta de stock bajo que aparece con AnimatedVisibility, un color de stock que cambia de forma gradual, una confirmación después de guardar.
+Un módulo propio	Una funcionalidad extra que el equipo justifique con el caso.	Ranking de productos más y menos vendidos, ventas por categoría, vista pública de disponibilidad, filtro por fecha de vencimiento.
+Identidad visual	Nombre de la app, colores y tipografía en ui/theme/.	Una paleta coherente con un negocio de comercio, con buen contraste para leer en bodega.
+No copien el recurso del ejemplo porque sí. En clases vamos a ver la cámara con la Guía 13, pero eso no obliga a usarla. Si su equipo elige notificaciones y vibración porque calzan mejor con el problema, es una decisión tan válida como la cámara, siempre que esté justificada.
+7
+Actividad en clase · Armar la base
+✏ Actividad · en equipo
+Trabajen sobre el proyecto que crearon en la Guía 07. Si el proyecto está muy desordenado, conviene crear uno nuevo con esta estructura y traer lo que sirva.
+
+Parte 1 · Organizar
+Lean las secciones 1 y 2 en equipo.
+Repartan el trabajo entre los 3 integrantes, por ejemplo: uno a cargo del modelo, el repositorio y los datos; otro de la navegación y el catálogo; otro de los formularios y sus validaciones.
+Creen en Trello una tarjeta por pantalla y por formulario, y repártanlas.
+Creen las carpetas y archivos de la sección 3, aunque queden vacíos.
+Parte 2 · Modelo y datos
+Escriban Producto, Movimiento y Usuario con sus enum.
+Carguen los datos de prueba.
+Armen el InventarioRepository en memoria y el InventarioViewModel que expone el catálogo.
+Parte 3 · Navegación
+Definan las 6 rutas y el NavHost.
+Las pantallas que aún no estén pueden mostrar solo su título.
+Hagan que el catálogo muestre los datos de prueba desde el ViewModel.
+Entregable de la sesión: al menos un commit en GitHub de cada uno de los 3 integrantes (mensaje sugerido: feat: estructura base del proyecto Kaiju) y el tablero de Trello con las tarjetas repartidas.
+8
+Trabajo autónomo · Qué traer la próxima semana
+En la primera clase de la semana 10 se revisa la base de cada equipo en el emulador. Lo que no esté listo en clase se termina como trabajo autónomo. Esta es la lista que se va a revisar:
+
+
+B-01El proyecto abre y corre en el emulador sin errores.
+
+B-02Están todas las carpetas y archivos de la sección 3.
+
+B-03Producto, Movimiento y Usuario creados con sus enum.
+
+B-04Al menos 10 productos y 3 usuarios ficticios, con algunos productos en stock bajo.
+
+B-05Las 6 rutas funcionan y el menú inferior cambia de pantalla.
+
+B-06El catálogo muestra los productos desde el ViewModel, con la marca de stock bajo.
+
+B-07El formulario de producto valida cada campo desde el ViewModel y el producto nuevo aparece en el catálogo.
+
+B-08El README.md tiene los nombres del equipo, la descripción de la app y las decisiones de la sección 6.
+
+B-09Hay commits de todos los integrantes y el tablero de Trello está al día.
+Llevan 0 de 9 puntos listos. Su avance se guarda en este navegador.
+
+Lo que viene después de la revisión: el formulario de movimientos con sus reglas, la pantalla de alertas, la persistencia local, los dos recursos nativos y las animaciones. Eso se trabaja en la semana 10 con las Guías 12 y 13, siempre sobre esta misma base.
+9
+Cómo se conecta con el Parcial 2
+Cada parte de esta base apunta a un indicador de la rúbrica del encargo. Úsenla para saber qué les falta antes de la entrega:
+
+Indicador	%	Lo cubre la base	Lo agrega el equipo
+IE 2.1.1 Interfaz y navegación	15%	Las 6 pantallas, el menú inferior y la navegación.	Identidad visual, jerarquía y orden de cada pantalla.
+IE 2.1.2 Formularios validados	15%	Login, producto y movimiento con validación por campo.	Íconos, mensajes claros y formularios de su módulo propio.
+IE 2.2.1 Validación en la lógica	10%	Reglas RN en el ViewModel.	Reglas que salgan de la entrevista.
+IE 2.2.2 Animaciones	10%	Nada: es decisión del equipo.	Animaciones con propósito (sección 6).
+IE 2.3.1 Estructura y persistencia	15%	Carpetas por capa y repositorio separado.	Cambiar el repositorio en memoria por persistencia local, según lo que veamos en clases.
+IE 2.3.2 GitHub y Trello	20%	Tarjetas por pantalla, trabajo repartido entre los 3 y commits desde hoy.	Trabajo distribuido y constante hasta la entrega.
+IE 2.4.1 Recursos nativos	15%	Nada: es decisión del equipo.	Dos recursos justificados (sección 6).
+Más vale acotado y funcionando. Una app con la base completa, dos recursos nativos bien integrados y animaciones con sentido rinde más en el Parcial 2 que una app con muchas ideas a medio hacer. Si el tiempo aprieta, recorten el módulo propio, no la base.
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía N°10
