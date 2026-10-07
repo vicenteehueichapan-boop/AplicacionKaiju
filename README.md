@@ -4,6 +4,8 @@ Estado al 07-10-2026: Guía 10 analizada, sin programación por instrucción del
 
 Lectura actual: [Auditoría de Guía 10 y plan por incrementos](docs/11-auditoria-guia-10.md). Incluye brecha B-01 a B-09, cambios de alcance académico, conflicto de IDs con el borrador previo, ambigüedades y responsabilidades. Los documentos/Excel/PDF del 04-10 son versiones previas a esta guía; no deben usarse como especificación actualizada sin conciliación.
 
+Complemento con diagramas: [Definición de base para semana 10](docs/12-definicion-base-semana-10.md) y [plantilla actualizada de Guía 10](docs/entregables/kaiju-requerimientos-guia-10.xlsx). Menú inferior confirmado: Catálogo, Movimiento y Alertas. La copia nueva utiliza los diez RF y seis RN docentes; sus pendientes y el origen académico están señalados. No se inició programación ni se marcaron pruebas como realizadas.
+
 El caso describe gestión y trazabilidad de inventario para Kaiju. Esta carpeta contiene el caso original, documentación del equipo y un ejemplo docente de Agenda de Eventos que sirve como referencia.
 
 ## Lectura en orden

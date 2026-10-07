@@ -1,6 +1,6 @@
 # Auditoría de la Guía 10 y plan de avance Kaiju
 
-Fecha: 07-10-2026. Fuente A-10: texto completo de «Guía N°10 Proyecto Kaiju: base del proyecto y avance», proporcionado por el usuario en esta conversación. Se cita por sección; no se recibió su archivo original ni el contenido de sus diagramas interactivos. Estado: análisis y planificación, sin programación.
+Fecha: 07-10-2026. Fuente A-10: texto completo de «Guía N°10 Proyecto Kaiju: base del proyecto y avance», proporcionado por el usuario en esta conversación. Se cita por sección; no se recibió su archivo original. Complemento posterior: imágenes A-10-D1 (capas) y A-10-D2 (navegación), conservadas en `fuentes/2026-10-07/`. Estado: análisis y definición documental, sin programación de la app.
 
 ## 1. Conclusión y autoridad de la fuente
 
@@ -31,7 +31,7 @@ Comprobación local del 07-10-2026: repositorio con documentación, fuentes, Exc
 | B-02 | Carpetas y archivos de §3. | Hay documentos de arquitectura anterior, no la estructura solicitada creada. | Pendiente. |
 | B-03 | Producto, Movimiento, Usuario y enums. | Análisis conceptual anterior; no clases Kotlin propias. | Pendiente. |
 | B-04 | Al menos 10 productos y 3 usuarios ficticios, uno por perfil, incluyendo stock bajo. | Hay ejemplos de apariencia; no conjunto de datos cargado en la app. | Pendiente. |
-| B-05 | Seis rutas y menú inferior funcionando. | No NavHost propio. El diagrama interactivo no vino en el texto. | Pendiente. |
+| B-05 | Seis rutas y menú inferior funcionando. | A-10-D2 aclara destinos: Catálogo, Movimiento y Alertas; aún no hay NavHost propio. | Pendiente de implementación. |
 | B-06 | Catálogo desde ViewModel y marca de stock bajo. | Prototipos Lovable no acreditan implementación Android. | Pendiente. |
 | B-07 | Validación de producto en ViewModel y producto nuevo visible en catálogo. | No formulario ni lógica propios. | Pendiente. |
 | B-08 | README con nombres, descripción y decisiones justificadas de §6. | Descripción presente; nombres/grupo y decisiones finales faltan. | Parcial. |
@@ -69,7 +69,7 @@ Validaciones adicionales explícitas en §5: nombre obligatorio de al menos tres
 
 ## 5. Pantallas, datos y arquitectura
 
-Seis pantallas nombradas en §2: Login, Catálogo, DetalleProducto, FormularioProducto, Movimiento y Alertas. Tres destinos van en menú inferior, pero el texto no identifica inequívocamente cuáles: falta el diagrama. La pantalla Movimiento sirve para los cuatro tipos, no cuatro pantallas adicionales obligatorias. Crear/editar usa un mismo formulario base.
+Seis pantallas nombradas en §2: Login, Catálogo, DetalleProducto, FormularioProducto, Movimiento y Alertas. A-10-D2 identifica los tres destinos inferiores: Catálogo, Movimiento y Alertas. La pantalla Movimiento sirve para los cuatro tipos, no cuatro pantallas adicionales obligatorias. Crear/editar usa un mismo formulario base. El diagrama no resuelve por sí solo cómo varía el menú por perfil ni cuál es la entrada a edición.
 
 Modelo requerido por §4:
 
@@ -113,7 +113,7 @@ El borrador del 04-10 reservaba quince RF con otra numeración. A-10 ordena usar
 | 12 más vendidos / 13 menos vendidos / 14 tendencias | Candidatos a módulo propio | No asignar automáticamente RF-11 a todos; elegir y precisar con evidencia. |
 | 15 detectar reposición | RF-09 | Regla base RN-06 de origen docente, no respuesta del cliente. |
 
-El Excel y kit PDF del 04-10 se conservan como versión histórica previa a A-10, no como especificación actualizada. Próxima tarea documental: generar una versión nueva con equivalencias, fuente y estado; revisar las preguntas parcialmente resueltas por la base académica. No borrar preguntas comerciales ni marcarlas como respondidas por el cliente. Actualizar también alcance, modelo, responsabilidades y trazabilidad; evitar que documentos antiguos bloqueen conductas ahora exigidas por el curso.
+El Excel y kit PDF del 04-10 se conservan como versión histórica previa a A-10, no como especificación actualizada. Complemento posterior: `12-definicion-base-semana-10.md` y la copia `entregables/kaiju-requerimientos-guia-10.xlsx` concilian la base, fuentes, pantallas, reglas y pendientes. La trazabilidad final y las pruebas aún no se acreditan. No borrar preguntas comerciales ni marcarlas como respondidas por el cliente; evitar que documentos antiguos bloqueen conductas ahora exigidas por el curso.
 
 ## 7. Ambigüedades concretas que siguen abiertas
 
@@ -122,7 +122,7 @@ El Excel y kit PDF del 04-10 se conservan como versión histórica previa a A-10
 | G10-01 | ¿Ajustar significa sumar, restar o fijar la cantidad final? Si cantidad debe ser positiva, ¿cómo se representa una corrección que disminuye stock? ¿Qué límites tiene? | §1 RN-04/05, §4 y §5 no resuelven la operación. Bloquea ajuste, no catálogo/formulario base. |
 | G10-02 | ¿Qué stock inicial debe tener un producto nuevo y cómo se establece? ¿Se registra un movimiento inicial? | Modelo tiene stockActual pero formulario no enumera ese campo. Aclarar antes de cerrar B-07; no imponer cero ni inventar campo por comodidad. |
 | G10-03 | ¿Se permite cambiar el código al editar? ¿Cómo se conserva el vínculo del historial? ¿La unicidad ignora mayúsculas o espacios? | Código es vínculo en Movimiento; falta política de edición/normalización. Crear admite exigir unicidad explícita, sin inferir normalizaciones. |
-| G10-04 | ¿Cuáles son los tres destinos del menú inferior y cómo cambia por perfil? ¿Administrador puede registrar salidas? ¿Inventario puede registrar ventas y consumo? | Diagrama no incluido y RF-07 no da matriz inequívoca. Necesario para cerrar B-05 y permisos. |
+| G10-04 | Destinos resueltos por A-10-D2: Catálogo, Movimiento y Alertas. Sigue abierto: ¿cómo cambia el menú por perfil? ¿Administrador puede registrar salidas? ¿Inventario puede registrar ventas y consumo? | Parcialmente aclarada por evidencia docente, no por entrevista. RF-07 no da matriz inequívoca. |
 | G10-05 | ¿De dónde sale la lista de categorías? ¿Qué se exige en descripción/tipo/detalle? | Campos del modelo exceden los validados de §5. No construir CRUD de categorías ni obligatoriedades nuevas. |
 | G10-06 | ¿Búsqueda exacta, parcial y sensible a mayúsculas? ¿Cómo se combina con el filtro y qué estado inicial se espera? | RF-03 define capacidad, no semántica. Precisar antes de cerrar búsqueda; no convertir preferencias del equipo en negocio confirmado. |
 | G10-07 | ¿Qué fecha representa fecha, cómo se genera el id y qué información del usuario queda en el movimiento? ¿Cómo se desempata el historial? | Tipos/políticas no detallados. Identificar decisiones técnicas reversibles y consultar significado de negocio. |
