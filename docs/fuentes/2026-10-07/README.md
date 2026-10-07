@@ -8,3 +8,5 @@ Imágenes proporcionadas por el usuario como complemento académico. Copias sin 
 | A-10-D2 | mapa-navegacion.png | mapa-de-navegaci-n-de-la-app-kaiju-diagrama.png | 61ec1683c5c3dfbc21e4ec575f385d2c0addf97ee1019215942bc3166baa4906 |
 
 No son respuestas de entrevista ni aprobación del cliente. Análisis en docs/11-auditoria-guia-10.md y docs/12-definicion-base-semana-10.md.
+
+También se conserva `guia-10.txt`, copia exacta del texto adjunto por el usuario. SHA256: `7ca733ec3539eda16c2b1c3c333a9a99cf7dd69d96c51966318f9e215dab5808`. Es fuente académica A-10, no acta de reunión.
