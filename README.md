@@ -91,7 +91,7 @@ Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reser
 
 ## Trabajo y seguimiento
 
-Trabajo individual. GitHub registra el código y la [bitácora](docs/evidencia/BITACORA.md); el tablero de Trello se crea el 14-10-2026 con las cinco listas de la Guía 07 para ordenar el trabajo hasta la entrega. Las tarjetas de lo ya hecho indican la fecha y el commit reales.
+Trabajo individual. GitHub registra el código y la [bitácora](docs/evidencia/BITACORA.md); el [tablero de Trello](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan) (privado; se comparte con el docente por invitación) se creó el 14-10-2026 con las cinco listas de la Guía 07 para ordenar el trabajo hasta la entrega. Todas las tarjetas están asignadas a Vicente Hueichapan. Las tarjetas de lo ya hecho indican la fecha y el commit reales.
 
 Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/AplicacionKaiju).
 
