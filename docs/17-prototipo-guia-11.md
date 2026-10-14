@@ -1,6 +1,6 @@
 # Prototipo Kaiju · Guías 10 y 11
 
-Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría del 14-10](16-auditoria-claude-2026-10-14.md). Criterio: implementar lo que las fuentes dicen textualmente; donde hay ambigüedad, dejar el punto aislado y explicado, sin inventar reglas. No se inició emulador.
+Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría del 14-10](16-auditoria-claude-2026-10-14.md). Indicación docente (informada por Vicente): avanzar con el material entregado mientras se agenda la entrevista; después de ella, cambiar solo lo que pida el cliente, con el acta como origen. Criterio: implementar lo que las fuentes dicen textualmente; donde hay ambigüedad, dejar el punto aislado y explicado, sin inventar reglas. No se inició emulador.
 
 ## 1. Qué se construyó y con qué fuente
 
