@@ -1,0 +1,252 @@
+10
+Guía
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Persistencia local con Room y SQLite
+Experiencia: EA2 · Almacenamiento local
+Tema: SQLite, Room (Entity, DAO, Database, Repository) y su conexión con MVVM
+Modalidad: Equipos de 2 integrantes · 3 horas
+0
+Dónde quedamos y hacia dónde vamos
+En la Guía 09 la Agenda de Eventos quedó navegable, con un formulario validado y un ViewModel compartido entre pantallas. Pero esa lista de eventos vive en un MutableStateFlow en memoria: si cierran la app, o si el sistema la mata para liberar memoria, todo lo que guardaron desaparece.
+
+Hoy resolvemos exactamente eso, con tres piezas de Room (Entity, DAO, Database) y una capa nueva, el Repository, que conecta Room con el ViewModel que ya conocen. El patrón StateFlow + collectAsState() no cambia: lo que cambia es de dónde sale el dato.
+
+El ejemplo de hoy: seguimos con la misma app, Agenda de Eventos (paquete com.agenda.app). El repositorio se actualizó con la capa de persistencia: github.com/ProfeMike-sudo/dsy1105-ejemplo-agenda-eventos.
+Lo nuevo de hoy, dentro de la misma estructura
+app/src/main/java/com/agenda/app/
+com.agenda.app/
+├── model/
+│   └── Evento.kt                  // de la Guía 8, hoy se le agrega @Entity
+├── database/                     // NUEVA de hoy
+│   ├── EventoDao.kt               // las operaciones CRUD, como interface
+│   └── AgendaDatabase.kt          // une las Entity con sus DAO
+├── repository/                   // NUEVA de hoy
+│   └── EventoRepository.kt        // el único que conoce al DAO
+├── viewmodel/
+│   ├── AgendaViewModel.kt         // de la Guía 9, hoy pide el Repository
+│   └── AgendaViewModelFactory.kt  // NUEVO: arma el ViewModel con su Repository
+└── navigation/
+    └── AppNavHost.kt              // de la Guía 9, hoy usa la fábrica
+1
+SQLite y Room, en una frase
+SQLite es una base de datos relacional embebida: vive como un archivo dentro del propio dispositivo, sin servidor ni conexión a internet. Cada app Android trae SQLite incorporado de fábrica.
+
+Room es la biblioteca oficial de Android (parte de Jetpack) que escribe el SQL por ustedes. En vez de armar sentencias INSERT/SELECT a mano, declaran clases y interfaces Kotlin con anotaciones, y Room genera el código real al compilar.
+
+Ventaja de Room	Qué significa en la práctica
+Sin SQL manual	Las consultas se escriben como anotaciones sobre funciones Kotlin.
+Flujo reactivo	Un DAO puede devolver Flow<List<T>>: la lista se actualiza sola cuando cambian los datos, igual que ya hacen con StateFlow.
+Validación en compilación	Si una consulta tiene un error de sintaxis o nombra una columna que no existe, Room lo avisa al compilar, no al ejecutar.
+2
+Las piezas de Room y cómo se encadenan
+Room se apoya en tres piezas. Una cuarta pieza, el Repository, no es de Room: es la que ya veníamos usando en MVVM para que el ViewModel nunca hable con la base de datos directo.
+
+Pieza	Qué es
+@Entity	Una data class anotada: describe una tabla. Cada instancia es una fila.
+@Dao	Una interface anotada: declara las operaciones (insertar, leer, borrar). Room genera la implementación.
+@Database	Une las Entity con sus DAO y crea el archivo .db real en el dispositivo.
+Repository	Clase simple (sin anotaciones de Room) que envuelve al DAO. El ViewModel solo le habla a ella.
+
+Regla de la cadena: la pantalla nunca llama al DAO directo, y el ViewModel nunca sabe que existe SQLite. Si mañana cambian Room por otra base de datos, solo se tocan el Repository y el DAO.
+3
+Entity: la tabla como data class
+La misma data class Evento que ya tienen pasa a ser la tabla, con dos anotaciones:
+
+model/Evento.kt
+package com.agenda.app.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+// @Entity convierte esta clase en la tabla "eventos".
+@Entity(tableName = "eventos")
+data class Evento(
+    // @PrimaryKey(autoGenerate = true): Room asigna el id solo, empezando en 1.
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val titulo: String,
+    val fecha: String,
+    val lugar: String,
+    val cupos: Int
+)
+¿Por qué id: Int = 0 y no Int?? El 0 es solo un valor de partida: cuando Room inserta la fila, reemplaza ese 0 por el id real (1, 2, 3...). Como tiene un valor por defecto, el resto del código sigue creando eventos con Evento(titulo = ..., fecha = ..., lugar = ..., cupos = ...), sin tener que pensar en el id.
+4
+DAO: las operaciones CRUD
+El DAO declara qué se puede hacer con la tabla. Cada función es una operación, y la anotación le dice a Room qué generar:
+
+database/EventoDao.kt
+package com.agenda.app.database
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import com.agenda.app.model.Evento
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface EventoDao {
+
+    // Flow: Room vuelve a emitir la lista SOLO cuando la tabla cambia.
+    @Query("SELECT * FROM eventos ORDER BY id DESC")
+    fun obtenerTodos(): Flow<List<Evento>>
+
+    // suspend: una operación de base de datos nunca bloquea el hilo principal.
+    @Insert
+    suspend fun insertar(evento: Evento)
+
+    @Delete
+    suspend fun eliminar(evento: Evento)
+}
+Anotación	Qué genera Room
+@Query("SELECT...")	El SQL exacto que escriban. Room lo valida al compilar.
+@Insert / @Delete	Room arma el INSERT/DELETE solo, a partir de los atributos de la Entity.
+suspend	Obligatorio en Room para toda operación que escribe o lee una vez: se ejecuta en una corrutina, nunca en el hilo principal.
+5
+Database y Repository: uniendo las piezas
+La base de datos
+database/AgendaDatabase.kt
+package com.agenda.app.database
+
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import com.agenda.app.model.Evento
+
+// exportSchema = false: el curso no trabaja migraciones todavía (ver Sección 10).
+@Database(entities = [Evento::class], version = 1, exportSchema = false)
+abstract class AgendaDatabase : RoomDatabase() {
+
+    abstract fun eventoDao(): EventoDao
+
+    companion object {
+        // @Volatile + synchronized: evita crear dos bases de datos a la vez.
+        @Volatile private var instancia: AgendaDatabase? = null
+
+        fun obtenerInstancia(contexto: Context): AgendaDatabase =
+            instancia ?: synchronized(this) {
+                instancia ?: Room.databaseBuilder(
+                    contexto.applicationContext,
+                    AgendaDatabase::class.java,
+                    "agenda.db"
+                ).build().also { instancia = it }
+            }
+    }
+}
+El Repository
+repository/EventoRepository.kt
+package com.agenda.app.repository
+
+import com.agenda.app.database.EventoDao
+import com.agenda.app.model.Evento
+import kotlinx.coroutines.flow.Flow
+
+class EventoRepository(private val dao: EventoDao) {
+
+    val eventos: Flow<List<Evento>> = dao.obtenerTodos()
+
+    suspend fun guardar(evento: Evento) = dao.insertar(evento)
+
+    suspend fun eliminar(evento: Evento) = dao.eliminar(evento)
+}
+¿Por qué un Repository si el DAO ya hace el trabajo? Hoy parece una capa de más, porque solo reenvía las llamadas. Su valor se nota cuando el proyecto crece: si mañana agregan una API, una caché, o combinan dos fuentes de datos, todo ese cambio queda adentro del Repository. El ViewModel no se entera.
+6
+Conectar con el ViewModel que ya tienen
+El AgendaViewModel de la Guía 09 guardaba la lista en un MutableStateFlow propio. Ahora la recibe del Repository, y ya no necesita actualizarla a mano:
+
+viewmodel/AgendaViewModel.kt · lo que cambia
+class AgendaViewModel(private val repository: EventoRepository) : ViewModel() {
+
+    // stateIn "convierte" el Flow del repository en un StateFlow, para seguir
+    // observándolo con collectAsState() exactamente igual que antes.
+    val eventos: StateFlow<List<Evento>> = repository.eventos.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Eagerly,
+        initialValue = emptyList()
+    )
+
+    fun guardarEvento(): Boolean {
+        if (!validarFormulario()) return false
+
+        val estado = _estadoFormulario.value
+        val evento = Evento(
+            titulo = estado.titulo.trim(),
+            fecha = estado.fecha.trim(),
+            lugar = estado.lugar.ifBlank { "Sin lugar" },
+            cupos = estado.cupos.toDoubleOrNull()?.toInt() ?: 0
+        )
+
+        // guardar() es suspend: se lanza como corrutina. No hace falta tocar
+        // "eventos" a mano, el Flow del DAO avisa solo cuando Room termina.
+        viewModelScope.launch { repository.guardar(evento) }
+        _estadoFormulario.value = FormularioEventoEstado()
+        return true
+    }
+}
+Como el ViewModel ahora pide un EventoRepository por constructor, hace falta algo que se lo entregue. Esa es la única pieza que sí toca Android (necesita el Context para crear la base):
+
+viewmodel/AgendaViewModelFactory.kt
+class AgendaViewModelFactory(context: Context) : ViewModelProvider.Factory {
+
+    private val repository = EventoRepository(
+        AgendaDatabase.obtenerInstancia(context).eventoDao()
+    )
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return AgendaViewModel(repository) as T
+    }
+}
+Y en AppNavHost, se la pasan a viewModel():
+
+navigation/AppNavHost.kt · lo que cambia
+@Composable
+fun AppNavHost(
+    viewModel: AgendaViewModel = viewModel(factory = AgendaViewModelFactory(LocalContext.current))
+) { /* el resto queda igual */ }
+¿Por qué no usar AndroidViewModel y listo? Se podría, pero el ViewModel terminaría conociendo a Android directo. Con la fábrica, AgendaViewModel sigue siendo Kotlin puro (solo pide un EventoRepository), y se puede probar con un repository de prueba, sin emulador. Eso es lo que hace el test de la Sección 8.
+
+7
+Qué cambia, en la práctica
+◆ Interactivo
+Esta simulación (en este navegador, no es Kotlin real) compara las dos versiones de la app: antes agregaban un evento y, al "cerrar" la app, la lista quedaba vacía. Ahora el evento queda guardado.
+
+Eventos (con Room)
+No hay eventos guardados todavía.
+
++ Agregar evento
+Cerrar y volver a abrir la app
+Agreguen un evento y después cierren la app.
+
+8
+Ejemplo completo: el repositorio
+✓ Resuelto · para leer y seguir
+El proyecto completo, con la capa de persistencia ya integrada, está en github.com/ProfeMike-sudo/dsy1105-ejemplo-agenda-eventos.
+
+terminal
+./gradlew assembleDebug          # compila y genera el APK
+./gradlew testDebugUnitTest     # corre los tests, incluido el nuevo de persistencia
+El test nuevo: FakeEventoDao reemplaza a Room en los tests con una lista en memoria que cumple el mismo contrato (EventoDao). Así se prueba que el ViewModel arranca con los datos que ya existían en el DAO (lo mismo que pasaría al reabrir la app), sin encender ningún emulador.
+9
+Actividad · Persistencia en su proyecto
+✏ Actividad · en equipo
+Sobre su caso (la tienda de ropa), no sobre el ejemplo:
+
+Qué debe cumplir
+Agreguen @Entity y @PrimaryKey(autoGenerate = true) a su modelo principal (o a los que corresponda según su caso).
+Creen el DAO con al menos insertar y leer como Flow (agreguen @Delete si su caso lo necesita).
+Creen la clase @Database con el patrón singleton (obtenerInstancia).
+Creen el Repository que envuelve al DAO.
+Cambien su ViewModel para que reciba el Repository por constructor, y agreguen su ViewModelFactory.
+Verifiquen en el emulador: agreguen un dato, cierren la app por completo (no solo minimizarla) y vuelvan a abrirla. El dato debe seguir ahí.
+Entregable de la sesión: commit en GitHub (mensaje sugerido: feat: persistencia local con Room) y actualicen la tarjeta en Trello.
+10
+Investigación autónoma (traerla aplicada)
+Elijan al menos una de las siguientes, investíguenla por su cuenta y apliquenla en su proyecto si le sirve a su caso (no es obligatoria para aprobar el Parcial 2, la rúbrica solo pide persistencia local funcionando). Para la que elijan, dejen una línea comentada en el código explicando qué encontraron y por qué la usaron así.
+
+Regla de hoy: ninguna de estas preguntas está respondida en esta guía. La respuesta la buscan ustedes en la documentación oficial de Android/Room.
+Migraciones: si ya tienen datos guardados y necesitan agregar una columna nueva a la tabla, cambiar version no alcanza. Investiguen Migration y por qué Room las exige.
+Relaciones entre tablas: ¿cómo guardarían, por ejemplo, un evento con una lista de asistentes en una tabla aparte? Investiguen @ForeignKey y @Relation.
+Inyección de dependencias: hoy la fábrica (AgendaViewModelFactory) arma el Repository a mano. Investiguen qué resuelve Hilt (la biblioteca oficial de inyección de dependencias de Android) y por qué muchos proyectos reales lo usan en vez de fábricas manuales.
+Flow vs LiveData: Room puede devolver cualquiera de los dos desde el DAO. Investiguen en qué se diferencian y por qué este curso usa Flow de forma consistente con StateFlow.
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía N°10

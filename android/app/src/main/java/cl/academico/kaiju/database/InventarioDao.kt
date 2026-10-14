@@ -1,4 +1,4 @@
-package cl.academico.kaiju.repository
+package cl.academico.kaiju.database
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -8,9 +8,14 @@ import cl.academico.kaiju.model.Movimiento
 import cl.academico.kaiju.model.Producto
 import kotlinx.coroutines.flow.Flow
 
-/** Consultas de Room para productos y movimientos. */
+/**
+ * El DAO: las operaciones que Room sabe hacer sobre las tablas `productos` y `movimientos`.
+ * Es una clase abstracta (no una interface, como en el ejemplo de la Agenda) porque necesita
+ * dos operaciones compuestas con `@Transaction`. No hay `@Delete`: RN-05 prohíbe borrar movimientos.
+ */
 @Dao
 abstract class InventarioDao {
+    // Flow: Room vuelve a emitir la lista solo cuando la tabla cambia.
     @Query("SELECT * FROM productos ORDER BY codigo")
     abstract fun productos(): Flow<List<Producto>>
 

@@ -11,7 +11,7 @@ Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría 
 | Entrada y salidas | A-10 RF-06/07, RN-01, §5 | `registrarMovimiento`, `PantallaMovimiento` |
 | Historial | A-10 RF-04, RN-05, §2 | `historial(codigo)`, lista en el detalle |
 | Stock y movimiento juntos | A-10 §4 | `InventarioDao.registrarMovimiento` con `@Transaction` |
-| Persistencia | A-10 RF-10, plantilla RD-03 | Room: `BaseDeDatosKaiju`, `InventarioRepositoryRoom` |
+| Persistencia | A-10 RF-10, plantilla RD-03 | Room según la Guía de Room: `database/BaseDeDatosKaiju`, `database/InventarioDao`, `InventarioRepository`, `InventarioViewModelFactory` |
 | Permisos por perfil | Tabla A-10 §1 | `tiposPermitidos(rol)`, `puedeGestionarProductos`, `puedeVerAlertas` |
 | Recursos nativos | C-01 §3.3; A-11 §4, §6, §7, §9, §10 | `ui/recursos/` |
 | Animaciones | A-10 §6, IE 2.2.2 | `IndicadorStock`, color del stock en el detalle, Snackbar |
@@ -42,7 +42,7 @@ Copia temporal de `android/` sin cachés ni el archivo local de JDK 25; JDK 21.0
 
 | Tarea | Resultado |
 |---|---|
-| `testDebugUnitTest` | **38 pruebas, 0 fallos**: InventarioViewModelTest 19, MovimientosViewModelTest 15, SesionViewModelTest 4 |
+| `testDebugUnitTest` | **40 pruebas, 0 fallos**: InventarioViewModelTest 19, MovimientosViewModelTest 15, PersistenciaViewModelTest 2, SesionViewModelTest 4 |
 | `assembleDebug` | APK debug generado |
 | `assembleDebugAndroidTest` | Compila `InventarioDaoTest` (3 pruebas de Room). **No ejecutada**: necesita teléfono |
 | `lintDebug` | 0 errores. 10 avisos, todos de versiones más nuevas disponibles; no se actualizan sin necesidad |

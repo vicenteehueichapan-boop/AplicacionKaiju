@@ -2,6 +2,7 @@ package cl.academico.kaiju.viewmodel
 
 import cl.academico.kaiju.model.*
 import cl.academico.kaiju.repository.DatosDePrueba
+import cl.academico.kaiju.repository.InventarioRepository
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -12,7 +13,8 @@ import org.junit.Test
 class MovimientosViewModelTest {
     @get:Rule val dispatcher = ReglaDispatcherPrincipal()
 
-    private val repository = InventarioRepositoryEnMemoria()
+    private val dao = FakeInventarioDao()
+    private val repository = InventarioRepository(dao)
     private var ahora = 1_000L
     private var siguienteId = 0
     private val vm by lazy { InventarioViewModel(repository, reloj = { ahora }, nuevoId = { "mov-${++siguienteId}" }) }
@@ -21,7 +23,7 @@ class MovimientosViewModelTest {
     private val vendedor = DatosDePrueba.usuarios.single { it.rol == Rol.VENDEDOR }
     private val inventario = DatosDePrueba.usuarios.single { it.rol == Rol.ENCARGADO_INVENTARIO }
 
-    private fun stock(codigo: String) = repository.productosGuardados.single { it.codigo == codigo }.stockActual
+    private fun stock(codigo: String) = dao.productosGuardados.single { it.codigo == codigo }.stockActual
 
     private fun registrar(usuario: Usuario, codigo: String, tipo: TipoMovimiento, cantidad: String, motivo: String = ""): Boolean {
         vm.nuevoMovimiento(codigo)
@@ -36,7 +38,7 @@ class MovimientosViewModelTest {
     @Test fun entradaSumaStockYGuardaFechaTipoCantidadYAutor() {
         assertTrue(registrar(inventario, "DEMO-001", TipoMovimiento.ENTRADA, "5"))
         assertEquals(17, stock("DEMO-001"))
-        val movimiento = repository.movimientosGuardados.single()
+        val movimiento = dao.movimientosGuardados.single()
         assertEquals(TipoMovimiento.ENTRADA, movimiento.tipo)
         assertEquals(5, movimiento.cantidad)
         assertEquals(1_000L, movimiento.fecha)
@@ -50,14 +52,14 @@ class MovimientosViewModelTest {
         assertFalse(registrar(inventario, "DEMO-002", TipoMovimiento.SALIDA_CONSUMO, "4"))
         assertNotNull(vm.formularioMovimiento.value.errores.cantidad)
         assertEquals(3, stock("DEMO-002"))
-        assertTrue(repository.movimientosGuardados.isEmpty())
+        assertTrue(dao.movimientosGuardados.isEmpty())
     }
     @Test fun cantidadDebeSerEnteroPositivo() {
         listOf("0", "-2", "1.5", "", "abc").forEach {
             assertFalse("Cantidad '$it'", registrar(inventario, "DEMO-001", TipoMovimiento.ENTRADA, it))
             assertNotNull(vm.formularioMovimiento.value.errores.cantidad)
         }
-        assertTrue(repository.movimientosGuardados.isEmpty())
+        assertTrue(dao.movimientosGuardados.isEmpty())
     }
     @Test fun productoYTipoSonObligatorios() {
         vm.nuevoMovimiento()
@@ -83,7 +85,7 @@ class MovimientosViewModelTest {
     @Test fun sinUsuarioActivoNoSeRegistra() {
         vm.nuevoMovimiento("DEMO-001"); vm.seleccionarTipoMovimiento(TipoMovimiento.ENTRADA); vm.actualizarCantidad("1")
         assertFalse(vm.registrarMovimiento(null))
-        assertTrue(repository.movimientosGuardados.isEmpty())
+        assertTrue(dao.movimientosGuardados.isEmpty())
     }
 
     // ── Ajuste (RF-08, RN-04): validado; su efecto espera G10-01 ──
@@ -97,7 +99,7 @@ class MovimientosViewModelTest {
         assertFalse(vm.formularioMovimiento.value.errores.hayErrores)
         assertEquals(InventarioViewModel.MENSAJE_AJUSTE, vm.formularioMovimiento.value.mensaje)
         assertEquals(12, stock("DEMO-001"))
-        assertTrue(repository.movimientosGuardados.isEmpty())
+        assertTrue(dao.movimientosGuardados.isEmpty())
     }
 
     // ── Historial y avisos ──
