@@ -4,7 +4,7 @@ Tablero con las cinco listas de la Guía 07 y una tarjeta por pantalla y por for
 
 **Cómo cargarlo rápido:** en Trello, en cada lista toca "Añadir una tarjeta" y pega el bloque completo de esa lista. Trello pregunta si quieres crear una tarjeta por línea: acepta. Después, en cada tarjeta de "Hecho", pega en la descripción el enlace del commit (tabla al final).
 
-Nombre del tablero: **Kaiju · DSY1105 · Vicente Hueichapan**
+Tablero creado el 14-10-2026: **[Kaiju · DSY1105 · Vicente Hueichapan](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan)** (privado). Contiene 37 tarjetas: Backlog 4, Por hacer 7, En progreso 0, En revisión 1, Hecho 25. Cada tarjeta está asignada a Vicente Hueichapan; las de Hecho incluyen en su descripción fecha, requisito y enlace al commit.
 
 ## Lista: Hecho
 
