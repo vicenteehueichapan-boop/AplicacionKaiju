@@ -56,6 +56,8 @@ B-08 sigue parcial hasta cerrar estas decisiones. Los ejemplos opcionales del pr
 
 ## Fuentes y seguimiento
 
+- [Contexto para auditoría independiente, actualizado al 14-10](docs/14-contexto-transferencia-claude.md) y [prompt para Claude](docs/15-prompt-auditoria-claude.md). Incluyen Guía 11, estado manual informado por Vicente y límites de la evidencia. [Fuentes originales preservadas](docs/fuentes/2026-10-14/README.md).
+
 - [Entrega Android: evidencia, demostración y pendientes](docs/13-entrega-base-android.md).
 - [Auditoría Guía 10](docs/11-auditoria-guia-10.md) y [definición de base](docs/12-definicion-base-semana-10.md).
 - [Plantilla del profesor actualizada](docs/entregables/kaiju-requerimientos-guia-10.xlsx): mantiene estructura, RD y rúbrica; no acredita implementación completa ni validación del cliente.

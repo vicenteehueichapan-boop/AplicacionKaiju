@@ -2,6 +2,8 @@
 
 Fecha: 07-10-2026. Desarrollo autorizado después de la auditoría. Fuentes: A-10 §1–8 y diagramas A-10-D1/D2. No hay entrevista validada. Este documento actualiza el desarrollo; las auditorías anteriores conservan su fecha histórica.
 
+Actualización documental 14-10-2026: después de esta entrega, Vicente informó en la conversación que abrió la app y que las comprobaciones propuestas funcionaron en la práctica. B-01/B-05/B-06 cuentan por tanto con declaración de revisión manual del usuario; no se adjuntaron dispositivo, versión exacta ni capturas. La tabla siguiente conserva el estado del 07-10. B-07/B-08/B-09 siguen parciales; esta confirmación no acredita funciones ausentes ni lint. Material nuevo y contexto actualizado: `14-contexto-transferencia-claude.md`. No se recompiló ni se cambió la aplicación en esta transferencia.
+
 ## 1. Respuestas y límites
 
 - El usuario confirma que ya entregó toda la información docente disponible; stock inicial G10-02 continúa sin respuesta. No se guarda con stock supuesto.

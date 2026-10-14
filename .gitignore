@@ -1,5 +1,6 @@
 # Archivos temporales de revisión
 /tmp/
+/output/claude/paquete-auditoria-kaiju/
 
 # Referencia docente local, ajena a la aplicación propia
 /dsy1105-ejemplo-agenda-eventos-main/
