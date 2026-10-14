@@ -1,5 +1,27 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:label="Kaiju" android:theme="@style/Theme.Kaiju" android:allowBackup="false" android:supportsRtl="true">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Avisos de stock bajo (RF-09). Desde Android 13 se piden con diálogo en la pantalla de alertas. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- El lector de códigos usa la cámara mediante Google Play services, sin permiso CAMERA.
+         Es opcional: un teléfono sin cámara puede instalar la app y elegir el producto de la lista. -->
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
+
+    <application
+        android:label="Kaiju"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.Kaiju"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/reglas_extraccion_datos"
+        android:fullBackupContent="@xml/reglas_respaldo"
+        android:supportsRtl="true"
+        tools:targetApi="31">
+
+        <!-- Descarga el módulo del lector al instalar, para que esté listo la primera vez. -->
+        <meta-data android:name="com.google.mlkit.vision.DEPENDENCIES" android:value="barcode_ui" />
+
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
