@@ -2,7 +2,7 @@
 
 Integrante: **Vicente Hueichapan** (trabajo individual). Número de grupo y confirmación docente de la modalidad individual: pendientes.
 
-App Android académica para el caso Kaiju (CITT San Bernardo): consultar existencias, registrar entradas y salidas con su historial, y detectar a tiempo los productos que hay que reponer. Kotlin, Jetpack Compose, MVVM y Room. Todos los datos son ficticios (C-01 §5.1); no hay acta de entrevista, así que la base sigue la solicitud académica de la Guía 10 y no se presenta como acuerdo del cliente.
+App Android académica para el caso Kaiju (CITT San Bernardo): consultar existencias, registrar entradas y salidas con su historial, y detectar a tiempo los productos que hay que reponer. Kotlin, Jetpack Compose, MVVM y Room. Todos los datos son ficticios (C-01 §5.1). La entrevista con el cliente aún no se agenda; por indicación del docente (informada por Vicente el 14-10-2026) se avanza con el material entregado: Guías 10 y 11 y el caso. Nada se presenta como acuerdo del cliente. Después de la entrevista solo se cambia lo que el cliente pida o responda, citando el acta como origen.
 
 ## Abrir y revisar
 
