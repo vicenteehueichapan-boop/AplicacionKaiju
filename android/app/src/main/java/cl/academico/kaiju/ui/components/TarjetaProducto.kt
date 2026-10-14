@@ -6,9 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.Producto
-import java.text.NumberFormat
-import java.util.Locale
 
+/** Producto en el catálogo y en alertas: los cuatro datos de RF-02 y la marca de RN-06. */
 @Composable
 fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
     Card(onClick = abrir, modifier = Modifier.fillMaxWidth()) {
@@ -16,8 +15,8 @@ fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
             Text(producto.nombre, style = MaterialTheme.typography.titleMedium)
             Text("${producto.codigo} · ${producto.categoria}", style = MaterialTheme.typography.bodySmall)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("$ ${NumberFormat.getIntegerInstance(Locale.forLanguageTag("es-CL")).format(producto.precio)} CLP")
-                Text("Disponible: ${producto.stockActual}")
+                Text(precioClp(producto.precio))
+                Text("Disponible: ${producto.stockActual}", style = MaterialTheme.typography.titleSmall)
             }
             IndicadorStock(enAlerta)
         }
