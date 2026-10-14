@@ -11,7 +11,7 @@ import cl.academico.kaiju.model.Producto
  * La base de datos local (RD-03): une las tablas de [Producto] y [Movimiento] con su DAO.
  * Los usuarios de prueba no se guardan aquí: vienen de DatosDePrueba.
  */
-// Investigación Guía Room §10 (migraciones): exportSchema guarda cada versión del esquema en
+// Investigación Guía Room sección 10 (migraciones): exportSchema guarda cada versión del esquema en
 // app/schemas. Si más adelante una tabla cambia, Room exige una Migration para no perder los
 // datos guardados, y ese archivo permite escribirla y comprobarla.
 @Database(entities = [Producto::class, Movimiento::class], version = 1, exportSchema = true)

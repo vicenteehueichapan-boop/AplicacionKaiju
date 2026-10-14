@@ -1,6 +1,6 @@
 package cl.academico.kaiju.model
 
-/** Errores por campo del formulario de movimiento (A-10 §5). `null` = campo correcto. */
+/** Errores por campo del formulario de movimiento (Guía 10 sección 5). `null` = campo correcto. */
 data class FormularioMovimientoErrores(
     val producto: String? = null,
     val tipo: String? = null,

@@ -17,20 +17,20 @@ Copias exactas preservadas en `fuentes/2026-10-04/`:
 
 Los originales proceden de los adjuntos de esta conversación y, para N-04, de Downloads. Los hashes de las copias deben coincidir con sus originales. No se copia el contenido de los ejemplos académicos como requerimientos de Kaiju.
 
-El texto N-01 coincide con la extracción del PDF C-01 al normalizar espacios, puntuación y diacríticos. La comparación no es identidad binaria entre TXT y PDF, pero no detectó diferencias de contenido textual. No llegaron catálogo ficticio, movimientos ficticios ni reglas de stock como archivos separados; siguen anunciados en §6, no recibidos en estos materiales.
+El texto N-01 coincide con la extracción del PDF C-01 al normalizar espacios, puntuación y diacríticos. La comparación no es identidad binaria entre TXT y PDF, pero no detectó diferencias de contenido textual. No llegaron catálogo ficticio, movimientos ficticios ni reglas de stock como archivos separados; siguen anunciados en sección 6, no recibidos en estos materiales.
 
 ## 2. Qué cambió respecto de la auditoría anterior
 
 | Tema | Antes | Información nueva y tratamiento |
 |---|---|---|
 | Caso del cliente | Cuatro páginas de contexto y capacidades, con ambigüedades. | N-01 reitera el mismo contenido. No hay acta o respuestas nuevas. |
-| Entrevista | P-01 a P-20 preparadas por el equipo. | N-02 §7 da procedimiento; §8 fija entregables previos y posteriores. N-03 §1 permite adaptar preguntas. |
-| Trazabilidad | Quién realizó movimientos no estaba definido en C-01. | N-02 §1, líneas 49-50, explica trazabilidad incluyendo quién los hizo. Es precisión de la guía docente que debe registrarse y cotejarse, no evidencia de que el cliente respondió P-11. |
+| Entrevista | P-01 a P-20 preparadas por el equipo. | N-02 sección 7 da procedimiento; sección 8 fija entregables previos y posteriores. N-03 sección 1 permite adaptar preguntas. |
+| Trazabilidad | Quién realizó movimientos no estaba definido en C-01. | N-02 sección 1, líneas 49-50, explica trazabilidad incluyendo quién los hizo. Es precisión de la guía docente que debe registrarse y cotejarse, no evidencia de que el cliente respondió P-11. |
 | Formato SRS | Matrices Markdown propias. | N-04 establece hojas 1-9, IDs RF/RNF/RN/RD, origen, prioridad y verificabilidad. Los IDs RC/DT/RE de la auditoría no se eliminan: se enlazan a los nuevos IDs del borrador. |
-| Persistencia | C-01 §3.3 permite evaluarla. | N-04, hoja 4, RD-03 (`A26:F26`): persistencia local con Room y/o DataStore, Esencial, origen Curso. Es obligación académica explícita. No implica operación offline completa ni sincronización automática. |
-| Recursos nativos | C-01 §3.3 permite considerar notificaciones/cámara. | N-04, hoja 4, RD-04 (`A27:F27`): al menos dos recursos del dispositivo, Esencial, origen Curso. No confirma qué recursos ni sus funciones de negocio. |
+| Persistencia | C-01 sección 3.3 permite evaluarla. | N-04, hoja 4, RD-03 (`A26:F26`): persistencia local con Room y/o DataStore, Esencial, origen Curso. Es obligación académica explícita. No implica operación offline completa ni sincronización automática. |
+| Recursos nativos | C-01 sección 3.3 permite considerar notificaciones/cámara. | N-04, hoja 4, RD-04 (`A27:F27`): al menos dos recursos del dispositivo, Esencial, origen Curso. No confirma qué recursos ni sus funciones de negocio. |
 | Calidad técnica | Prácticas académicas generales. | N-04 fija Kotlin/Android Studio/Compose y MVVM/validación en ViewModel; rúbrica/checklist añaden navegación, formularios, animaciones y evidencias de equipo. |
-| Datos de prueba | Fixtures del equipo identificados como demostración. | N-02 §5 autoriza crear datos de prueba mientras llega material, declarándolos supuestos. No autoriza inventar reglas ni datos productivos. |
+| Datos de prueba | Fixtures del equipo identificados como demostración. | N-02 sección 5 autoriza crear datos de prueba mientras llega material, declarándolos supuestos. No autoriza inventar reglas ni datos productivos. |
 
 ## 3. Auditoría del caso reiterado N-01
 
@@ -42,21 +42,21 @@ Continúan abiertos: significado de gestionar; operaciones por perfil; autorizac
 
 | Sección | Qué aporta | Qué no permite concluir |
 |---|---|---|
-| §0 | Apoyo extra, cliente real, recorrido leer -> preparar -> entrevistar -> especificar -> revisar. Los ejemplos resueltos son del club ficticio. | Que las reservas, socios, bloqueos o tiempos de ese club pertenezcan a Kaiju. |
-| §1 | Contexto y problema; explica trazabilidad como cantidad, movimientos y autor. | Autenticación concreta, historial inmutable, múltiples bodegas o auditoría técnica cerrada. |
-| §2 | Perfiles; público general se conversa y se registra en Alcance. | Matriz definitiva de permisos ni inclusión automática del público. |
-| §3 | Desglosar lo que existe y lo que ocurre, datos y relaciones; atributos variables. | Cardinalidades, entidades persistentes o tipos de negocio ya confirmados. |
-| §4 | Diferenciar RF/RNF/RN; origen, prioridad y verificación. Indica que cifras/límites los confirma el cliente. | Usar 2 horas, 3 segundos, 15 minutos o 3 inasistencias del club en Kaiju. |
-| §5 | MVP, límites de datos, opciones, materiales futuros y datos de prueba declarados. | Alcance final validado ni que las opciones del caso desaparezcan ante la cuota del curso. |
-| §6 | Relacionar las seis señales de éxito con requerimientos. | Fórmulas, gráficos, metas numéricas o eficacia productiva demostrada. |
-| §7 | Protocolo de entrevista, preguntas abiertas, cierre y acta. | Fecha, duración, modalidad, participantes concretos o cita ya agendada. |
-| §8 | Borrador antes, mínimos después y revisión con cuestionario. | Que el equipo pueda completar la cuota mediante reglas supuestas. |
+| sección 0 | Apoyo extra, cliente real, recorrido leer -> preparar -> entrevistar -> especificar -> revisar. Los ejemplos resueltos son del club ficticio. | Que las reservas, socios, bloqueos o tiempos de ese club pertenezcan a Kaiju. |
+| sección 1 | Contexto y problema; explica trazabilidad como cantidad, movimientos y autor. | Autenticación concreta, historial inmutable, múltiples bodegas o auditoría técnica cerrada. |
+| sección 2 | Perfiles; público general se conversa y se registra en Alcance. | Matriz definitiva de permisos ni inclusión automática del público. |
+| sección 3 | Desglosar lo que existe y lo que ocurre, datos y relaciones; atributos variables. | Cardinalidades, entidades persistentes o tipos de negocio ya confirmados. |
+| sección 4 | Diferenciar RF/RNF/RN; origen, prioridad y verificación. Indica que cifras/límites los confirma el cliente. | Usar 2 horas, 3 segundos, 15 minutos o 3 inasistencias del club en Kaiju. |
+| sección 5 | MVP, límites de datos, opciones, materiales futuros y datos de prueba declarados. | Alcance final validado ni que las opciones del caso desaparezcan ante la cuota del curso. |
+| sección 6 | Relacionar las seis señales de éxito con requerimientos. | Fórmulas, gráficos, metas numéricas o eficacia productiva demostrada. |
+| sección 7 | Protocolo de entrevista, preguntas abiertas, cierre y acta. | Fecha, duración, modalidad, participantes concretos o cita ya agendada. |
+| sección 8 | Borrador antes, mínimos después y revisión con cuestionario. | Que el equipo pueda completar la cuota mediante reglas supuestas. |
 
 La guía es más explícita que nuestro orden anterior: primero preparación de la entrevista. Con la solicitud actual retomamos ese trabajo. No se borra la exploración visual previa ni se considera aprobada. Aclarar con docente si la base técnica puede avanzar en paralelo; no convertir la expresión “antes de abrir Android Studio” en una prohibición adicional inventada.
 
 ## 5. Entrevista: sí está prevista, sin logística fijada
 
-N-02 §7, líneas 202-234, y N-03 §1, líneas 34-73, indican:
+N-02 sección 7, líneas 202-234, y N-03 sección 1, líneas 34-73, indican:
 
 | Momento | Qué preparar o hacer |
 |---|---|
@@ -70,7 +70,7 @@ Faltan logística, plazo/canal de entrega, formato de acta y mecanismo de valida
 
 ## 6. Entregables académicos: antes y después
 
-| Etapa | Exigencia N-02 §8 | Estado documentado al 04-10-2026 |
+| Etapa | Exigencia N-02 sección 8 | Estado documentado al 04-10-2026 |
 |---|---|---|
 | Antes | Hoja 1: negocio/problema/objetivo con palabras propias y glosario inicial. | Contenido propuesto en `09-borrador-previo-srs.md`; glosario provisional, no acordado. Excel intacto. |
 | Antes | Hoja 2: perfiles y tareas. | Caso auditado; borrador disponible. Nivel técnico/frecuencia pendientes. |
@@ -132,7 +132,7 @@ Fuente: N-04, `8 Trazabilidad!A30:D36`. La plantilla presenta estos pesos como P
 
 ## 8. Auditoría del cuestionario N-03
 
-Tiene 35 controles: 27 sobre ocho cualidades y ocho de estructura. Es herramienta para revisar la plantilla; declara que no es formulario para entregar (§0). El texto pegado “0 de 35” procede de su interfaz y no mide nuestro avance. Marcas de navegador no se transfieren automáticamente al equipo o al Excel.
+Tiene 35 controles: 27 sobre ocho cualidades y ocho de estructura. Es herramienta para revisar la plantilla; declara que no es formulario para entregar (sección 0). El texto pegado “0 de 35” procede de su interfaz y no mide nuestro avance. Marcas de navegador no se transfieren automáticamente al equipo o al Excel.
 
 | Cualidad | Qué comprobar en nuestro borrador |
 |---|---|
@@ -151,12 +151,12 @@ Los ejemplos de exportar, datos negativos, sin conexión, usuario sin permiso, r
 
 | ID | Evidencia / tensión | Aclaración necesaria |
 |---|---|---|
-| D-01 | N-02 §7-8 prevé reunión, sin agenda/plazos. | Fecha, duración, modalidad, quién coordina, canal/plazos de entregas y seguimiento. |
-| D-02 | N-02 §1 añade autor del movimiento respecto a C-01. | ¿Es precisión académica exigida? ¿Cómo contrastarla con cliente sin asumir autenticación? |
+| D-01 | N-02 sección 7-8 prevé reunión, sin agenda/plazos. | Fecha, duración, modalidad, quién coordina, canal/plazos de entregas y seguimiento. |
+| D-02 | N-02 sección 1 añade autor del movimiento respecto a C-01. | ¿Es precisión académica exigida? ¿Cómo contrastarla con cliente sin asumir autenticación? |
 | D-03 | RD-03 esencial vs persistencia evaluable en C-01. | Qué datos deben persistirse para evaluación; separar esa exigencia de funcionamiento offline y sincronización. |
 | D-04 | RD-04 esencial vs recursos opcionales en C-01. | Cuáles usos nativos coherentes puede elegir el equipo y cuáles requieren acuerdo del cliente; cómo evaluar si no se necesita cámara/notificaciones. |
 | D-05 | Checklist hoja 9 B6 enumera Room y DataStore, pero RD-03/hoja 9 B12 dicen y/o. | ¿Se exige ambas dependencias o solo la pertinente a los datos? No instalar ambas por interpretación. |
-| D-06 | Guía §8 pide lógica paso a paso en hoja 7; Excel solo tiene entidad/campos/persistencia/relaciones. | Dónde adjuntar lógica: anexo, sección adicional o archivo separado, sin alterar el original/fijos. |
+| D-06 | Guía sección 8 pide lógica paso a paso en hoja 7; Excel solo tiene entidad/campos/persistencia/relaciones. | Dónde adjuntar lógica: anexo, sección adicional o archivo separado, sin alterar el original/fijos. |
 | D-07 | Hoja 1 B18 pide definición acordada; guía pide primer glosario antes de entrevistar. | Cómo indicar glosario provisional y estado pendiente en el borrador. |
 | D-08 | OI-03 pide estabilidad; RF/RNF no tienen columna de estado/estabilidad. | Cómo registrar estado/estabilidad y fuentes sin cambiar estructura exigida. |
 | D-09 | Mínimos posteriores >=8 RF/3 RNF/3 RN vs reglas y métricas ausentes. | Cómo evaluar pendientes si cliente no aporta suficientes reglas; no llenar cuotas con restricciones técnicas ni cifras supuestas. |

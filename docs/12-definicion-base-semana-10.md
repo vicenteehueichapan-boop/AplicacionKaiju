@@ -18,7 +18,7 @@ Lo explícito de A-10 y sus diagramas es exigencia académica identificable. No 
 
 A-10-D2 confirma:
 
-1. Login permite ingresar a Catálogo. El dibujo dice «elige perfil», mientras §2/§5 precisa elegir un usuario de prueba. Mantener los tres usuarios ficticios con rol asociado; no añadir un segundo mecanismo de acceso por la etiqueta abreviada del dibujo.
+1. Login permite ingresar a Catálogo. El dibujo dice «elige perfil», mientras sección 2/sección 5 precisa elegir un usuario de prueba. Mantener los tres usuarios ficticios con rol asociado; no añadir un segundo mecanismo de acceso por la etiqueta abreviada del dibujo.
 2. Catálogo, Movimiento y Alertas son los tres destinos del menú inferior. No incluye Login ni Formulario en ese menú.
 3. Tocar un producto del catálogo abre Detalle producto.
 4. Botón + del catálogo abre Formulario producto, solo administrador.
@@ -38,7 +38,7 @@ Interacción -> Pantalla -> ViewModel -> Repositorio -> listas en memoria
 
 La pantalla muestra y avisa; el ViewModel valida y revisa RN antes de guardar; el repositorio guarda y entrega. La persistencia local reemplaza después el almacenamiento, según clase. La flecha del diagrama no obliga a crear servicios remotos, capas de casos de uso, inyección de dependencias o base de datos ahora.
 
-El ViewModel comparte estado actualizado, pero no debe convertirse en otro inventario independiente. Las pantallas no guardan directamente en listas ni mantienen copias que diverjan del repositorio. La actualización de stock y movimiento debe ser una operación consistente conforme A-10 §4. Las comprobaciones de presentación son distintas de las validaciones de negocio.
+El ViewModel comparte estado actualizado, pero no debe convertirse en otro inventario independiente. Las pantallas no guardan directamente en listas ni mantienen copias que diverjan del repositorio. La actualización de stock y movimiento debe ser una operación consistente conforme A-10 sección 4. Las comprobaciones de presentación son distintas de las validaciones de negocio.
 
 ## 3. Qué contiene la nueva plantilla
 
@@ -57,21 +57,21 @@ Se utiliza el original como base, sin renombrar hojas, cambiar IDs fijos, RD, pe
 
 Los criterios son especificación para comprobar en el futuro, no resultados de pruebas ejecutadas. Cuando un RF está incompleto, su celda lo dice; no se presenta como listo para implementar sin sus dependencias. Los ejemplos numéricos de RN ilustran una regla ya escrita, no añaden límites ni valores predeterminados.
 
-El cambio de IDs respecto al 04-10 se explica en `11-auditoria-guia-10.md` §6. No se perdió la necesidad de indicadores, gestión de categorías o usuarios del caso por no estar toda en la base académica. Tampoco se les asignan nuevas funciones CRUD por costumbre.
+El cambio de IDs respecto al 04-10 se explica en `11-auditoria-guia-10.md` sección 6. No se perdió la necesidad de indicadores, gestión de categorías o usuarios del caso por no estar toda en la base académica. Tampoco se les asignan nuevas funciones CRUD por costumbre.
 
 ## 4. Orden concreto de desarrollo posterior
 
 | Incremento | Qué construir | Evidencia para terminar | Dependencias |
 |---|---|---|---|
-| 1 Base técnica | Proyecto Android propio y estructura §3, con configuración compatible verificada. | Abre y corre en emulador; estructura presente. B-01/B-02. | Equipo/grupo/nombre académico y entorno por revisar. |
+| 1 Base técnica | Proyecto Android propio y estructura sección 3, con configuración compatible verificada. | Abre y corre en emulador; estructura presente. B-01/B-02. | Equipo/grupo/nombre académico y entorno por revisar. |
 | 2 Modelo y datos | Tres modelos, enums, repositorio en memoria y datos de prueba separados. | Diez productos, tres usuarios ficticios, ejemplos con stock bajo. B-03/B-04. | Tipos no definidos son decisiones técnicas a registrar; no inventar unidades de negocio. |
-| 3 Navegación y estado | Seis rutas, menú Catálogo/Movimiento/Alertas; usuario seleccionado; ViewModels compartidos según alcance. | Recorrido base sin reiniciar inventario; pantallas pendientes con título donde §7 lo permite. B-05. | Variación por perfil por aclarar; no conceder acciones ausentes. |
+| 3 Navegación y estado | Seis rutas, menú Catálogo/Movimiento/Alertas; usuario seleccionado; ViewModels compartidos según alcance. | Recorrido base sin reiniciar inventario; pantallas pendientes con título donde sección 7 lo permite. B-05. | Variación por perfil por aclarar; no conceder acciones ausentes. |
 | 4 Catálogo | Datos desde ViewModel, marca derivada de RN-06. | Muestra cuatro datos de RF-02 y distingue igualdad con mínimo. B-06. | Búsqueda final depende de semántica G10-06. |
-| 5 Formulario | Estado y errores por campo; validación en ViewModel, iconos y alta visible en catálogo. | B-07 con los criterios explícitos de §5. | Stock inicial G10-02 antes de guardar definitivamente el nuevo producto; edición de código G10-03. |
-| 6 Evidencia de revisión | README y decisiones §6, commits propios de todos, tablero repartido. | B-08/B-09 y demostración real de los otros siete controles. | Integrantes reales, tablero y decisiones aún faltan. |
+| 5 Formulario | Estado y errores por campo; validación en ViewModel, iconos y alta visible en catálogo. | B-07 con los criterios explícitos de sección 5. | Stock inicial G10-02 antes de guardar definitivamente el nuevo producto; edición de código G10-03. |
+| 6 Evidencia de revisión | README y decisiones sección 6, commits propios de todos, tablero repartido. | B-08/B-09 y demostración real de los otros siete controles. | Integrantes reales, tablero y decisiones aún faltan. |
 | Posteriores | Movimientos e historial completos, alertas, persistencia, dos recursos y animaciones; módulo acotado. | Criterios de RF/RN y Parcial 2; no confundir lista en memoria con RF-10 cumplido. | Ajuste G10-01, guías de persistencia/recursos y detalles restantes. |
 
-Crear estructura no acredita lógica; que una ruta abra un título no acredita su funcionalidad final. El objetivo próximo es B-01 a B-09 y sus dependencias, no integrar todas las ideas de §6 a la vez. La guía exige documentar decisiones §6 para B-08 aunque su integración venga después.
+Crear estructura no acredita lógica; que una ruta abra un título no acredita su funcionalidad final. El objetivo próximo es B-01 a B-09 y sus dependencias, no integrar todas las ideas de sección 6 a la vez. La guía exige documentar decisiones sección 6 para B-08 aunque su integración venga después.
 
 ## 5. Preguntas que deben resolverse primero
 
@@ -79,8 +79,8 @@ Para el docente, manteniendo vínculo con la base que entregó:
 
 1. «Para crear un producto en B-07, ¿cómo se establece stockActual si no aparece en los campos del formulario? ¿Se registra un movimiento inicial?» G10-02.
 2. «El diagrama confirma los tres destinos. ¿Cómo se adapta el menú por rol y qué variantes de salida permite cada perfil, especialmente administrador e inventario?» G10-04, parcialmente resuelta.
-3. «¿Qué lista ficticia de categorías usamos y qué datos del modelo además de §5 deben capturarse? ¿Puede el equipo proponer esa lista para la prueba?» G10-05.
-4. «¿Búsqueda, edición y detalle deben estar completos en la próxima revisión, o basta el grado indicado en B-05/B-07 y las pantallas provisionales de §7?» G10-09.
+3. «¿Qué lista ficticia de categorías usamos y qué datos del modelo además de sección 5 deben capturarse? ¿Puede el equipo proponer esa lista para la prueba?» G10-05.
+4. «¿Búsqueda, edición y detalle deben estar completos en la próxima revisión, o basta el grado indicado en B-05/B-07 y las pantallas provisionales de sección 7?» G10-09.
 
 Antes del incremento de movimientos, preguntar el cálculo de ajustes G10-01. Antes de editar código, aclarar G10-03. El resto del banco G10 y de preguntas del cliente se conserva. Una respuesta docente aclara evaluación; no se registra como respuesta comercial de Kaiju.
 

@@ -44,7 +44,7 @@ abstract class InventarioDao {
     @Query("UPDATE productos SET stockActual = :nuevo WHERE codigo = :codigo AND stockActual = :anterior")
     protected abstract suspend fun cambiarStockSiNoCambio(codigo: String, anterior: Int, nuevo: Int): Int
 
-    /** Historial y stock cambian juntos o no cambia ninguno (A-10 §4). */
+    /** Historial y stock cambian juntos o no cambia ninguno (Guía 10 sección 4). */
     @Transaction
     open suspend fun registrarMovimiento(movimiento: Movimiento, stockAnterior: Int, stockResultante: Int): Boolean {
         if (cambiarStockSiNoCambio(movimiento.codigoProducto, stockAnterior, stockResultante) == 0) return false

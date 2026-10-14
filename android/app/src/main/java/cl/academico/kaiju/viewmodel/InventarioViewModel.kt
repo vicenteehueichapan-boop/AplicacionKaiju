@@ -21,7 +21,7 @@ data class FiltroCatalogo(val texto: String = "", val categoria: String? = null)
 
 /**
  * Catálogo, formularios y reglas RN del inventario. Todas las reglas se revisan aquí,
- * antes de llamar al repositorio (A-10 §3); las pantallas solo muestran el estado.
+ * antes de llamar al repositorio (Guía 10 sección 3); las pantallas solo muestran el estado.
  */
 class InventarioViewModel(
     private val repository: InventarioRepository,
@@ -64,7 +64,7 @@ class InventarioViewModel(
     private val _avisoStockBajo = MutableStateFlow<Producto?>(null)
     val avisoStockBajo: StateFlow<Producto?> = _avisoStockBajo.asStateFlow()
 
-    // ── Reglas y permisos de A-10 §1 ──
+    // ── Reglas y permisos de Guía 10 sección 1 ──
 
     /** RN-06: alerta cuando lo disponible es igual o menor al mínimo. */
     fun estaEnAlerta(producto: Producto): Boolean = producto.stockActual <= producto.stockMinimo
@@ -76,7 +76,7 @@ class InventarioViewModel(
     fun puedeVerAlertas(rol: Rol?) = rol == Rol.ADMINISTRADOR || rol == Rol.ENCARGADO_INVENTARIO
 
     /**
-     * Tipos que la tabla de A-10 §1 asigna a cada perfil: entrada (RF-06) y ajuste (RF-08)
+     * Tipos que la tabla de Guía 10 sección 1 asigna a cada perfil: entrada (RF-06) y ajuste (RF-08)
      * para inventario y administrador; salida por venta para el vendedor y salidas para
      * inventario (RF-07). El administrador no figura en RF-07 (pendiente G10-04).
      */
@@ -143,7 +143,7 @@ class InventarioViewModel(
     fun actualizarTipo(valor: String) = _formulario.update { it.copy(tipo = valor, mensaje = null) }
     fun actualizarDetalle(valor: String) = _formulario.update { it.copy(detalle = valor, mensaje = null) }
 
-    /** A-10 §5, RN-02 y RN-03. */
+    /** Guía 10 sección 5, RN-02 y RN-03. */
     fun validarProducto(estado: FormularioProductoEstado): FormularioProductoErrores {
         val codigo = estado.codigo.trim()
         val precio = estado.precio.trim().toIntOrNull()
@@ -213,7 +213,7 @@ class InventarioViewModel(
         it.copy(motivo = valor, errores = it.errores.copy(motivo = null), mensaje = null)
     }
 
-    /** Resultado del lector de códigos: el ViewModel busca el producto y valida (A-11 §4). */
+    /** Resultado del lector de códigos: el ViewModel busca el producto y valida (Guía 11 sección 4). */
     fun codigoLeido(codigo: String) {
         val limpio = codigo.trim()
         if (producto(limpio) != null) seleccionarProductoMovimiento(limpio)
@@ -227,7 +227,7 @@ class InventarioViewModel(
         it.copy(mensaje = "No se pudo usar el lector de códigos. Elige el producto de la lista.")
     }
 
-    /** A-10 §5, RN-01 y RN-04. */
+    /** Guía 10 sección 5, RN-01 y RN-04. */
     fun validarMovimiento(estado: FormularioMovimientoEstado, rol: Rol?): FormularioMovimientoErrores {
         val producto = producto(estado.codigoProducto)
         val cantidad = estado.cantidad.trim().toIntOrNull()
@@ -249,7 +249,7 @@ class InventarioViewModel(
     }
 
     /**
-     * Registra el movimiento de [usuario] y actualiza el stock en la misma operación (A-10 §4).
+     * Registra el movimiento de [usuario] y actualiza el stock en la misma operación (Guía 10 sección 4).
      * Devuelve `true` si el movimiento era válido y se envió a guardar.
      */
     fun registrarMovimiento(usuario: Usuario?): Boolean {

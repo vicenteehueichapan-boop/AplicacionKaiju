@@ -16,7 +16,7 @@ import cl.academico.kaiju.model.Producto
 
 /**
  * Recurso nativo 2 · notificación cuando un movimiento deja un producto en stock bajo
- * (C-01 §3.3, RF-09, RN-06). Si no hay permiso, la pantalla de alertas sigue mostrando lo mismo.
+ * (caso sección 3.3, RF-09, RN-06). Si no hay permiso, la pantalla de alertas sigue mostrando lo mismo.
  */
 object NotificacionesStock {
     private const val CANAL = "stock_bajo"
@@ -31,13 +31,13 @@ object NotificacionesStock {
         !necesitaPermiso(context) && NotificationManagerCompat.from(context).areNotificationsEnabled()
 
     fun mostrar(context: Context, producto: Producto) {
-        // Se verifica justo antes de usar el recurso: el permiso pudo retirarse en Ajustes (A-11 §3).
+        // Se verifica justo antes de usar el recurso: el permiso pudo retirarse en Ajustes (Guía 11 sección 3).
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
         ) return
         val gestor = NotificationManagerCompat.from(context)
         if (!gestor.areNotificationsEnabled()) return
-        // Investigación A-11 §10 (canales): desde Android 8 cada notificación pertenece a un canal que la
+        // Investigación Guía 11 sección 10 (canales): desde Android 8 cada notificación pertenece a un canal que la
         // persona puede silenciar por separado. Crearlo de nuevo no cambia su configuración.
         gestor.createNotificationChannel(
             NotificationChannelCompat.Builder(CANAL, NotificationManagerCompat.IMPORTANCE_DEFAULT)

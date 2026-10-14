@@ -1,6 +1,6 @@
 # Primera base Android · Guía 10
 
-Fecha: 07-10-2026. Desarrollo autorizado después de la auditoría. Fuentes: A-10 §1–8 y diagramas A-10-D1/D2. No hay entrevista validada. Este documento actualiza el desarrollo; las auditorías anteriores conservan su fecha histórica.
+Fecha: 07-10-2026. Desarrollo autorizado después de la auditoría. Fuentes: A-10 sección 1–8 y diagramas A-10-D1/D2. No hay entrevista validada. Este documento actualiza el desarrollo; las auditorías anteriores conservan su fecha histórica.
 
 Actualización documental 14-10-2026: después de esta entrega, Vicente informó en la conversación que abrió la app y que las comprobaciones propuestas funcionaron en la práctica. B-01/B-05/B-06 cuentan por tanto con declaración de revisión manual del usuario; no se adjuntaron dispositivo, versión exacta ni capturas. La tabla siguiente conserva el estado del 07-10. B-07/B-08/B-09 siguen parciales; esta confirmación no acredita funciones ausentes ni lint. Material nuevo y contexto actualizado: `14-contexto-transferencia-claude.md`. No se recompiló ni se cambió la aplicación en esta transferencia.
 
@@ -15,8 +15,8 @@ Actualización documental 14-10-2026: después de esta entrega, Vicente informó
 | Control | Estado | Evidencia / pendiente |
 |---|---|---|
 | B-01 Corre en emulador | Pendiente manual | Compilación se verifica por separado; ejecución en dispositivo corresponde al usuario. |
-| B-02 Estructura §3 | Creada | navigation, model, repository, viewmodel, ui/screen, ui/components y ui/theme en `android/app/src/main/java/cl/academico/kaiju/`. |
-| B-03 Modelos/enums | Creados | Producto, Movimiento, Usuario, Rol y TipoMovimiento; campos de §4. |
+| B-02 Estructura sección 3 | Creada | navigation, model, repository, viewmodel, ui/screen, ui/components y ui/theme en `android/app/src/main/java/cl/academico/kaiju/`. |
+| B-03 Modelos/enums | Creados | Producto, Movimiento, Usuario, Rol y TipoMovimiento; campos de sección 4. |
 | B-04 Datos ficticios | Creados | Diez productos, tres usuarios; stock menor, igual y mayor al mínimo. |
 | B-05 Rutas/menú | Implementados; revisión visual pendiente | Seis destinos, menú Catálogo/Movimiento/Alertas; permisos de base académica. |
 | B-06 Catálogo/ViewModel | Implementado; revisión visual pendiente | StateFlow desde repositorio; datos RF-02 y marca RN-06. |
@@ -24,7 +24,7 @@ Actualización documental 14-10-2026: después de esta entrega, Vicente informó
 | B-08 README/decisiones | Parcial | Integrante, descripción, arquitectura e identidad visual registrados. Recursos/animación propuestos; módulo propio y grupo pendientes. |
 | B-09 GitHub/Trello | Parcial | Código versionado; Trello no aportado y modalidad individual por aclarar. No fabricar autores. |
 
-No significa RF-01 a RF-10 completos. RF-03, edición RF-05, RF-06/07/08, RF-10 y §6 siguen pendientes. Movimiento provisional está permitido por §7 para esta base. No se añaden servidor, contraseñas, pagos ni operaciones adicionales.
+No significa RF-01 a RF-10 completos. RF-03, edición RF-05, RF-06/07/08, RF-10 y sección 6 siguen pendientes. Movimiento provisional está permitido por sección 7 para esta base. No se añaden servidor, contraseñas, pagos ni operaciones adicionales.
 
 ## 3. Pauta de revisión en Android Studio
 
@@ -57,12 +57,12 @@ Registrar commit, dispositivo, resultado y captura de errores. No marcar ejecuci
 2. G10-02 al profesor: «Para B-07, ¿cómo se define stockActual al crear un producto si el formulario no incluye ese campo? ¿Debe existir un movimiento inicial?» No proponer un valor por defecto como si estuviera aprobado.
 3. Aclarar modalidad individual, grupo, acceso al repositorio y Trello. Preparar tarjetas reales por pantalla/formulario; no declarar tablero existente sin evidencia.
 4. Resolver edición de código, semántica de búsqueda y cálculo de ajustes antes de completar esas operaciones. Conservar banco G10 y preguntas al cliente.
-5. Cerrar decisiones §6 justificadas con el caso; ejemplos opcionales no son acuerdos del cliente.
+5. Cerrar decisiones sección 6 justificadas con el caso; ejemplos opcionales no son acuerdos del cliente.
 6. Después de revisión: movimientos, persistencia según clases, dos recursos y animaciones. Cambios pequeños, con pruebas de reglas, sin capas innecesarias.
 
 ## 6. Decisiones técnicas
 
-- Proyecto propio en `android/`; nombres de capas y clases de §3/§4.
+- Proyecto propio en `android/`; nombres de capas y clases de sección 3/sección 4.
 - `Int` para precio CLP, stock y cantidades de prueba. `Long` para representación de fecha: no fija zona horaria ni política comercial.
 - Categorías y tipos ficticios no son clasificación comercial aprobada. Código duplicado se compara literalmente, sin normalización inventada.
 - Repositorio retenido por InventarioViewModel, compartido con SesionViewModel desde navegación; no se recrean listas al cambiar de pantalla.
@@ -85,14 +85,14 @@ Responsable informado para todas: Vicente Hueichapan. Esta lista está preparada
 
 | Tarjeta | Fuente | Estado para trasladar / criterio |
 |---|---|---|
-| Pantalla Login | RF-01, A-10 §2 | Implementada; revisar manualmente selección e ingreso. |
+| Pantalla Login | RF-01, A-10 sección 2 | Implementada; revisar manualmente selección e ingreso. |
 | Pantalla Catálogo | RF-02/03/09 | Catálogo y marca implementados; búsqueda/filtro pendientes de definición. |
 | Pantalla Detalle | RF-04 | Datos e historial vacío implementados; revisar recorrido, historial real depende de movimientos. |
 | Pantalla Formulario Producto | RF-05 | UI implementada; edición pendiente y alta bloqueada por G10-02. |
-| Pantalla Movimiento | RF-06/07/08 | Provisional permitida en §7; lógica pendiente, ajuste depende de G10-01. |
+| Pantalla Movimiento | RF-06/07/08 | Provisional permitida en sección 7; lógica pendiente, ajuste depende de G10-01. |
 | Pantalla Alertas | RF-09, RN-06 | Lista y acceso por perfil implementados; revisar abrir detalle. |
-| Formulario Login: validación | A-10 §5 | Lógica probada; revisar error visual sin selección. |
-| Formulario Producto: validación y alta | A-10 §5, B-07 | Lógica probada; revisar errores visuales; alta pendiente de respuesta identificable sobre stock inicial. |
-| Formulario Movimiento: validación | A-10 §5 | Estado creado; implementación posterior a revisión de base y aclaración de ajustes. |
+| Formulario Login: validación | A-10 sección 5 | Lógica probada; revisar error visual sin selección. |
+| Formulario Producto: validación y alta | A-10 sección 5, B-07 | Lógica probada; revisar errores visuales; alta pendiente de respuesta identificable sobre stock inicial. |
+| Formulario Movimiento: validación | A-10 sección 5 | Estado creado; implementación posterior a revisión de base y aclaración de ajustes. |
 
 Agregar después tarjetas de persistencia, recursos, animaciones y módulo cuando se definan. Conservar evidencia real de cambios; no mover tarjetas a terminado solo por tener un archivo creado.

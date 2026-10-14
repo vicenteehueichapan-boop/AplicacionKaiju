@@ -25,7 +25,7 @@ import cl.academico.kaiju.viewmodel.InventarioViewModelFactory
 import cl.academico.kaiju.viewmodel.SesionViewModel
 
 /**
- * NavHost, menú inferior y ViewModels compartidos por las seis pantallas (A-10 §3).
+ * NavHost, menú inferior y ViewModels compartidos por las seis pantallas (Guía 10 sección 3).
  * Los ViewModels se crean aquí una sola vez y se pasan a cada pantalla: así todas ven los mismos datos.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -161,7 +161,7 @@ fun AppNavHost(
     }
 }
 
-/** Catálogo, Movimiento y Alertas (A-10-D2). Alertas solo para inventario y administrador (RF-09). */
+/** Catálogo, Movimiento y Alertas (diagrama  de la Guía 10). Alertas solo para inventario y administrador (RF-09). */
 @Composable
 private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Boolean) {
     val destinos = buildList {

@@ -33,7 +33,7 @@ class MovimientosViewModelTest {
         return vm.registrarMovimiento(usuario)
     }
 
-    // ── Efecto en stock e historial (A-10 §4, RN-05) ──
+    // ── Efecto en stock e historial (Guía 10 sección 4, RN-05) ──
 
     @Test fun entradaSumaStockYGuardaFechaTipoCantidadYAutor() {
         assertTrue(registrar(inventario, "DEMO-001", TipoMovimiento.ENTRADA, "5"))
@@ -69,7 +69,7 @@ class MovimientosViewModelTest {
         assertNotNull(vm.formularioMovimiento.value.errores.tipo)
     }
 
-    // ── Permisos por perfil según la tabla de A-10 §1 ──
+    // ── Permisos por perfil según la tabla de Guía 10 sección 1 ──
 
     @Test fun tiposPermitidosPorPerfil() {
         assertEquals(listOf(TipoMovimiento.SALIDA_VENTA), vm.tiposPermitidos(Rol.VENDEDOR))

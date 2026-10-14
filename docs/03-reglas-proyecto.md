@@ -30,13 +30,13 @@ El ejemplo está en `dsy1105-ejemplo-agenda-eventos-main/dsy1105-ejemplo-agenda-
 
 | Fuente / sección | Contexto o actividad explícita | Tratamiento para nuestro trabajo |
 |---|---|---|
-| A-07, §1-4 | Estructura Android y MVVM; UI, ViewModel, model y repository opcional. | Comprender responsabilidades; no crear capas sin necesidad. |
-| A-07, §5-6 | Leer caso completo antes de decidir; equipo hasta 3; proyecto Compose, nombre AppNombre_GrupoX y emulador. | Lectura realizada; equipo, grupo, nombre y creación de aplicación propia pendientes. |
-| A-07, §7-8 | Trello con cinco estados; GitHub privado, colaboradores, README, Drive, sketch/wireframe/mockup. | Son entregables académicos, no requerimientos de Kaiju. Servicios/enlaces/diseños pendientes, sin crearlos por inferencia. |
-| A-07, §8 | Mensaje de commit inicial “Inicio de proyecto + estructura base MVVM”. | No usarlo para afirmar una estructura MVVM inexistente. El primer commit de esta etapa debe describir documentación y reglas. |
-| A-08, introducción y §8 | Agenda genérica; primera pantalla del caso con componentes, tema, estado y emulador. | Estudio de conceptos; actividad posterior a aclarar pantalla y datos. |
-| A-09, §1-8 | Navegación, formulario, estado observable y ViewModel compartido; ejemplo de eventos. | Conceptos de separación y flujo de estado; alcance del ViewModel se decidirá según necesidades, sin copiar toda la estructura. |
-| A-09, §9-10 | Actividad usa “la tienda de ropa”; navegación, validación e investigación aplicada. Modalidad: equipos de 2. | No confirma rubro de Kaiju. Diferencia con equipos de hasta 3 en A-07/A-08: consultar docente, P-20. No importar funciones por cumplir ejemplos. |
+| A-07, sección 1-4 | Estructura Android y MVVM; UI, ViewModel, model y repository opcional. | Comprender responsabilidades; no crear capas sin necesidad. |
+| A-07, sección 5-6 | Leer caso completo antes de decidir; equipo hasta 3; proyecto Compose, nombre AppNombre_GrupoX y emulador. | Lectura realizada; equipo, grupo, nombre y creación de aplicación propia pendientes. |
+| A-07, sección 7-8 | Trello con cinco estados; GitHub privado, colaboradores, README, Drive, sketch/wireframe/mockup. | Son entregables académicos, no requerimientos de Kaiju. Servicios/enlaces/diseños pendientes, sin crearlos por inferencia. |
+| A-07, sección 8 | Mensaje de commit inicial “Inicio de proyecto + estructura base MVVM”. | No usarlo para afirmar una estructura MVVM inexistente. El primer commit de esta etapa debe describir documentación y reglas. |
+| A-08, introducción y sección 8 | Agenda genérica; primera pantalla del caso con componentes, tema, estado y emulador. | Estudio de conceptos; actividad posterior a aclarar pantalla y datos. |
+| A-09, sección 1-8 | Navegación, formulario, estado observable y ViewModel compartido; ejemplo de eventos. | Conceptos de separación y flujo de estado; alcance del ViewModel se decidirá según necesidades, sin copiar toda la estructura. |
+| A-09, sección 9-10 | Actividad usa “la tienda de ropa”; navegación, validación e investigación aplicada. Modalidad: equipos de 2. | No confirma rubro de Kaiju. Diferencia con equipos de hasta 3 en A-07/A-08: consultar docente, P-20. No importar funciones por cumplir ejemplos. |
 
 Las afirmaciones de versiones, estado experimental de APIs y compatibilidad del ejemplo no se han verificado contra documentación vigente. No se afirma que el código sea obsoleto ni que todas sus versiones sean válidas para nuestro proyecto. Esa revisión corresponde a la etapa de configuración técnica, con documentación oficial y comprobación de compilación.
 
@@ -54,7 +54,7 @@ Estas prácticas no autorizan reglas de negocio. El ejemplo valida eventos y usa
 
 El repositorio propio quedó inicializado en la raíz de este espacio de trabajo, con rama `main`. Por solicitud posterior del usuario se conectó `origin` a `https://github.com/vicenteehueichapan-boop/AplicacionKaiju.git` y se integró su commit inicial, conservando ambos historiales. El ejemplo docente permanece local y excluido; no se borra ni se convierte en proyecto propio. Versionar documentación, reglas y fuente del caso conservada. Los renders temporales, cachés, builds y configuración local de Android quedan excluidos.
 
-GitHub informa visibilidad pública para este repositorio, mientras A-07 §8 solicita un repositorio privado. La diferencia queda registrada y pendiente; no se modificó la visibilidad por iniciativa propia. El usuario autorizó subir el proyecto a este repositorio, sin autorizar invitaciones ni otras acciones externas.
+GitHub informa visibilidad pública para este repositorio, mientras A-07 sección 8 solicita un repositorio privado. La diferencia queda registrada y pendiente; no se modificó la visibilidad por iniciativa propia. El usuario autorizó subir el proyecto a este repositorio, sin autorizar invitaciones ni otras acciones externas.
 
 La comprobación inicial detectó que faltaba identidad de autor. El usuario proporcionó su nombre de cuenta de GitHub y correo para configurarlos solo en este repositorio, sin cambiar configuración global. El primer commit documenta la auditoría y las reglas; no afirma que exista una estructura MVVM propia.
 

@@ -2,7 +2,7 @@ package cl.academico.kaiju.repository
 
 import cl.academico.kaiju.model.*
 
-// Fixtures sintéticos A-10 §4. No son catálogo, categorías ni personas reales de Kaiju.
+// Fixtures sintéticos Guía 10 sección 4. No son catálogo, categorías ni personas reales de Kaiju.
 object DatosDePrueba {
     val categorias = listOf("Papelería de prueba", "Embalaje de prueba", "Herramientas de prueba")
     val usuarios = listOf(

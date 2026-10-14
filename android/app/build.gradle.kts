@@ -41,7 +41,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
     ksp("androidx.room:room-compiler:$room")
-    // Recurso nativo: lector de códigos de Google Play services, sin permiso de cámara (A-11 §6).
+    // Recurso nativo: lector de códigos de Google Play services, sin permiso de cámara (Guía 11 sección 6).
     implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")

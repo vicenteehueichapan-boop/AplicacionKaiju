@@ -18,7 +18,7 @@ class InventarioViewModelTest {
     private fun valido() = FormularioProductoEstado(codigo = "NUEVO", nombre = "Muestra",
         categoria = DatosDePrueba.categorias.first(), precio = "100", stockMinimo = "0")
 
-    // ── Validación de producto (A-10 §5) ──
+    // ── Validación de producto (Guía 10 sección 5) ──
 
     @Test fun formularioVacioDaErroresPorCampo() {
         val errores = vm.validarProducto(FormularioProductoEstado())
