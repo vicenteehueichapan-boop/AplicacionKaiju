@@ -2,6 +2,7 @@ package cl.academico.kaiju.viewmodel
 
 import cl.academico.kaiju.model.*
 import cl.academico.kaiju.repository.DatosDePrueba
+import cl.academico.kaiju.repository.InventarioRepository
 import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
@@ -10,7 +11,8 @@ import org.junit.Test
 class InventarioViewModelTest {
     @get:Rule val dispatcher = ReglaDispatcherPrincipal()
 
-    private val repository = InventarioRepositoryEnMemoria()
+    private val dao = FakeInventarioDao()
+    private val repository = InventarioRepository(dao)
     // Se crea al usarlo, cuando la regla ya instaló el dispatcher de prueba.
     private val vm by lazy { InventarioViewModel(repository) }
     private fun valido() = FormularioProductoEstado(codigo = "NUEVO", nombre = "Muestra",
@@ -57,7 +59,7 @@ class InventarioViewModelTest {
     @Test fun altaValidaNoSeGuardaMientrasFalteElStockInicial() {
         cargar(valido())
         assertFalse(vm.guardarProducto(Rol.ADMINISTRADOR))
-        assertEquals(DatosDePrueba.productos, repository.productosGuardados)
+        assertEquals(DatosDePrueba.productos, dao.productosGuardados)
         assertFalse(vm.formulario.value.errores.hayErrores)
         assertEquals(InventarioViewModel.MENSAJE_STOCK_INICIAL, vm.formulario.value.mensaje)
     }
@@ -76,12 +78,12 @@ class InventarioViewModelTest {
         cargar(valido())
         assertFalse(vm.guardarProducto(Rol.VENDEDOR))
         assertFalse(vm.guardarProducto(Rol.ENCARGADO_INVENTARIO))
-        assertEquals(DatosDePrueba.productos, repository.productosGuardados)
+        assertEquals(DatosDePrueba.productos, dao.productosGuardados)
     }
     @Test fun datosInvalidosNuncaLleganAlRepositorio() {
         assertFalse(vm.guardarProducto(Rol.ADMINISTRADOR))
         assertTrue(vm.formulario.value.errores.hayErrores)
-        assertEquals(DatosDePrueba.productos, repository.productosGuardados)
+        assertEquals(DatosDePrueba.productos, dao.productosGuardados)
     }
     @Test fun editarCambiaDatosPeroConservaCodigoYStock() {
         val original = DatosDePrueba.productos.first()
@@ -89,11 +91,11 @@ class InventarioViewModelTest {
         vm.actualizarCodigo("OTRO")
         vm.actualizarNombre("Cuaderno editado"); vm.actualizarPrecio("1700")
         assertTrue(vm.guardarProducto(Rol.ADMINISTRADOR))
-        val editado = repository.productosGuardados.single { it.codigo == original.codigo }
+        val editado = dao.productosGuardados.single { it.codigo == original.codigo }
         assertEquals("Cuaderno editado", editado.nombre)
         assertEquals(1700, editado.precio)
         assertEquals(original.stockActual, editado.stockActual)
-        assertTrue(repository.productosGuardados.none { it.codigo == "OTRO" })
+        assertTrue(dao.productosGuardados.none { it.codigo == "OTRO" })
     }
     @Test fun editarNoMarcaSuPropioCodigoComoRepetido() {
         vm.editarProducto("DEMO-002")

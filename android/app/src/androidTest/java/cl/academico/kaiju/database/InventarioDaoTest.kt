@@ -1,10 +1,11 @@
-package cl.academico.kaiju.repository
+package cl.academico.kaiju.database
 
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import cl.academico.kaiju.model.Movimiento
 import cl.academico.kaiju.model.TipoMovimiento
+import cl.academico.kaiju.repository.DatosDePrueba
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After

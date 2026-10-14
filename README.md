@@ -17,7 +17,7 @@ Verificación sin emulador, desde `android/`:
 .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug lintDebug
 ```
 
-Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **38 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
+Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **40 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
 
 ## Qué hace (Guía 10 §1)
 
@@ -46,7 +46,7 @@ Pantalla (ui/screen): muestra estado y avisa eventos
 ```
 
 - `MainActivity` solo llama a `AppNavHost`. `navigation/` tiene las seis rutas y el menú inferior.
-- `InventarioRepository` es la interfaz; `InventarioRepositoryRoom` la implementa. Las pruebas usan una versión en memoria con el mismo contrato, por eso las reglas se prueban sin Android.
+- Persistencia con la organización de la Guía de Room y el ejemplo docente: `database/` (`BaseDeDatosKaiju` con `obtenerInstancia`, `InventarioDao`), `repository/InventarioRepository` (único que conoce al DAO) y `viewmodel/InventarioViewModelFactory`. Las pruebas usan `FakeInventarioDao` en memoria, igual que `FakeEventoDao` del ejemplo, por eso las reglas se prueban sin Android.
 - Los permisos y la Activity viven en `ui/`; el resultado del lector va al ViewModel (Guía 11 §4).
 - Los diez productos se cargan solo la primera vez; después nunca se sobrescriben los cambios guardados.
 
@@ -99,6 +99,7 @@ Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/Aplica
 
 - **[Guion de demostración](docs/evidencia/demo/GUION-DEMOSTRACION.md)** y [códigos QR de prueba](docs/evidencia/demo/codigos-demo.html).
 - **[Evidencia de avance (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx):** estado de B-01 a B-09, RF y RN, ficha de recursos, verificación, indicadores, commits y espacios para las capturas de la Guía 11.
+- Investigación de la Guía de Room (§10), con línea comentada en el código: relaciones con `@ForeignKey` (`model/Movimiento.kt`) y migraciones con esquema exportado (`database/BaseDeDatosKaiju.kt`, `app/schemas/`).
 - [Prototipo, demostración y verificación](docs/17-prototipo-guia-11.md) y [auditoría independiente del 14-10](docs/16-auditoria-claude-2026-10-14.md).
 - [Auditoría Guía 10](docs/11-auditoria-guia-10.md), [definición de base](docs/12-definicion-base-semana-10.md), [entrega base](docs/13-entrega-base-android.md).
 - [Plantilla de requerimientos](docs/entregables/kaiju-requerimientos-guia-10.xlsx), [fuentes originales](docs/fuentes/2026-10-14/README.md).

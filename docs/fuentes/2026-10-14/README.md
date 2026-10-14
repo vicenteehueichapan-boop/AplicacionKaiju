@@ -12,6 +12,7 @@ Copias sin edición de los adjuntos del usuario. `manifest.json` registra origen
 | N-830 | cuestionario-ieee830.txt | Cuestionario de revisión del documento, no especificación funcional adicional. |
 | N-EXTRA | guia-extra-kaiju.txt | Análisis, entrevista y uso de plantilla; ejemplo ficticio del Club Los Aromos. |
 | A-07 | guia-07-arquitectura.txt | Guía anterior recibida, preservada ahora para facilitar transferencia. |
+| A-ROOM | guia-room-persistencia.txt | Guía de persistencia con Room (rotulada «Guía N°10», tema EA2 Almacenamiento local), texto pegado por Vicente el 14-10-2026. Ejemplo docente actualizado: zip «dsy1105-ejemplo-agenda-eventos-main (1).zip» en Descargas, SHA256 9b8e0e477e4c44bbe13e3391df866c4ae3026df146627e26570e41f025f339b6. Material genérico del curso: menciona equipos de 2 y «tienda de ropa»; no cambia requisitos de Kaiju. |
 | A-08 | guia-08-primera-pantalla.txt | Guía anterior recibida, preservada ahora para facilitar transferencia. |
 
 N-830 y N-EXTRA corresponden respectivamente a N-03 y N-02 de la auditoría histórica del 04-10; son alias de fuentes, no nuevos requerimientos.

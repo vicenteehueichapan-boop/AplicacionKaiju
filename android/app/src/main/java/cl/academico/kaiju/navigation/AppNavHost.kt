@@ -15,25 +15,26 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import cl.academico.kaiju.repository.BaseDeDatosKaiju
 import cl.academico.kaiju.repository.DatosDePrueba
-import cl.academico.kaiju.repository.InventarioRepositoryRoom
 import cl.academico.kaiju.ui.components.etiqueta
 import cl.academico.kaiju.ui.recursos.NotificacionesStock
 import cl.academico.kaiju.ui.screen.*
 import cl.academico.kaiju.ui.theme.KaijuTheme
 import cl.academico.kaiju.viewmodel.InventarioViewModel
+import cl.academico.kaiju.viewmodel.InventarioViewModelFactory
 import cl.academico.kaiju.viewmodel.SesionViewModel
 
-/** NavHost, menú inferior y ViewModels compartidos por las seis pantallas (A-10 §3). */
+/**
+ * NavHost, menú inferior y ViewModels compartidos por las seis pantallas (A-10 §3).
+ * Los ViewModels se crean aquí una sola vez y se pasan a cada pantalla: así todas ven los mismos datos.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavHost() {
+fun AppNavHost(
+    inventario: InventarioViewModel = viewModel(factory = InventarioViewModelFactory(LocalContext.current)),
+    sesion: SesionViewModel = viewModel { SesionViewModel(DatosDePrueba.usuarios) },
+) {
     val contexto = LocalContext.current
-    val inventario = viewModel {
-        InventarioViewModel(InventarioRepositoryRoom(BaseDeDatosKaiju.obtener(contexto).inventarioDao()))
-    }
-    val sesion = viewModel { SesionViewModel(DatosDePrueba.usuarios) }
 
     val estadoSesion by sesion.estado.collectAsStateWithLifecycle()
     val productos by inventario.productos.collectAsStateWithLifecycle()
