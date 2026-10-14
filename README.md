@@ -91,12 +91,13 @@ Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reser
 
 ## Trabajo y seguimiento
 
-Trabajo individual con GitHub como único registro: no se usa Trello. Los entregables que la guía pide "en Trello" (capturas de Guía 11) quedan pendientes de confirmar con el docente.
+Trabajo individual. GitHub registra el código y la [bitácora](docs/evidencia/BITACORA.md); el tablero de Trello se crea el 14-10-2026 con las cinco listas de la Guía 07 para ordenar el trabajo hasta la entrega. Las tarjetas de lo ya hecho indican la fecha y el commit reales.
 
 Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/AplicacionKaiju).
 
 ## Documentación
 
+- **[Bitácora por fecha](docs/evidencia/BITACORA.md)** (desde el historial de Git) y **[tablero Trello](docs/evidencia/trello/TABLERO-KAIJU.md)** con las tarjetas por pantalla y formulario.
 - **[Guion de demostración](docs/evidencia/demo/GUION-DEMOSTRACION.md)** y [códigos QR de prueba](docs/evidencia/demo/codigos-demo.html).
 - **[Evidencia de avance (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx):** estado de B-01 a B-09, RF y RN, ficha de recursos, verificación, indicadores, commits y espacios para las capturas de la Guía 11.
 - Investigación de la Guía de Room (§10), con línea comentada en el código: relaciones con `@ForeignKey` (`model/Movimiento.kt`) y migraciones con esquema exportado (`database/BaseDeDatosKaiju.kt`, `app/schemas/`).
