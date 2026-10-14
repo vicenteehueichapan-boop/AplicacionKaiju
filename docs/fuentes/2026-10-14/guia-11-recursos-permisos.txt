@@ -1,0 +1,337 @@
+
+11
+Guía
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Recursos nativos y permisos
+Experiencia: EA2 · Componentes visuales y funcionalidades nativas
+Tema: Qué son los recursos nativos, cuáles existen, cómo funcionan los permisos y cómo se piden en Compose
+Modalidad: Equipos de 3 integrantes
+0
+Dónde quedamos y hacia dónde vamos
+En la Guía 10 armaron la base del proyecto Kaiju y anotaron en el README qué dos recursos nativos piensan usar. Esta guía les da lo necesario para elegirlos bien y para integrarlos de forma segura: qué recursos ofrece un teléfono Android, cuáles necesitan permiso, cómo funciona ese permiso, cómo influye el ciclo de vida de la app y cómo se pide todo desde Jetpack Compose sin romper la arquitectura MVVM.
+
+Después de esta guía viene la práctica con la cámara (la Guía 13 oficial de la asignatura). Lo que vean aquí les sirve para cualquier recurso, no solo para la cámara.
+
+Lo que pide el Parcial 2 (IE 2.4.1, 15%): acceder de forma segura y funcional a al menos dos recursos del dispositivo, integrándolos con coherencia en la interfaz y en el flujo de la app. "Seguro" incluye manejar bien los permisos; "coherente" significa que el recurso responde a una necesidad real de su app.
+1
+Qué es un recurso nativo
+Un recurso nativo es una capacidad del teléfono que la app usa a través del sistema operativo: la cámara, la ubicación, las notificaciones, la vibración, los sensores, el micrófono, la biometría. Se llaman "nativos" porque no los construye la app: los ofrece Android y la app los pide prestados.
+
+Algunos de esos recursos tocan información privada del usuario (dónde está, qué ve la cámara, qué dice al micrófono). Por eso Android no los entrega libremente: la app tiene que declarar que los va a usar y, en los casos sensibles, pedir permiso al usuario en el momento en que los necesita.
+
+Primero la necesidad, después la tecnología. Un recurso nativo no es decoración ni un requisito para cumplir. Antes de agregar uno, deben poder completar esta frase: "En nuestra app, [perfil] necesita [acción], y para eso usamos [recurso], que cumple el requerimiento [RF]". Si la frase no se sostiene, ese recurso no corresponde. Dos equipos con el mismo caso pueden elegir recursos distintos, siempre que los justifiquen.
+2
+Lista de recursos nativos
+Esta tabla resume los recursos más usados, cómo se accede a cada uno y qué permiso necesitan. La columna "Tipo" se explica en la sección 3.
+
+Recurso	Para qué sirve	Cómo se usa	Permiso	Tipo
+Cámara (foto)	Tomar una foto, por ejemplo de un producto.	ActivityResultContracts.TakePicture o CameraX	CAMERA	Tiempo de ejecución
+Selector de fotos	Elegir una imagen de la galería.	ActivityResultContracts.PickVisualMedia (Photo Picker)	Ninguno	Sin permiso
+Escáner QR o de barras	Leer el código de un producto.	Google code scanner de ML Kit, o CameraX con ML Kit	Ninguno con el code scanner; CAMERA con CameraX	Sin permiso
+Ubicación	Saber dónde está el teléfono.	Fused Location Provider	ACCESS_COARSE_LOCATION o ACCESS_FINE_LOCATION	Tiempo de ejecución
+Notificaciones	Avisar algo aunque la app esté cerrada.	NotificationCompat	POST_NOTIFICATIONS (Android 13 o superior)	Tiempo de ejecución
+Vibración	Confirmar una acción con el tacto.	LocalHapticFeedback en Compose, o Vibrator	Ninguno con LocalHapticFeedback; VIBRATE con Vibrator	Instalación
+Sensores de movimiento	Detectar que el teléfono se agita o se inclina.	SensorManager (acelerómetro, giroscopio)	Ninguno	Sin permiso
+Linterna	Iluminar, por ejemplo una bodega oscura.	CameraManager.setTorchMode	Ninguno	Sin permiso
+Micrófono	Grabar audio o dictar texto.	MediaRecorder	RECORD_AUDIO	Tiempo de ejecución
+Biometría	Confirmar identidad con huella o rostro.	BiometricPrompt (androidx.biometric)	USE_BIOMETRIC	Instalación
+Compartir	Enviar un texto o archivo a otra app.	Intent.ACTION_SEND	Ninguno	Sin permiso
+Teléfono	Abrir el marcador con un número.	Intent.ACTION_DIAL	Ninguno (llamar directo sí pide CALL_PHONE)	Sin permiso
+Archivos	Abrir o guardar un documento.	OpenDocument o CreateDocument (Storage Access Framework)	Ninguno	Sin permiso
+Contactos	Leer la agenda del teléfono.	ContactsContract	READ_CONTACTS	Tiempo de ejecución
+Internet	Conectarse a un servicio.	Retrofit (EA3)	INTERNET	Instalación
+Un detalle sobre la cámara: si usan TakePicture, la foto la toma la app de cámara del teléfono, y en principio no necesitan el permiso CAMERA. Pero si su app declara CAMERA en el manifiesto (por ejemplo, porque también usa CameraX), entonces sí deben pedirlo antes de llamar a TakePicture, o la app se cae con un error de seguridad.
+3
+Cómo funcionan los permisos
+Android clasifica los permisos según el riesgo que tienen para la privacidad del usuario. Hay tres tipos que les importan:
+
+De instalación (normales)
+Riesgo bajo para la privacidad.
+Basta con declararlos en el manifiesto; Android los concede al instalar.
+Ejemplos: INTERNET, VIBRATE, USE_BIOMETRIC.
+De tiempo de ejecución (peligrosos)
+Dan acceso a datos privados o a la cámara y el micrófono.
+Se declaran en el manifiesto y se piden al usuario con un diálogo, cuando la app los necesita.
+Ejemplos: CAMERA, ACCESS_FINE_LOCATION, POST_NOTIFICATIONS.
+Especiales
+Acciones muy sensibles, como dibujar sobre otras apps.
+El usuario las activa a mano en Ajustes, en "Acceso especial de apps".
+No las van a necesitar en este proyecto.
+Lo que pasa cuando la app pide un permiso
+Desde Android 6.0 los permisos peligrosos se piden mientras la app se usa, no al instalarla. El flujo recomendado por la documentación oficial es el del diagrama. Es interactivo: toquen un estado para ver de dónde viene y hacia dónde va.
+
+
+El flujo completo de un permiso de tiempo de ejecución, según la documentación oficial de Android.
+
+Reglas que conviene saber
+El diálogo del sistema no se puede cambiar. Lo que sí pueden diseñar es la explicación previa, con sus propios textos.
+Si el usuario rechaza dos veces, Android lo toma como "no volver a preguntar" y el diálogo ya no aparece. Desde ahí solo se puede activar en Ajustes.
+"Solo esta vez": desde Android 11, para cámara, micrófono y ubicación, el usuario puede dar un permiso temporal que se pierde al salir de la app.
+Los permisos se pueden perder: el usuario puede quitarlos en Ajustes, y Android los quita solo si la app pasa meses sin usarse. Por eso se verifica cada vez, antes de usar el recurso.
+Notificaciones: desde Android 13 (API 33) también se piden con diálogo. En versiones anteriores basta con declararlas.
+4
+Cómo se implementan en Compose
+Paso 1 · Declarar en el manifiesto
+Todo permiso, de cualquier tipo, se declara en app/src/main/AndroidManifest.xml, antes de la etiqueta <application>. Declarar no concede nada: solo avisa a Android y a la tienda qué podría pedir la app.
+
+AndroidManifest.xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Permisos que la app podría pedir -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- La cámara es útil pero no obligatoria: el teléfono sin cámara igual puede instalar la app -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <application ...>
+        ...
+    </application>
+</manifest>
+Paso 2 · Pedir el permiso desde la pantalla
+En Compose se usa rememberLauncherForActivityResult con el contrato RequestPermission. Este ejemplo sigue el flujo completo del diagrama de la sección 3: verifica, explica si corresponde, pide y ofrece una alternativa si el usuario dice que no.
+
+ui/components/BotonConPermisoCamara.kt
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.LocalActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+
+@Composable
+fun BotonConPermisoCamara(
+    onPermisoConcedido: () -> Unit,   // qué hacer cuando hay permiso (abrir cámara)
+    onSinPermiso: () -> Unit          // la alternativa (escribir el código a mano)
+) {
+    val context = LocalContext.current
+    val activity = LocalActivity.current
+    var mostrarExplicacion by remember { mutableStateOf(false) }
+
+    // 1. El launcher recibe la respuesta del diálogo del sistema
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { concedido ->
+        if (concedido) onPermisoConcedido() else onSinPermiso()
+    }
+
+    Button(onClick = {
+        val yaConcedido = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
+
+        when {
+            // 2. Ya tiene permiso: se usa directo
+            yaConcedido -> onPermisoConcedido()
+            // 3. Android sugiere explicar antes de volver a pedir
+            activity != null && ActivityCompat.shouldShowRequestPermissionRationale(
+                activity, Manifest.permission.CAMERA
+            ) -> mostrarExplicacion = true
+            // 4. Se pide con el diálogo del sistema
+            else -> launcher.launch(Manifest.permission.CAMERA)
+        }
+    }) { Text("Escanear código") }
+
+    // Explicación propia con Material 3, siempre con opción de decir que no
+    if (mostrarExplicacion) {
+        AlertDialog(
+            onDismissRequest = { mostrarExplicacion = false },
+            title = { Text("Usaremos la cámara") },
+            text = { Text("La cámara sirve solo para leer el código del producto. No guardamos fotos.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    mostrarExplicacion = false
+                    launcher.launch(Manifest.permission.CAMERA)
+                }) { Text("Continuar") }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    mostrarExplicacion = false
+                    onSinPermiso()
+                }) { Text("Ahora no") }
+            }
+        )
+    }
+}
+Pieza	Qué hace
+rememberLauncherForActivityResult	Registra qué hacer con la respuesta. Se crea una vez por pantalla y sobrevive a la recomposición.
+RequestPermission()	Contrato para pedir un permiso. Para varios a la vez existe RequestMultiplePermissions().
+ContextCompat.checkSelfPermission	Responde si el permiso ya está concedido.
+shouldShowRequestPermissionRationale	Responde true cuando el usuario ya rechazó una vez y conviene explicar antes de volver a pedir.
+LocalActivity.current	Entrega la Activity desde Compose; la necesita shouldShowRequestPermissionRationale. Viene en androidx.activity:activity-compose desde la versión 1.10.
+Paso 3 · Mantener MVVM
+El permiso se pide en la pantalla; el dato va al ViewModel. Pedir permisos necesita la Activity, así que ese código vive en la capa ui/. Lo que el recurso entrega (la foto, el código leído, la ubicación) se le pasa al ViewModel con una función, igual que el texto de un formulario en la Guía 09. Así el ViewModel sigue sin conocer Android y se puede probar con tests.
+ui/screen/PantallaMovimiento.kt (fragmento)
+BotonConPermisoCamara(
+    onPermisoConcedido = { escaner.abrir() },                       // abre la cámara o el escáner
+    onSinPermiso = { viewModel.activarIngresoManualDeCodigo() }     // la app sigue funcionando
+)
+// cuando el escáner devuelve un código:
+// viewModel.codigoLeido(codigo)  → el ViewModel busca el producto y valida
+5
+El ciclo de vida de una Activity
+Una app Android no está siempre "abierta" o "cerrada": pasa por varios estados mientras el usuario la usa, sale a otra app, rota el teléfono o recibe una llamada. Android avisa cada cambio llamando a un método de la Activity que empieza con on. A eso se le llama ciclo de vida.
+
+En Compose la app normalmente tiene una sola Activity (MainActivity) y las pantallas son composables, pero esa Activity igual pasa por todos estos estados. Les importa para los recursos nativos porque pedir un permiso, abrir la cámara o ir a Ajustes saca a la app del primer plano, y al volver hay que revisar cómo quedaron las cosas.
+
+
+El ciclo de vida de una Activity según la documentación oficial. Toquen un estado para ver qué método lleva a él y hacia dónde puede seguir.
+
+Los métodos del ciclo de vida
+Método	Cuándo lo llama Android	Para qué usarlo
+onCreate()	Una sola vez, cuando se crea la Activity.	Preparar lo que se hace una vez: aquí va setContent { } con su app de Compose.
+onStart()	Cuando la Activity se vuelve visible.	Iniciar lo que debe funcionar mientras se ve, como seguir la ubicación.
+onResume()	Cuando pasa a primer plano y el usuario puede interactuar.	Volver a verificar permisos, activar sensores o la vista previa de la cámara.
+onPause()	Cuando pierde el foco, aunque siga visible: un diálogo encima, otra ventana, una llamada.	Pausar lo que gasta batería, como sensores o la cámara. No guardar datos aquí: es muy breve.
+onStop()	Cuando ya no se ve: el usuario fue al inicio, abrió otra app o la app de cámara.	Liberar lo que no se necesita sin pantalla y guardar lo importante.
+onRestart()	Cuando vuelve después de haber estado detenida. Le sigue onStart().	Rara vez se usa directamente.
+onDestroy()	Antes de destruirse: el usuario la cerró o la pantalla rotó.	Limpieza final. Ojo: si Android elimina el proceso por falta de memoria, puede que no se llame.
+Qué tiene que ver con recursos nativos y permisos
+Situación	Qué pasa en el ciclo de vida	Qué deben hacer
+Aparece el diálogo de permiso del sistema	La app queda en onPause (sigue visible detrás) y vuelve con onResume.	Nada especial: la respuesta llega al launcher.
+Se abre la app de cámara con TakePicture	Su app pasa a onStop. Si el teléfono tiene poca memoria, Android puede eliminar el proceso mientras el usuario toma la foto.	Guardar en el ViewModel o con rememberSaveable lo necesario para recibir la foto al volver.
+El usuario va a Ajustes y cambia un permiso	Al volver se llama onResume. Si quitó un permiso, Android reinicia el proceso de la app.	Verificar el permiso otra vez en onResume, no solo al abrir la pantalla.
+Rota el teléfono	La Activity se destruye y se crea de nuevo (onDestroy y luego onCreate).	El ViewModel sobrevive; lo que está en remember se pierde y lo que está en rememberSaveable se recupera.
+Sensores o ubicación encendidos	Siguen gastando batería aunque la app no se vea, si nadie los apaga.	Encender en onResume u onStart y apagar en onPause u onStop.
+El ciclo de vida desde Compose
+En Compose no se sobrescriben los métodos de la Activity: se usan efectos que reaccionan al ciclo de vida. Vienen en la biblioteca androidx.lifecycle:lifecycle-runtime-compose desde la versión 2.7.
+
+Kotlin · efectos de ciclo de vida en Compose
+import androidx.lifecycle.compose.LifecycleResumeEffect
+
+// 1. Volver a verificar el permiso cada vez que la app vuelve a primer plano
+//    (por ejemplo, al regresar de Ajustes)
+var tienePermisoCamara by remember { mutableStateOf(false) }
+
+LifecycleResumeEffect(Unit) {
+    tienePermisoCamara = ContextCompat.checkSelfPermission(
+        context, Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
+    onPauseOrDispose { }   // obligatorio, aunque no haya nada que limpiar
+}
+
+// 2. Encender un sensor solo mientras la pantalla está en uso
+LifecycleResumeEffect(sensorManager) {
+    sensorManager.registerListener(listener, acelerometro, SensorManager.SENSOR_DELAY_UI)
+    onPauseOrDispose {
+        sensorManager.unregisterListener(listener)   // se apaga en onPause
+    }
+}
+Efecto	Se ejecuta	Se limpia
+LifecycleResumeEffect	En onResume	En onPause o al salir de la pantalla (onPauseOrDispose)
+LifecycleStartEffect	En onStart	En onStop o al salir de la pantalla (onStopOrDispose)
+LifecycleEventEffect	Una vez, en el evento que indiquen	No tiene limpieza; no sirve para ON_DESTROY
+Para verlo con sus propios ojos: en MainActivity sobrescriban onStart, onResume, onPause, onStop y onDestroy con un Log.d("Ciclo", "onPause") en cada uno (siempre llamando primero a super). Abran Logcat, filtren por "Ciclo" y prueben: ir al inicio, volver, rotar el teléfono, pedir un permiso y abrir la cámara.
+6
+Recursos que no necesitan permiso
+La mejor forma de manejar un permiso es no necesitarlo. Android ofrece varias opciones donde el sistema hace el trabajo sensible y la app recibe solo el resultado:
+
+Selector de fotos (Photo Picker), sin permiso
+val selectorFoto = rememberLauncherForActivityResult(
+    ActivityResultContracts.PickVisualMedia()
+) { uri ->
+    // uri es null si el usuario cerró el selector sin elegir
+    if (uri != null) viewModel.actualizarImagenProducto(uri)
+}
+
+Button(onClick = {
+    selectorFoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+}) { Text("Elegir imagen") }
+En vez de	Usen	Por qué
+Leer la galería con permiso de almacenamiento	Photo Picker (PickVisualMedia)	El usuario elige solo la foto que quiere compartir.
+Programar un escáner con CAMERA	Google code scanner de ML Kit	Google Play services abre el escáner y devuelve el código.
+Llamar directo con CALL_PHONE	Intent.ACTION_DIAL	Abre el marcador y el usuario decide si llama.
+Leer contactos con READ_CONTACTS	Selector de contacto con Intent.ACTION_PICK	Se entrega solo el contacto elegido.
+Ubicación precisa	Ubicación aproximada (ACCESS_COARSE_LOCATION)	Si basta con saber la comuna o la sede, no hace falta el punto exacto.
+¿Y cuenta para el Parcial 2? Sí. El indicador pide acceder a recursos del dispositivo de forma segura; usar el Photo Picker o el code scanner es acceder a la galería y a la cámara, y además es la forma más segura. Lo que importa es que funcione, que esté integrado en el flujo y que esté justificado.
+7
+Buenas prácticas
+Pidan solo lo necesario. Cada permiso extra es una razón para que el usuario desconfíe. Si existe una opción sin permiso, prefiéranla.
+Pidan en contexto. El permiso se pide cuando el usuario toca la función que lo necesita, no al abrir la app ni en el login.
+Expliquen antes de pedir cuando Android lo sugiere, con un AlertDialog de Material 3, con textos simples y una opción para decir que no.
+Si dicen que no, la app sigue. Ofrezcan una alternativa (escribir el código a mano, elegir una foto en vez de tomarla). Nunca bloqueen la pantalla ni insistan una y otra vez.
+Verifiquen siempre antes de usar. Un permiso concedido ayer puede no estar hoy. Vuelvan a verificar en onResume, por ejemplo con LifecycleResumeEffect.
+Apaguen lo que no se ve. Sensores, ubicación y vista previa de cámara se encienden y se apagan siguiendo el ciclo de vida, para no gastar batería.
+Marquen el hardware como opcional con uses-feature android:required="false" para no excluir teléfonos que no lo tienen, y revisen que exista antes de usarlo.
+Den retroalimentación en la interfaz. Un estado de carga mientras el recurso trabaja y un Snackbar que confirme el resultado o explique por qué no se pudo.
+Respeten MVVM. El permiso se pide en la pantalla; el resultado y las reglas van al ViewModel.
+Cuiden la privacidad del caso. Solo datos ficticios, nada de fotografiar personas, y no guarden más de lo que la función necesita.
+Prueben todos los caminos: conceder, rechazar una vez, rechazar dos veces y "solo esta vez". Para volver a empezar, desinstalen la app o borren sus datos desde Ajustes. La cámara conviene probarla en un teléfono real.
+8
+Documentación oficial
+Esta es la documentación de referencia. Está en inglés, pero se puede traducir con el navegador; los nombres de las clases y funciones se mantienen igual.
+
+Permisos
+Permisos en Android: panorama general
+Solicitar permisos de tiempo de ejecución
+Buenas prácticas de permisos
+Evaluar si la app realmente necesita un permiso
+Minimizar las solicitudes de permisos
+Lista completa de permisos (Manifest.permission)
+Elemento uses-feature
+Recursos nativos
+Tomar fotos con la app de cámara
+CameraX
+Selector de fotos (Photo Picker)
+Google code scanner (ML Kit)
+Permisos de ubicación
+Obtener la ubicación actual
+Permiso de notificaciones
+Crear una notificación
+Sensores
+Vibración y respuesta háptica
+Autenticación biométrica
+Compartir contenido con otras apps
+Jetpack Compose
+Obtener resultados de una actividad (launchers)
+Documentación de Jetpack Compose
+Compose con otras bibliotecas
+Diálogos en Compose
+Snackbar en Compose
+Ciclo de vida
+El ciclo de vida de una Activity
+Componentes que reaccionan al ciclo de vida
+Ciclo de vida en Compose (LifecycleResumeEffect)
+Ciclo de vida de los composables
+Procesos y ciclo de vida de la app
+Cambios de configuración (rotación)
+ViewModel
+Guardar el estado en Compose (rememberSaveable)
+Material 3
+Material 3 en Compose
+Material Design 3
+Componente Dialog
+Componente Snackbar
+9
+Actividad · Elegir e integrar sus recursos nativos
+✏ Actividad · en equipo
+Sobre su proyecto Kaiju, no sobre un ejemplo aparte.
+
+Parte 1 · Ficha de decisión (en el README)
+Completen esta tabla para cada uno de sus dos recursos:
+
+Necesidad del caso	Recurso	Permiso y tipo	RF que cumple	Qué pasa si el usuario dice que no
+[Quién necesita hacer qué]	[Recurso y API]	[Permiso o "ninguno"]	[RF-xx]	[Alternativa]
+[ ]	[ ]	[ ]	[ ]	[ ]
+Parte 2 · Implementación
+Declaren en el manifiesto los permisos y los uses-feature que correspondan.
+Implementen el flujo completo de la sección 4 para al menos un recurso con permiso de tiempo de ejecución. Si sus dos recursos no necesitan permiso, implementen igual el flujo para las notificaciones de stock bajo o justifiquen en el README por qué no aplica.
+Pasen el resultado del recurso al ViewModel, no lo procesen en la pantalla.
+Prueben los caminos de conceder, rechazar y rechazar dos veces.
+Entregable de la sesión: commit en GitHub (mensaje sugerido: feat: recurso nativo con manejo de permisos), la ficha de decisión en el README y dos capturas en Trello: una con el permiso concedido y otra con la alternativa funcionando después de rechazarlo.
+10
+Investigación autónoma (traerla aplicada)
+Elijan al menos dos, investíguenlas en la documentación de la sección 8 y apliquen lo que encuentren en su proyecto, con una línea comentada en el código explicando qué hace.
+
+RequestMultiplePermissions: ¿cómo se piden dos permisos juntos, por ejemplo ubicación aproximada y precisa? ¿Qué devuelve el launcher?
+Google code scanner: ¿qué dependencia necesita y cómo devuelve el código leído? ¿Por qué no pide permiso de cámara?
+LocalHapticFeedback: ¿cómo harían vibrar el teléfono al guardar un movimiento, sin declarar ningún permiso?
+Notificaciones: ¿qué es un canal de notificación y por qué hay que crearlo antes de mostrar una notificación?
+Acceso parcial a fotos: ¿qué cambió en Android 14 cuando una app pide acceso a la galería? ¿Por qué el Photo Picker evita ese problema?
+Ciclo de vida: agreguen los Log.d de la sección 5 y anoten en qué orden se llaman los métodos al rotar, al ir al inicio y al pedir un permiso. ¿Se llama onStop cuando aparece el diálogo de permiso?
+Probar permisos: ¿cómo se reinicia el estado de un permiso para volver a ver el diálogo, sin desinstalar la app?
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía N°11

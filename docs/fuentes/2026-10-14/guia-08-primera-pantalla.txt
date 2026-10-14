@@ -1,0 +1,426 @@
+
+08
+Guía
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Mi primera pantalla: componentes, estado y tema en Jetpack Compose
+Experiencia: EA2 · Componentes visuales y funcionalidades nativas
+Tema: Construir una pantalla real: layouts, componentes, estado y tema
+Modalidad: Equipos de hasta 3 integrantes · 2 horas
+0
+Dónde quedamos y hacia dónde vamos
+En la guía anterior dejaron el proyecto creado con la estructura MVVM (ui/, viewmodel/, model/, repository/), el repositorio en GitHub, el tablero de Trello y el primer diseño (sketch, wireframe, mockup) de su caso. Ahora toca lo que se ve: construir la primera pantalla real dentro de ui/.
+
+Esta guía enseña los bloques con los que se arma cualquier pantalla en Jetpack Compose, usando como ejemplo una Agenda de Eventos genérica (no su caso de proyecto). Al final, van a usar esos bloques para construir la primera pantalla de su propia aplicación. La navegación entre pantallas y el patrón MVVM a fondo quedan para la Guía 09.
+
+Varias secciones tienen demos interactivas (marcadas con la etiqueta morada "Interactivo"): son simulaciones en HTML/CSS de cómo se comporta la pantalla real en el teléfono, para que prueben el comportamiento antes de programarlo. No son código Kotlin ejecutándose, así que no reemplazan correr el proyecto en el emulador.
+Antes de empezar: el esqueleto de archivos
+Cada sección de esta guía les va a entregar un bloque de código. Para no llegar al final sin saber dónde pegó cada uno, arman primero, vacíos, los archivos donde va a vivir todo:
+
+Dentro de com.agenda.app/ (vista Android)
+com.agenda.app/
+├── MainActivity.kt         // ya existe (Guía 07); se edita al final
+├── model/
+│   └── Evento.kt            // Sección 4
+└── ui/
+    ├── components/       // piezas reutilizables, sin lógica de pantalla
+    │   ├── TarjetaEvento.kt  // Sección 3
+    │   └── ListaEventos.kt   // Sección 4
+    ├── screen/           // la pantalla en sí: arma el Scaffold y llama a components/
+    │   └── PantallaListaEventos.kt  // Sección 5
+    └── theme/
+        ├── Color.kt          // Sección 7
+        └── Theme.kt          // Sección 7
+Por qué components/ y screen/ separados: components/ guarda piezas chicas y reutilizables que no saben nada de la pantalla que las usa (TarjetaEvento no sabe que existe una lista; ListaEventos no sabe que existe un Scaffold). screen/ guarda la pantalla completa, que sí conoce y llama a esas piezas. Si mañana necesitan la misma tarjeta en otra pantalla, la reutilizan sin tocar nada; si cambia el diseño de la pantalla, no arriesgan romper la tarjeta.
+Ninguna de estas carpetas existe todavía, hay que crearlas a mano (recuerden de la Guía 07, Sección 1: todo el código propio vive dentro de kotlin+java/com.agenda.app/, o el paquete de su proyecto):
+
+En el panel izquierdo, clic derecho sobre com.agenda.app (el paquete raíz) → New → Package. Escriben model y Enter.
+Repiten sobre com.agenda.app tres veces más, escribiendo ui.components, ui.screen y ui.theme (con el punto) cada vez. Android Studio arma ui/ la primera vez y reutiliza esa misma carpeta en las dos siguientes, sin duplicarla ni pedir crearla de nuevo.
+Dentro de cada carpeta ya creada: clic derecho → New → Kotlin Class/File. Para Evento.kt eligen el tipo Class (Android Studio arma class Evento, y le agregan data y las propiedades cuando lleguen a la Sección 4). Para el resto (TarjetaEvento.kt, ListaEventos.kt, PantallaListaEventos.kt, Color.kt, Theme.kt) eligen el tipo File (un archivo Kotlin vacío).
+Android Studio autocompleta la línea package com.agenda.app... arriba de cada archivo nuevo según la carpeta donde lo crearon; conviene revisar que quedó correcta antes de pegar el resto del código.
+Si no ven New → Package en el menú: revisen que el panel izquierdo esté en vista Android (selector arriba del panel, no "Project"), y que el clic derecho sea sobre el paquete com.agenda.app mismo, no sobre app ni sobre manifests/res.
+La herramienta para ir viendo cada pieza: @Preview
+No hace falta instalar la app en el emulador cada vez que agregan un composable. Android Studio puede renderizarlo directo en el editor con @Preview:
+
+Kotlin
+// imports necesarios para este bloque
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+
+@Preview(showBackground = true)
+@Composable
+fun MiPreview() {
+    Text("Hola Compose")
+}
+Cómo usarlo: agregan un @Preview como este debajo de cualquier composable que quieran ver (no hace falta que sea la pantalla completa, sirve para probar uno solo a la vez) y abren la pestaña Split o Design arriba a la derecha del editor. Se actualiza solo al guardar; si no, el ícono de refresh de esa pestaña lo fuerza. Cada sección de esta guía les va a decir cuándo conviene probar la pieza que acaban de construir así, antes de seguir.
+1
+Modifier: el lenguaje común de todo composable
+Antes de ver componentes específicos, hay un concepto que se repite en todos ellos: Modifier. Es un parámetro que reciben prácticamente todas las funciones @Composable para decirles cómo comportarse visualmente: tamaño, espaciado, color de fondo, si reacciona a un clic, etc. No dibuja nada por sí solo, modifica al componente que lo recibe.
+
+Kotlin
+// imports necesarios para este bloque
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun EjemploModifier() {
+    Text(
+        text = "Hola Agenda",
+        modifier = Modifier
+            .fillMaxWidth()           // ocupa todo el ancho disponible
+            .padding(16.dp)         // espacio interno de 16dp
+            .background(Color.White)  // color de fondo
+    )
+}
+Modificador	Qué hace
+.fillMaxWidth() / .fillMaxSize()	Ocupa todo el ancho, o todo el ancho y alto disponible.
+.padding(16.dp)	Espacio interno alrededor del contenido.
+.background(color)	Color de fondo del componente.
+.clickable { }	Hace que el componente reaccione a un clic.
+.size(100.dp)	Ancho y alto fijos.
+Regla práctica: los modificadores se aplican en orden, de arriba hacia abajo. Un .padding() antes de un .background() no es lo mismo que después: el orden cambia si el padding queda dentro o fuera del color de fondo.
+2
+Column, Row y Box: los tres layouts base
+Todo lo que se ve en pantalla en Compose se arma combinando tres contenedores. No hay más que aprender de memoria: entendidos estos tres, cualquier pantalla es una combinación de ellos.
+
+Layout	Organiza el contenido...
+Column	en una columna, uno debajo del otro (verticalmente).
+Row	en una fila, uno al lado del otro (horizontalmente).
+Box	superpuesto, una capa encima de otra (útil para poner un texto sobre una imagen, por ejemplo).
+Column
+Row
+Box
+texto encima
+Kotlin
+// imports necesarios para este bloque
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun EncabezadoEvento() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text("Agenda de Eventos")          // arriba
+        Row(
+            modifier = Modifier.fillMaxWidth(),  // sin esto, SpaceBetween no tiene espacio que repartir
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Hoy")                    // izquierda
+            Text("3 eventos")               // derecha
+        }
+    }
+}
+◆ Visual
+Así se ve lo que dibuja EncabezadoEvento: un título arriba y, debajo, una fila con "Hoy" a la izquierda y "3 eventos" a la derecha (eso es lo que logra Row con Arrangement.SpaceBetween).
+
+Agenda de Eventos
+Hoy
+3 eventos
+◆ Interactivo
+Prueben cambiar la disposición: al tocar los botones, la misma información se reordena entre columna y fila (así se ve el efecto de elegir Column o Row como contenedor).
+
+Column
+Row
+Reunión equipo
+Entrega EA2
+Ensayo defensa
+3
+Componentes básicos: Text, Button, TextField, Image, Card
+Componente	Para qué sirve
+Text()	Muestra texto. Solo lectura, el usuario no puede escribir en él.
+Button()	Botón con una acción (onClick) que se ejecuta al tocarlo.
+TextField()	Campo donde el usuario escribe texto. Necesita guardar lo que escribe en una variable de estado (ver Sección 6).
+Image()	Muestra una imagen o ícono.
+Card()	Una tarjeta con elevación (sombra) que agrupa contenido — el bloque visual más usado para representar "un ítem" en una lista.
+ui/components/TarjetaEvento.kt
+package com.agenda.app.ui.components
+
+// imports necesarios para este bloque
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun TarjetaEvento(titulo: String, fecha: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp)
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Text(text = titulo, fontWeight = FontWeight.Bold)
+            Text(text = fecha, color = Color.Gray)
+        }
+    }
+}
+TarjetaEvento es un ejemplo de composable reutilizable: recibe los datos como parámetros (titulo, fecha) en vez de tenerlos escritos adentro. Así se puede llamar tantas veces como eventos existan, cambiando solo los parámetros — la misma idea de reutilización de componentes que pide el correo de coordinación de esta semana.
+
+Primera oportunidad de usar @Preview (visto en la Sección 0): péguenlo al final del mismo archivo, debajo de TarjetaEvento, y ábranlo en la pestaña Design sin correr el emulador todavía.
+
+ui/components/TarjetaEvento.kt (agregado al final)
+// import adicional para este bloque
+import androidx.compose.ui.tooling.preview.Preview
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewTarjetaEvento() {
+    TarjetaEvento(titulo = "Reunión equipo", fecha = "Lun 22 sept")
+}
+4
+LazyColumn: listas de tamaño variable
+Column sirve para un número fijo y chico de elementos, escritos uno por uno. Cuando la cantidad de elementos depende de datos (5 eventos hoy, 20 mañana), se usa LazyColumn: solo dibuja en pantalla lo que el usuario está viendo, lo que la hace eficiente para listas largas.
+
+Los eventos que va a mostrar la lista necesitan una forma. En Kotlin, esa forma es una data class: una clase pensada solo para guardar datos, sin lógica. La creamos en model/Evento.kt, dentro del proyecto:
+
+com/agenda/app/model/Evento.kt
+package com.agenda.app.model
+
+data class Evento(
+    val titulo: String,
+    val fecha: String
+)
+data class: a cambio de escribir val titulo/val fecha, Kotlin genera solo por declararla así el constructor, el toString() y la comparación por contenido. Es el mismo rol que cumpliría un modelo o un DTO en otros lenguajes.
+ui/components/ListaEventos.kt
+package com.agenda.app.ui.components
+
+// imports necesarios para este bloque
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.agenda.app.model.Evento
+
+// TarjetaEvento no se importa: vive en este mismo paquete (ui.components),
+// y Kotlin no exige import entre archivos del mismo paquete.
+@Composable
+fun ListaEventos(eventos: List<Evento>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
+        items(eventos) { evento ->
+            TarjetaEvento(titulo = evento.titulo, fecha = evento.fecha)
+        }
+    }
+}
+items(lista) { … } es el equivalente, dentro de LazyColumn, a un for que recorre la lista: por cada elemento, dibuja el composable que le indiquen (acá, una TarjetaEvento).
+5
+Scaffold: el esqueleto estándar de una pantalla
+Scaffold arma el esqueleto típico de una pantalla Android: barra superior, contenido y, opcionalmente, un botón flotante. En vez de acomodar cada pieza a mano, Scaffold ya sabe dónde va cada una. Estas son las piezas que arma, y para qué sirve cada una:
+
+Pieza	Qué es y para qué sirve
+Scaffold	El "armazón" o esqueleto de una pantalla estándar de Android: define las zonas típicas (barra superior, contenido central, botón flotante) y las acomoda por ti, para que no tengas que posicionarlas a mano.
+TopAppBar	La barra superior (top bar): la franja con el título de la pantalla y, opcionalmente, botones de acción o de volver atrás. Es lo primero que el usuario identifica para saber "dónde estoy" dentro de la app.
+FloatingActionButton	El botón flotante (FAB): el botón circular que flota sobre el contenido, normalmente abajo a la derecha, reservado para la acción principal de la pantalla (en este ejemplo, "agregar evento").
+padding del contenido	El espacio que Scaffold entrega para que el contenido central no quede tapado por la barra superior ni por el botón flotante. Siempre debes aplicarlo a tu contenido.
+ui/screen/PantallaListaEventos.kt
+package com.agenda.app.ui.screen
+
+// imports necesarios para este bloque
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.agenda.app.model.Evento
+// ListaEventos vive en ui.components: paquete distinto a ui.screen, así que
+// acá sí hace falta importarla explícitamente (a diferencia de TarjetaEvento
+// dentro de ListaEventos.kt, que comparte paquete con ella).
+import com.agenda.app.ui.components.ListaEventos
+
+// datos de prueba: en la actividad, cada equipo los reemplaza por los de su caso
+private val listaDeEjemplo = listOf(
+    Evento(titulo = "Reunión equipo", fecha = "Lun 22 sept"),
+    Evento(titulo = "Entrega EA2", fecha = "Vie 26 sept")
+)
+
+// TopAppBar todavía es una API experimental de Material3: Google la recomienda
+// para uso normal, pero se reserva el derecho a cambiar su firma más adelante.
+// Kotlin exige reconocer ese riesgo con @OptIn antes de dejar compilar.
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PantallaListaEventos() {
+    Scaffold(
+        topBar = {
+            TopAppBar(title = { Text("Agenda de Eventos") })
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /* ir a agregar */ }) {
+                Icon(Icons.Default.Add, contentDescription = "Agregar evento")
+            }
+        }
+    ) { padding ->
+        ListaEventos(
+            eventos = listaDeEjemplo,
+            modifier = Modifier.padding(padding)  // evita que el contenido quede tapado por la topBar
+        )
+    }
+}
+Error común: olvidar aplicar el padding que entrega Scaffold al contenido. Si no se usa, la TopAppBar tapa las primeras filas de la lista.
+6
+Estado y recomposición: por qué la pantalla se actualiza sola
+En Compose, una pantalla se redibuja (se "recompone") automáticamente cuando cambia un dato que declararon como estado. Para eso existen remember y mutableStateOf:
+
+Kotlin
+// imports necesarios para este bloque
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+
+@Composable
+fun BotonInteres() {
+    // 1) mutableStateOf(false): crea un valor "vigilado" por Compose, que arranca en false
+    // 2) remember { }: evita que el valor se borre y se reinicie en cada redibujo
+    // 3) by: deja usar "meInteresa" como variable normal, sin escribir ".value"
+    var meInteresa by remember { mutableStateOf(false) }
+
+    Button(onClick = { meInteresa = !meInteresa }) {
+        Text(if (meInteresa) "✓ Me interesa" else "Me interesa")
+    }
+}
+Parte	Qué hace
+mutableStateOf(valor)	Crea un valor observable: Compose "vigila" cuándo cambia.
+remember { }	Hace que ese valor sobreviva a las recomposiciones (sin esto, se reiniciaría cada vez que la pantalla se redibuja).
+by	Permite usar meInteresa directamente como si fuera la variable, en vez de escribir .value cada vez.
+En una frase: mutableStateOf(false) crea la caja que guarda el valor y avisa a Compose cuando cambia; remember { } evita que esa caja se cree de nuevo (y pierda el valor) en cada redibujo; y by es solo azúcar sintáctico para leer y escribir meInteresa como una variable normal, en vez de meInteresa.value. El efecto: al tocar el botón, meInteresa cambia, Compose lo detecta y repinta solo ese botón con el nuevo texto.
+◆ Interactivo
+Toquen el botón de la tarjeta: es exactamente el comportamiento de BotonInteres de arriba, sin escribir una sola línea de Kotlin todavía.
+
+Charla de egresados
+Vie 25 sept · 18:00
+Me interesa
+Lo que pasó: al tocar el botón, cambió una variable de estado y la pantalla se redibujó sola mostrando el nuevo texto y color. Nadie llamó manualmente a una función "repintar pantalla": eso es recomposición.
+Sobre el estado de datos (adelanto de la Guía 09): remember sirve para estado local, chico, que solo le importa a una pantalla (como este botón). El estado que representa datos reales de la app — la lista completa de eventos, por ejemplo — no puede quedar repartido en cada tarjeta: debe vivir en el ViewModel. Eso lo trabajamos a fondo en la Guía 09; por ahora, para esta primera pantalla alcanza con remember y datos de prueba. Lo mismo vale para el diseño visual: los colores van centralizados en ui.theme/, que ves en la Sección 7.
+7
+Tema (Theme): colores, tipografía y estilos en un solo lugar
+Hasta acá usamos colores y estilos "sueltos" (Color.Gray, FontWeight.Bold). En una app real eso es mala idea: si mañana cambias el color principal, tendrías que buscarlo en cientos de pantallas. Para eso existe el tema (Material Theme): un único lugar donde defines colores, tipografía y formas, y todas las pantallas los toman de ahí.
+
+La analogía con CSS: si conoces CSS, el tema es el equivalente a una hoja de estilo global con variables. En CSS defines --duoc-blue y clases como h1; en Compose defines colores en Color.kt y estilos de texto en Type.kt, y luego los usas desde MaterialTheme.
+En CSS	En Compose	Dónde vive
+Variable :root { --duoc-blue: #002d56; }	val DuocBlue = Color(0xFF002D56)	ui/theme/Color.kt
+Estilo h1 { font-size: 2em; font-weight: bold; }	Typography con titleLarge, bodyMedium, etc.	ui/theme/Type.kt
+Hoja de estilo global	MaterialTheme { } (envuelve toda la app)	ui/theme/Theme.kt
+color: var(--duoc-blue) al usarlo	MaterialTheme.colorScheme.primary	en cualquier pantalla
+La carpeta ui.theme/ la creó Android Studio junto con el proyecto (la vieron en la Guía 07). Trae tres archivos:
+
+ui/theme/
+ui/theme/
+├── Color.kt   // tus colores con nombre (como variables CSS)
+├── Type.kt    // estilos de texto (como tus clases de tipografía)
+└── Theme.kt   // arma el MaterialTheme con esos colores y textos
+1 · Definir colores en Color.kt
+com/agenda/app/ui/theme/Color.kt
+package com.agenda.app.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+// Cada color es una "variable" reutilizable en toda la app
+val DuocBlue = Color(0xFF002D56)
+val DuocYellow = Color(0xFFFFC20E)
+val AccentBlue = Color(0xFF0056B3)
+2 · Armar el tema en Theme.kt
+Acá se juntan los colores en un colorScheme y se envuelven en MaterialTheme. Después, en pantalla, solo pides MaterialTheme.colorScheme.primary y te devuelve el color del tema (sin saber su valor exacto).
+
+com/agenda/app/ui/theme/Theme.kt
+package com.agenda.app.ui.theme
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+
+// El colorScheme mapea "primary", "secondary", etc. a tus colores
+private val LightColors = lightColorScheme(
+    primary = DuocBlue,
+    secondary = DuocYellow,
+    primaryContainer = AccentBlue
+)
+
+@Composable
+fun AgendaTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = LightColors,
+        content = content
+    )
+}
+3 · Usar el tema en una pantalla
+En vez de escribir Color.Gray, pides el color al tema. Así, si cambias primary en un solo archivo, toda la app cambia de color.
+
+Kotlin
+// ANTES: color fijo, difícil de cambiar en toda la app
+Text(text = titulo, color = Color.Gray)
+
+// DESPUÉS: color que viene del tema (centralizado)
+Text(
+    text = titulo,
+    color = MaterialTheme.colorScheme.primary,
+    style = MaterialTheme.typography.titleLarge
+)
+Importante: para que MaterialTheme.colorScheme... funcione, la app debe estar envuelta en el tema. En MainActivity, setContent { } ya trae un tema por defecto (la plantilla "Empty Compose Activity" lo hace con su propio Theme). Si creas tu propio AgendaTheme, envuélvelo alrededor de tu pantalla: setContent { AgendaTheme { PantallaListaEventos() } }.
+4 · Verlo funcionar: armar todo y correrlo en el emulador
+Con ui/theme/Color.kt y Theme.kt ya guardados (los que armaron arriba), ui/components/TarjetaEvento.kt y ListaEventos.kt de las Secciones 3 y 4, ui/screen/PantallaListaEventos.kt de la Sección 5, y model/Evento.kt de la Sección 4: solo falta conectar todo desde MainActivity.kt y verlo correr de verdad. Esa confirmación final (no el @Preview de cada pieza suelta) es la que van a repetir con la pantalla de su propio caso en la Actividad.
+
+MainActivity.kt
+// import androidx.activity.ComponentActivity y android.os.Bundle ya están
+// (los trae la plantilla de la Guía 07); agreguen estos dos, que apuntan a
+// funciones que acaban de crear en otro paquete y todavía no existían:
+import com.agenda.app.ui.screen.PantallaListaEventos
+import com.agenda.app.ui.theme.AgendaTheme
+
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            AgendaTheme {
+                PantallaListaEventos()
+            }
+        }
+    }
+}
+Con eso guardado: eligen un emulador ya creado en el selector de la barra superior (o lo crean desde Device Manager si todavía no tienen uno) y tocan el botón verde Run ▶ (o Shift+F10). El primer build tarda más porque compila todo desde cero.
+
+Si el build falla mencionando "experimental": el error completo dice algo como "This material API is experimental and is likely to change or to be removed in the future", señalando la línea de TopAppBar. No es un error de que algo esté mal escrito: Material3 todavía marca TopAppBar como API experimental (usable, pero Google se reserva cambiar su firma en una versión futura), y Kotlin exige reconocer ese riesgo a propósito antes de dejar compilar. La Sección 5 ya incluye la solución en su código (@OptIn(ExperimentalMaterial3Api::class) arriba de la función que usa Scaffold/TopAppBar). Si el error aparece igual, revisen que esa línea esté presente y que el import de ExperimentalMaterial3Api no se haya perdido al copiar.
+Con la app corriendo en el emulador deberían ver: la barra superior con "Agenda de Eventos", las dos tarjetas de la lista, y el botón flotante "+" abajo a la derecha.
+
+8
+Actividad · Primera pantalla de su proyecto
+✏ Actividad · en equipo
+Sobre el caso que les entregó tu docente (no la Agenda de Eventos de esta guía): construyan la primera pantalla real de su aplicación dentro del proyecto que crearon en la Guía 07.
+
+Qué debe cumplir
+Elijan la pantalla que muestra el listado principal de su caso.
+Usen Scaffold con TopAppBar con el nombre de su app.
+Muestren datos de prueba con LazyColumn y un composable de tarjeta reutilizable.
+Agreguen un elemento interactivo con estado propio (remember + mutableStateOf).
+Definan los colores de su app en ui.theme/ y úsenlos desde MaterialTheme.
+Ejecuten en el emulador y verifiquen que se ve y responde sin errores.
+Entregable de la sesión: commit en GitHub con la primera pantalla funcionando (mensaje sugerido: feat: primera pantalla — listado principal) y actualicen la tarjeta correspondiente en Trello.
+Investigación (autónoma, traerla aplicada): investiguen y apliquen uno de estos en su pantalla, con un comentario explicando qué hace: Image/Icon (material icons) en la tarjeta o en la barra, o un Modifier avanzado (clip, shape, weight, border).
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía N°08

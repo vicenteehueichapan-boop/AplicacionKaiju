@@ -1,0 +1,71 @@
+[
+  {
+    "id": "C-01",
+    "archivo": "caso-kaiju.pdf",
+    "bytes": 311616,
+    "sha256": "61ed398d01c0497c9880e9e67ac161931182d12b8c84e962b93aaa87a4155d0b",
+    "origen": "C:\\Users\\Vivobook Pro 15\\Downloads\\Caso_DSY1105_Aplicaciones_Móviles_KAIJU (1) (1).pdf",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "N-04",
+    "archivo": "plantilla-requerimientos-original.xlsx",
+    "bytes": 21138,
+    "sha256": "52909d952cdd66afe1abb925636b5d4082b33e7bbb1f175eb6aa0bb74e22d7e1",
+    "origen": "C:\\Users\\Vivobook Pro 15\\Downloads\\plantilla-requerimientos-caso-kaiju (1).xlsx",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "A-10",
+    "archivo": "guia-10-base-kaiju.txt",
+    "bytes": 15528,
+    "sha256": "7ca733ec3539eda16c2b1c3c333a9a99cf7dd69d96c51966318f9e215dab5808",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\5d9e8bd8-7c0e-4609-b61c-1bd6023bbac9\\Texto pegado.txt",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "A-11",
+    "archivo": "guia-11-recursos-permisos.txt",
+    "bytes": 23839,
+    "sha256": "a2229fddb4d0ad56dff0e86357edd0305cf74f02e86e92944a1e847bb5198455",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\f6e06a0e-4d39-45c9-814d-85505767da30\\Texto pegado.txt"
+  },
+  {
+    "id": "A-09",
+    "archivo": "guia-09-navegacion-mvvm.txt",
+    "bytes": 22899,
+    "sha256": "3318f0dbf14b42224b8ab679ea570119913dfab3f231fcaba396a6e579d72f86",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\3ccddd87-1bf8-444a-a7de-3c045e2b6d06\\Texto pegado.txt",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "N-830",
+    "archivo": "cuestionario-ieee830.txt",
+    "bytes": 10516,
+    "sha256": "9a8fce90e4776e5eb01a16e3af50878ee5a583fa2b7c68e20970d3ce345da99a",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\5e492bd4-af66-4ee9-96eb-e94958e464d3\\Texto pegado.txt",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "N-EXTRA",
+    "archivo": "guia-extra-kaiju.txt",
+    "bytes": 19438,
+    "sha256": "01e47bc58acfc62eca2c269447ae17918ed58a9dc97736ec4e711353d6ec9ea8",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\c1fdee0c-3aa4-4c72-b0af-fec283762cc7\\Texto pegado.txt",
+    "igual_a_fuente_anterior": true
+  },
+  {
+    "id": "A-07",
+    "archivo": "guia-07-arquitectura.txt",
+    "bytes": 11879,
+    "sha256": "0a673f278015bd47c49599c001b7eb020647d1a70db9ddfc793488e318c3b1af",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\680915f9-6127-4814-a156-e007fe637278\\Texto pegado.txt"
+  },
+  {
+    "id": "A-08",
+    "archivo": "guia-08-primera-pantalla.txt",
+    "bytes": 25954,
+    "sha256": "c596da8e1286d2f19c4da1af861650cb2d0fee5bb02a512d817168bd42bbce6d",
+    "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\c825e21d-e175-48dd-b13d-5af1f60db85c\\Texto pegado.txt"
+  }
+]

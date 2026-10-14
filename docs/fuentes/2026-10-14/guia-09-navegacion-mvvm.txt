@@ -1,0 +1,340 @@
+
+9
+Guía
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Navegación, MVVM y formularios validados
+Experiencia: EA2 · Componentes visuales y funcionalidades nativas
+Tema: Navegación entre pantallas + MVVM + formularios validados + paso de información
+Modalidad: Equipos de 2 integrantes · 3 horas
+0
+Dónde quedamos y hacia dónde vamos
+En la Guía 08 construyeron la primera pantalla de su caso (el listado principal) con Scaffold, LazyColumn y estado con remember. Hoy, en una sola clase, la convertimos en una app de verdad con tres piezas que van juntas:
+
+Navegación: que la app tenga más de una pantalla y sepa moverse entre ellas con NavHost.
+MVVM: que el estado de los datos deje de vivir repartido en las pantallas y pase a un ViewModel.
+Formularios validados: capturar datos, validarlos desde el ViewModel y pasar la información de una pantalla a otra.
+El ejemplo de hoy: una app Agenda de Eventos (un formulario para agregar eventos y una lista que los muestra). El código completo, ya compilado y con tests, está en el repositorio github.com/ProfeMike-sudo/dsy1105-ejemplo-agenda-eventos. Esta guía explica los conceptos; el repo es la referencia para copiar y estudiar la estructura.
+Antes de escribir una línea: así se organiza el proyecto de hoy
+Así se organiza el proyecto de hoy — cada archivo que van a ver en esta guía va en una de estas carpetas. Mírenlo una vez ahora y vuelvan a él cuando aparezca un archivo nuevo, para no preguntarse "¿y esto dónde va?".
+
+app/src/main/java/com/agenda/app/
+com.agenda.app/
+├── MainActivity.kt                  // punto de entrada: solo llama a AppNavHost()
+├── navigation/                    // NUEVA de hoy: rutas + NavHost + menú
+│   ├── Rutas.kt                     // sealed class con las rutas
+│   └── AppNavHost.kt                // NavHost + NavigationBar + ViewModel compartido
+├── model/                          // ya existe desde la Guía 8: la forma del dato
+│   ├── Evento.kt                    // de la Guía 8
+│   └── FormularioEventoEstado.kt    // NUEVO de hoy: estado del formulario + errores
+├── viewmodel/                      // NUEVA de hoy: la fuente de verdad: estado + validación
+│   └── AgendaViewModel.kt
+└── ui/                             // ya existe desde la Guía 8: las pantallas
+    ├── screen/
+    │   ├── PantallaListaEventos.kt   // de la Guía 8, hoy se le agrega navegación
+    │   └── PantallaAgregarEvento.kt  // NUEVA de hoy
+    └── components/
+        └── TarjetaEvento.kt         // de la Guía 8
+1
+Navegación básica: de una pantalla a varias
+Una app real tiene más de una pantalla y necesita moverse entre ellas de forma ordenada. En Compose eso se hace con Navigation Compose: cada pantalla es una "ruta" (un texto que la identifica) y un NavController decide qué ruta mostrar en cada momento.
+
+build.gradle.kts (Module :app) — dependencia
+// dependencia de Navigation Compose (el repo de hoy ya la trae)
+implementation("androidx.navigation:navigation-compose:2.9.8")
+Ojo, este primer bloque es genérico (pantallas PantallaA/PantallaB inventadas, sin relación con el proyecto de hoy): es solo para fijar los 5 conceptos de la tabla de abajo, antes de verlos aplicados con los nombres reales de la Agenda (Secciones 4 y 7). No lo copien en su proyecto tal cual.
+Kotlin — navegación básica (texto como ruta), ejemplo genérico
+// imports necesarios para este bloque
+import androidx.compose.runtime.Composable
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
+@Composable
+fun MiNavHost() {
+    // navController guarda "en qué pantalla estoy" y permite navegar
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = "lista") {
+        // composable("ruta") registra cada pantalla con un nombre de ruta
+        composable("lista") {
+            PantallaA(
+                onIrAOtra = { navController.navigate("otra") }
+            )
+        }
+        composable("otra") {
+            PantallaB(
+                onVolver = { navController.popBackStack() }  // vuelve a "lista"
+            )
+        }
+    }
+}
+Pieza	Qué es
+rememberNavController()	Crea el controlador que recuerda la pila de pantallas (a dónde navegué y cómo volver).
+NavHost(...)	El contenedor que muestra la pantalla de la ruta actual.
+composable("ruta") { }	Registra una pantalla bajo un nombre de ruta (un texto).
+navigate("ruta")	Avanza a esa pantalla.
+popBackStack()	Deshace la última navegación (vuelve atrás).
+¿Ven el riesgo? Las rutas son texto suelto: "lista", "otra". Si alguien escribe "Lista" o "lista " (con mayúscula o un espacio de más), el error recién aparece al correr la app. En la próxima sección las "tipamos" con una sealed class para que el compilador nos avise antes.
+2
+Rutas con sealed class (adiós strings sueltos)
+En la sección anterior navegamos con textos sueltos: navController.navigate("lista"). El problema: si alguien escribe "lista" con un espacio o una mayúscula, el error aparece recién al correr la app. Para evitarlo, definimos las rutas en un solo lugar con una sealed class:
+
+navigation/Rutas.kt
+package com.agenda.app.navigation
+
+// Cada pantalla es un objeto con su ruta, en UN solo archivo.
+sealed class Rutas(val ruta: String) {
+    object Lista   : Rutas("lista")
+    object Agregar : Rutas("agregar")
+}
+Pieza	Qué es
+sealed class	Una clase "cerrada": solo existen las subclases que declaro acá (Lista y Agregar).
+object	Un único objeto por pantalla: no necesito crear instancias nuevas.
+¿Por qué sirve?	Navego con Rutas.Lista.ruta. Si me equivoco de nombre, el compilador me lo dice ANTES de correr.
+3
+MVVM desde cero: Model, ViewModel y el estado de los datos
+En la Guía 08 el botón "Me interesa" usaba remember dentro de cada tarjeta. Eso funciona para un botón suelto, pero no para datos reales: si el estado de cada dato quedara repartido en las tarjetas, se perdería al navegar y cada tarjeta tendría una copia distinta. La regla:
+
+Regla MVVM: estado de UI puntual → remember; estado de los datos → ViewModel. El ViewModel es la "fuente de verdad".
+El modelo (Model)
+model/Evento.kt — ya existe desde la Guía 8
+package com.agenda.app.model
+
+data class Evento(
+    val titulo: String,
+    val fecha: String,
+    val lugar: String,
+    val cupos: Int
+)
+El ViewModel (versión mínima, para entender el patrón)
+Esta primera versión NO es la final. Tiene un solo método (agregarEvento) sin formulario ni validación, para que se vea claro el patrón _x privado / x público con StateFlow. En la Sección 6 este mismo AgendaViewModel se reemplaza completo por la versión real, con actualizarTitulo()/actualizarFecha()/etc. y guardarEvento() en vez de agregarEvento(). Si están escribiendo el código junto con la guía, no se detengan a probar esta versión — sigan hasta la Sección 6 y escriban esa.
+viewmodel/AgendaViewModel.kt — versión mínima, se reemplaza en la Sección 6
+package com.agenda.app.viewmodel
+
+import androidx.lifecycle.ViewModel
+import com.agenda.app.model.Evento
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+
+class AgendaViewModel : ViewModel() {
+    // _eventos: versión privada y mutable
+    private val _eventos = MutableStateFlow<List<Evento>>(emptyList())
+    // eventos: versión pública de solo lectura, la que ve la pantalla
+    val eventos: StateFlow<List<Evento>> = _eventos.asStateFlow()
+
+    fun agregarEvento(titulo: String, fecha: String, lugar: String) {
+        // update: reemplaza la lista por una nueva (la anterior + el evento)
+        _eventos.update { lista -> lista + Evento(titulo, fecha, lugar, cupos = 0) }
+    }
+}
+¿Qué es un StateFlow, en una frase? Es una "caja" que guarda un valor y avisa automáticamente a quien esté mirándola cuando ese valor cambia. MutableStateFlow(valorInicial) crea la caja (se puede leer y escribir); StateFlow (sin "Mutable") es la versión de solo lectura que se expone hacia afuera, para que nadie fuera del ViewModel pueda cambiarla directamente.
+Pieza	Qué es
+MutableStateFlow(valor)	Crea la caja con un valor inicial. Se declara private — solo el ViewModel la toca.
+.asStateFlow()	Convierte la versión mutable en su "espejo" de solo lectura, el que se expone como val público.
+.update { valorActual -> nuevoValor }	La forma segura de cambiar el valor: recibe el actual y devuelve el que lo reemplaza. Nunca se asigna directo con _x.value = ... salvo casos puntuales (lo van a ver en la Sección 6, al limpiar el formulario).
+collectAsState()	Del lado de la pantalla (Compose): "suscribe" al StateFlow. Cuando el valor cambia, la pantalla se redibuja sola, sin que nadie se lo pida. Lo van a usar en la Sección 4 en adelante.
+¿Por qué _eventos con guion bajo? Es una convención de Kotlin/Compose para MVVM: _eventos es privado y mutable (se modifica con update), y eventos es público y de solo lectura (lo que ve la pantalla). El guion bajo avisa "esto es interno". Así la View puede leer la lista, pero solo el ViewModel decide cuándo cambiarla.
+¿Por qué update { lista -> lista + evento } y no _eventos.add(...)? Evento es una data class con atributos val (inmutables), y la lista también se trata como inmutable: en vez de mutarla, creamos una lista nueva (la anterior + el evento) y la ponemos en su lugar. Lo mismo haremos con copy() en la Sección 6, al actualizar el estado del formulario.
+4
+Estructura visual: menú inferior y barra superior
+Una app con varias pantallas necesita una forma visible de moverse. Compose ofrece dos piezas clave dentro de un Scaffold: la barra superior (TopAppBar) y el menú inferior (NavigationBar).
+
+navigation/AppNavHost.kt — el menú inferior
+// rutaActual: la pantalla que se está mostrando ahora
+val backStackEntry by navController.currentBackStackEntryAsState()
+val rutaActual = backStackEntry?.destination?.route
+
+Scaffold(
+    bottomBar = {
+        NavigationBar {
+            NavigationBarItem(
+                selected = rutaActual == Rutas.Lista.ruta,
+                onClick = { navController.navigate(Rutas.Lista.ruta) { launchSingleTop = true } },
+                icon = { Icon(Icons.AutoMirrored.Filled.List, contentDescription = null) },
+                label = { Text("Eventos") }
+            )
+            NavigationBarItem(
+                selected = rutaActual == Rutas.Agregar.ruta,
+                onClick = { navController.navigate(Rutas.Agregar.ruta) { launchSingleTop = true } },
+                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
+                label = { Text("Agregar") }
+            )
+        }
+    }
+) { innerPadding -> /* NavHost va acá */ }
+Pieza	Qué es
+NavigationBar	El menú inferior con opciones (máx. 3-5).
+NavigationBarItem	Una opción del menú: tiene selected (resaltada o no), icon y label.
+TopAppBar	La barra superior con el título de la pantalla (se usa dentro del Scaffold de cada pantalla).
+launchSingleTop	Evita apilar la misma pantalla varias veces seguidas.
+Investiguen (no se explica en clase): ¿cómo agregarían a su app un menú lateral deslizable, además del menú inferior? No está explicado acá: busquen NavigationDrawer / ModalNavigationDrawer en la documentación oficial de Compose, pruébenlo en su proyecto y dejen una línea comentada explicando qué hace y por qué lo usaron así.
+5
+Formularios: capturar y mostrar errores
+Un formulario en Compose se arma con OutlinedTextField (el campo con borde). Lo importante es que cada campo se conecte a un estado y muestre su error con dos parámetros:
+
+ui/screen/PantallaAgregarEvento.kt — un campo validado
+// valor: lo que muestra el campo · onValueChange: avisa "el usuario escribió esto"
+OutlinedTextField(
+    value = estado.titulo,
+    onValueChange = viewModel::actualizarTitulo,
+    label = { Text("Título") },
+    // isError = true pone el borde rojo; supportingText dibuja el mensaje debajo
+    isError = estado.errores.errorTitulo != null,
+    supportingText = { estado.errores.errorTitulo?.let { Text(it) } },
+    singleLine = true,
+    modifier = Modifier.fillMaxWidth()
+)
+Componente	Qué es
+OutlinedTextField	Campo de texto con borde (título, fecha, lugar, cupos, etc.).
+isError	Si es true, el campo se pinta en rojo.
+supportingText	Texto de apoyo debajo del campo (acá mostramos el mensaje de error).
+KeyboardOptions	Define el teclado (números, decimales, etc.), ej. KeyboardType.Number.
+Investiguen (no se explica acá): un campo de texto no alcanza para todo. ¿Qué componente usarían para elegir una opción de varias (RadioButton)? ¿Y para activar/desactivar algo (Switch o Checkbox)? ¿Y para una fecha (DatePicker)? No está explicado acá: búsquenlos en m3.material.io, elijan el que corresponde a una pantalla de su caso, pruébenlo y dejen un comentario explicando por qué lo eligieron.
+6
+Validación desde el ViewModel (MVVM)
+La regla que separa un formulario "que se ve bien" de uno "bien hecho": la validación vive en el ViewModel, no en la pantalla. Para eso modelamos el estado del formulario y sus errores con dos data class:
+
+model/FormularioEventoEstado.kt
+data class FormularioEventoEstado(
+    val titulo: String = "",
+    val fecha: String = "",
+    val lugar: String = "",
+    val cupos: String = "",   // texto mientras se escribe, no número
+    val errores: ErroresEvento = ErroresEvento()
+)
+
+data class ErroresEvento(
+    val errorTitulo: String? = null,  // null = "está bien"
+    val errorFecha: String? = null,
+    val errorCupos: String? = null
+)
+El ViewModel guarda ese estado en un MutableStateFlow y lo expone como StateFlow (solo lectura) — el mismo patrón de la Sección 3, ahora con un objeto FormularioEventoEstado en vez de una lista simple:
+
+viewmodel/AgendaViewModel.kt — reemplaza la versión de la Sección 3
+private val _estadoFormulario = MutableStateFlow(FormularioEventoEstado())
+val estadoFormulario: StateFlow<FormularioEventoEstado> = _estadoFormulario.asStateFlow()
+
+// Cada campo llama a una función: la UI avisa, el ViewModel decide.
+// Esto es lo que usa el "viewModel::actualizarTitulo" de la Sección 5.
+fun actualizarTitulo(valor: String) = _estadoFormulario.update { it.copy(titulo = valor) }
+fun actualizarFecha(valor: String) = _estadoFormulario.update { it.copy(fecha = valor) }
+fun actualizarLugar(valor: String) = _estadoFormulario.update { it.copy(lugar = valor) }
+fun actualizarCupos(valor: String) = _estadoFormulario.update { it.copy(cupos = valor) }
+La validación es una función que actualiza los errores y devuelve true/false:
+
+viewmodel/AgendaViewModel.kt
+fun validarFormulario(): Boolean {
+    val estado = _estadoFormulario.value
+    val cuposNumerico = estado.cupos.toDoubleOrNull()
+
+    val errorTitulo = if (estado.titulo.isBlank()) "El título es obligatorio" else null
+    val errorFecha  = if (estado.fecha.isBlank())  "La fecha es obligatoria"  else null
+    val errorCupos = when {
+        estado.cupos.isBlank() -> null  // cupos es opcional
+        cuposNumerico == null -> "Los cupos deben ser un número"
+        cuposNumerico < 0 -> "Los cupos no pueden ser negativos"
+        else -> null
+    }
+
+    // actualizo el estado con los errores calculados
+    _estadoFormulario.update {
+        it.copy(errores = ErroresEvento(errorTitulo, errorFecha, errorCupos))
+    }
+    return errorTitulo == null && errorFecha == null && errorCupos == null
+}
+¿Por qué cupos es String y no Int? Porque el usuario escribe de a un carácter ("1", luego "12", luego "12."). Si lo guardáramos como número, el campo "12." se rompería mientras escribe. Lo guardamos como texto y lo convertimos recién al validar con toDoubleOrNull().
+Regla MVVM: la pantalla solo avisa lo que escribe (onValueChange) y pinta el error; las reglas (qué es válido y qué no) viven en el ViewModel. Así puedes probar la validación sin encender el emulador, con un test.
+Por último, en la pantalla el botón "Guardar" llama a viewModel.guardarEvento() (así de simple: Button(onClick = { viewModel.guardarEvento() })) — ese método valida y, si todo está bien, agrega el evento a la lista y limpia el formulario:
+
+viewmodel/AgendaViewModel.kt
+fun guardarEvento(): Boolean {
+    if (!validarFormulario()) return false
+
+    val estado = _estadoFormulario.value
+    val evento = Evento(
+        titulo = estado.titulo.trim(),
+        fecha = estado.fecha.trim(),
+        lugar = estado.lugar.ifBlank { "Sin lugar" },
+        cupos = estado.cupos.toDoubleOrNull()?.toInt() ?: 0
+    )
+
+    _eventos.update { it + evento }
+    _estadoFormulario.value = FormularioEventoEstado()  // limpia el formulario
+    return true
+}
+¿Por qué acá sí _estadoFormulario.value = ... directo, en vez de update? Porque no dependemos del valor anterior para calcular el nuevo — simplemente lo reemplazamos por uno vacío. update se usa cuando el nuevo valor depende del actual (como lista + evento); una asignación directa alcanza cuando no depende de nada.
+7
+Pasar información: el ViewModel compartido
+¿Cómo hago que lo que guardo en "Agregar" aparezca en "Eventos" sin pasar argumentos por la ruta? La clave es crear el ViewModel una sola vez, en el nivel del NavHost, y pasárselo por parámetro a las dos pantallas:
+
+navigation/AppNavHost.kt — ViewModel compartido
+@Composable
+fun AppNavHost(viewModel: AgendaViewModel = viewModel()) {
+    val navController = rememberNavController()
+
+    Scaffold(bottomBar = { /* NavigationBar */ }) { innerPadding ->
+        NavHost(navController, startDestination = Rutas.Lista.ruta,
+                modifier = Modifier.padding(innerPadding)) {
+            composable(Rutas.Lista.ruta) {
+                // el MISMO viewModel se pasa a las dos pantallas
+                PantallaListaEventos(viewModel) { navController.navigate(Rutas.Agregar.ruta) }
+            }
+            composable(Rutas.Agregar.ruta) {
+                PantallaAgregarEvento(viewModel)
+            }
+        }
+    }
+}
+¿Por qué NO llamar a viewModel() dentro de cada pantalla? Porque cada pantalla dentro del NavHost tiene su propio "dueño" de ViewModel (su NavBackStackEntry), y cada una recibiría una copia distinta. Al crear la instancia en AppNavHost y pasarla por parámetro, las dos pantallas comparten la misma lista: guardar en una actualiza la otra al instante.
+La pantalla lo observa con collectAsState(): cuando el ViewModel emite un valor nuevo, la UI se redibuja sola.
+
+◆ Interactivo
+Este mini teléfono simula la app completa: el menú inferior cambia de pantalla, el formulario valida, y al guardar el evento aparece en la lista (sin recargar nada).
+
+Eventos
+No hay eventos todavía.
+Toca + para agregar el primero.
+
++
+Eventos
++ Agregar
+8
+Ejemplo completo: el repositorio
+✓ Resuelto — para leer y seguir
+El proyecto completo está en github.com/ProfeMike-sudo/dsy1105-ejemplo-agenda-eventos (ya compilado y con tests). La estructura de carpetas ya la vieron en la Sección 0; acá está todo el código junto y las instrucciones para correrlo y probarlo.
+
+Cómo ejecutarlo y probarlo
+terminal
+./gradlew assembleDebug          # compila y genera el APK
+./gradlew testDebugUnitTest     # corre 7 tests de la validación
+Lean el README del repo: explica cada capa de MVVM en una tabla, los conceptos clave "en una frase" (StateFlow, collectAsState, _x vs x, ViewModel compartido, sealed class) y la tabla de reglas de validación. Es la referencia para el Parcial 2.
+9
+Actividad · Menú + formulario validado de su proyecto
+✏ Actividad · en equipo
+Sobre su caso (la tienda de ropa), no sobre el ejemplo:
+
+Qué debe cumplir
+Definan el Model de su caso como data class (en model/) y las rutas con una sealed class (archivo navigation/Rutas.kt).
+Guarden el estado de los datos en un ViewModel con _x privado (mutable) y x público (solo lectura).
+Agreguen un NavigationBar (menú inferior) con las pantallas principales de su caso.
+Creen un formulario validado (alta de producto, registro, etc.) con OutlinedTextField, isError y supportingText.
+Muevan la validación al ViewModel (data class de estado + validarFormulario()).
+Compartan el ViewModel para que lo guardado en el formulario aparezca en otra pantalla.
+Ejecuten en el emulador y verifiquen: navega por el menú, valida y muestra el dato en la otra pantalla.
+Entregable de la sesión: commit en GitHub (mensaje sugerido: feat: menú de navegación + formulario validado) y actualicen la tarjeta en Trello.
+10
+Investigación autónoma (traerla aplicada)
+Además de las dos preguntas que ya aparecieron a mitad de la guía (el menú lateral en la Sección 4 y los componentes de formulario en la Sección 5), elijan al menos dos de las siguientes, investíguenlas por su cuenta y aplíquenlas en su proyecto (no en el ejemplo de la guía). Para cada una, dejen una línea comentada en el código explicando qué encontraron y por qué lo usaron así.
+
+Regla de hoy: ninguna de estas preguntas está respondida en esta guía. La respuesta la buscan ustedes en la documentación oficial de Android/Compose o en m3.material.io. No es un tema para "leer": es para buscar, aplicar y comentar.
+rememberSaveable vs remember: ¿qué le pasa al estado de un formulario guardado con remember cuando el usuario rota el teléfono? ¿Qué cambia si usan rememberSaveable?
+Snackbar / AlertDialog: ¿qué pueden hacer para avisarle al usuario que guardó el evento, sin bloquear la pantalla con un diálogo? Investiguen Snackbar.
+DropdownMenu: ¿cómo harían que el lugar o la categoría del evento se elija de una lista fija, en vez de un campo de texto libre?
+Rutas tipadas con argumentos: ¿cómo pasarían el id de un evento de una pantalla a otra para mostrar su detalle?
+Persistencia (Room / DataStore): ¿qué pasa con la agenda al cerrar la app? ¿Cómo harían que los datos sobrevivan? ¿Cuál le conviene a su caso y por qué?
+Animaciones: ¿cómo harían que la transición entre pantallas se sienta más suave? Investiguen AnimatedContent.
+Testing del ViewModel: ¿cómo se prueba que validarFormulario() rechaza un título vacío o cupos negativos, sin encender el emulador? Escriban al menos un test unitario.
+NavBackStackEntry: ¿qué guarda cada entrada de la pila de navegación y qué uso le verían a su app para leer datos desde ahí?
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Guía N°9

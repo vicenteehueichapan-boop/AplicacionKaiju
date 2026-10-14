@@ -1,0 +1,182 @@
+
+830
+Cuestionario
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Cuestionario IEEE 830
+Tipo: Lista de verificación del documento de requerimientos
+Se usa con: Plantilla de requerimientos del caso Kaiju
+0
+Qué es y cómo se usa
+IEEE 830 es la práctica recomendada del IEEE para escribir una Especificación de Requerimientos de Software, conocida como SRS. Su versión más usada es la de 1998.
+
+El estándar dice que un buen SRS cumple ocho características: es correcto, no ambiguo, completo, consistente, ordenado por importancia y estabilidad, verificable, modificable y trazable. Este cuestionario tiene dos partes. La primera trae preguntas de ejemplo para preparar la entrevista con el cliente. La segunda recorre las ocho características una por una: no es un formulario para entregar, úsenla para revisar su plantilla antes de cada entrega y marquen lo que ya cumplen.
+
+2Correcto
+¿Lo pidió el cliente?
+3No ambiguo
+¿Se entiende de una sola forma?
+4Completo
+¿Falta algo?
+5Consistente
+¿Choca con otro requerimiento?
+6Ordenado
+¿Qué tan importante es?
+7Verificable
+¿Se puede comprobar?
+8Modificable
+¿Se cambia sin romper nada?
+9Trazable
+¿De dónde viene y dónde se usa?
+Las ocho características de un buen documento de requerimientos, cada una con la pregunta que la resume. El número es la sección de este cuestionario donde se revisa.
+
+Su avance se guarda solo en este navegador cada vez que marcan una casilla. Llevan 0 de 35 puntos revisados.
+1
+Preguntas de ejemplo para el cliente
+Estas preguntas sirven para armar la pauta de la entrevista. Están ordenadas según las partes del documento de requerimientos que ayudan a completar, para que ninguna hoja de la plantilla quede sin información. No las lean de corrido: elijan las que apliquen, adáptenlas con las palabras del caso y agreguen las que salgan de sus propias dudas.
+
+Propósito y alcance IEEE 830, 1.1 y 1.2 · Hoja 1 y hoja 5
+¿Cuál es la razón de ser de la aplicación? ¿Qué debería cambiar en su trabajo el día que empiecen a usarla?
+¿Qué procesos de hoy se verían afectados o reemplazados por la app?
+¿Qué es lo mínimo que tiene que hacer la app para que usted la considere útil?
+¿Hay algo que definitivamente no espera que haga la app?
+Cómo trabajan hoy IEEE 830, 2.1 · Hoja 1
+¿Nos puede contar cómo es un día normal de trabajo con este proceso?
+¿Nos podría mostrar cómo lo registran hoy, por ejemplo una planilla o un cuaderno?
+¿Qué es lo que más tiempo les quita o lo que más errores genera?
+¿Usan alguna otra herramienta o sistema con el que la app debería convivir en el futuro?
+Usuarios IEEE 830, 2.3 · Hoja 2
+¿Quiénes van a usar la app día a día y qué hace cada uno?
+¿Qué tan acostumbradas están esas personas a usar aplicaciones en el teléfono?
+¿Hay información que algunas personas no deberían poder ver o modificar?
+Funciones y datos IEEE 830, 3.2 y 3.4 · Hojas 3 y 7
+¿Qué datos son obligatorios en cada registro y cuáles son opcionales?
+¿Qué información consultan más seguido?
+¿Necesitan reportes, historial o exportar datos? ¿Cada cuánto tiempo y quién los revisa?
+Cuando dice "X", ¿a qué se refiere exactamente? (Úsenla con cada término del negocio que vaya al glosario.)
+Reglas de negocio Hoja 4
+¿Cuáles son las reglas que nunca se pueden romper? Por ejemplo con precios, cantidades o permisos.
+¿Hay excepciones a esas reglas? ¿Quién las autoriza?
+¿Qué pasa hoy cuando alguien se equivoca al registrar algo? ¿Cómo se corrige?
+Calidad y condiciones de uso IEEE 830, 3.3 y 3.6 · Hoja 4
+¿Dónde y en qué condiciones se usaría la app? Por ejemplo con buena señal, en una bodega o al aire libre.
+¿Cuánto tiempo es aceptable esperar al registrar o consultar algo?
+¿Qué pasaría si un día la app no estuviera disponible?
+¿Qué información considera más delicada?
+Restricciones, supuestos y prioridades IEEE 830, 2.4, 2.5 y 4.3.5 · Hojas 1 y 5
+¿Hay alguna restricción de equipos, tiempo o presupuesto que debamos conocer?
+Si tuviera que elegir solo tres funciones, ¿cuáles serían?
+¿Hay cosas que podrían cambiar en los próximos meses y que afecten lo que nos está pidiendo?
+Para cerrar la entrevista Acta de la entrevista
+Resumimos lo que entendimos: ¿está correcto? ¿Qué corregiría?
+¿Hay algo importante que no le hayamos preguntado?
+¿Cómo lo podemos contactar si nos quedan dudas?
+Recuerden: si el cliente pide algo concreto, pregunten para qué lo necesita. Muchas veces la necesidad real es otra, y esa es la que va al documento.
+2
+Correcto
+IEEE 830, 4.3.1. Un SRS es correcto si cada requerimiento que contiene es algo que el software efectivamente debe cumplir. Quien lo puede confirmar es el cliente.
+
+
+C-01Cada requerimiento responde a una necesidad que aparece en el caso o que dijo el cliente, no a una suposición del equipo.
+
+C-02Ningún requerimiento contradice lo que quedó en el acta de la entrevista.
+
+C-03Las reglas de negocio y los cálculos fueron confirmados con el cliente.
+3
+No ambiguo
+IEEE 830, 4.3.2. Cada requerimiento tiene una sola interpretación posible. El estándar recomienda usar un glosario para los términos que puedan entenderse de más de una forma.
+
+
+NA-01No aparecen palabras como "rápido", "fácil", "intuitivo" o "amigable" sin una métrica que las respalde.
+
+NA-02Si dos integrantes leen el mismo requerimiento por separado, entienden exactamente lo mismo.
+
+NA-03Los términos propios del negocio están definidos en el glosario de la hoja 1.
+
+NA-04No se usan expresiones como "etc.", "aproximadamente" o "entre otros".
+4
+Completo
+IEEE 830, 4.3.3. Incluye todos los requerimientos importantes (funciones, rendimiento, restricciones de diseño, atributos e interfaces), define qué hace el software ante entradas válidas e inválidas y no deja pendientes sin explicar.
+
+
+CP-01Están cubiertos todos los perfiles de usuario de la hoja 2.
+
+CP-02Para cada dato importante se cubre su ciclo completo: crear, consultar, modificar y eliminar, cuando corresponda.
+
+CP-03Se especifica qué hace la app ante datos inválidos o situaciones límite: cantidades en cero o negativas, campos vacíos, sin conexión, usuario sin permiso.
+
+CP-04Cada pendiente ("por definir") está en la hoja 5 con el motivo, el responsable y la fecha en que se resolverá.
+
+CP-05Queda escrito qué no está dentro del alcance.
+5
+Consistente
+IEEE 830, 4.3.4. Ningún subconjunto de requerimientos entra en conflicto con otro.
+
+
+CS-01No hay dos requerimientos que se contradigan. Por ejemplo, uno que exija datos al instante y otro que acepte sincronizar una vez al día.
+
+CS-02Se usa siempre el mismo término para la misma cosa en todo el documento.
+
+CS-03Los identificadores son únicos y siguen la convención RF, RNF, RN y RD.
+6
+Ordenado por importancia y estabilidad
+IEEE 830, 4.3.5. Cada requerimiento indica qué tan necesario es y qué tan probable es que cambie. IEEE 830 propone tres grados de necesidad: esencial, condicional y opcional.
+
+
+OI-01Cada RF, RNF y RN tiene su prioridad: Esencial, Condicional u Opcional.
+
+OI-02Los requerimientos esenciales fueron confirmados con el cliente, no decididos solo por el equipo.
+
+OI-03Se marcaron los requerimientos que probablemente cambien, para no construir sobre ellos antes de confirmarlos.
+7
+Verificable
+IEEE 830, 4.3.6. Un requerimiento es verificable si existe un proceso finito y razonable con el que una persona o una máquina puede comprobar que el software lo cumple. Cualquier requerimiento ambiguo no es verificable.
+
+
+VF-01Cada RF tiene un criterio de aceptación concreto en la hoja 3, del tipo "dado..., cuando..., entonces...".
+
+VF-02Cada RNF tiene métrica y umbral. Por ejemplo, "responde en menos de 2 segundos con conexión 4G".
+
+VF-03Para cada requerimiento esencial se puede describir la prueba que lo demuestra, ya sea manual o automatizada.
+8
+Modificable
+IEEE 830, 4.3.7. La estructura del documento permite hacer cambios de forma fácil, completa y consistente, sin romper el resto.
+
+
+MD-01Cada requerimiento aparece una sola vez. Si otra hoja lo necesita, lo cita por su identificador en vez de repetirlo.
+
+MD-02Cada fila expresa un solo requerimiento, no varios mezclados en la misma frase.
+
+MD-03Los requerimientos están agrupados por módulo, así un cambio se ubica rápido.
+9
+Trazable
+IEEE 830, 4.3.8. El origen de cada requerimiento es claro (trazabilidad hacia atrás) y se puede seguir hacia lo que se construye a partir de él (trazabilidad hacia adelante).
+
+
+TR-01Cada requerimiento indica su origen: el caso, el acta de la entrevista con fecha o una exigencia del curso.
+
+TR-02La hoja 8 relaciona cada requerimiento con su pantalla, el elemento de la hoja 7 que usa y la prueba que lo verifica.
+
+TR-03Cada señal de éxito del cliente está cubierta por al menos un requerimiento en la hoja 8.
+10
+Estructura de la plantilla
+La plantilla sigue el esquema de IEEE 830: introducción, descripción general y requerimientos específicos. Las pantallas y la cobertura de la rúbrica son agregados del curso. La hoja 9 (checklist de avance) no forma parte del SRS, porque el estándar deja fuera los plazos, el método de trabajo y la aceptación de la entrega.
+
+
+SF-01Hoja 1: propósito, alcance, glosario, referencias, contexto, perspectiva del producto, restricciones y suposiciones.
+
+SF-02Hoja 2: perfiles con descripción, acciones principales, nivel técnico y frecuencia de uso.
+
+SF-03Hoja 3: requerimientos funcionales agrupados por módulo, con prioridad, origen, criterio de aceptación y pantalla.
+
+SF-04Hoja 4: reglas de negocio, no funcionales con métrica y umbral, y restricciones de diseño del curso.
+
+SF-05Hoja 5: qué queda dentro, qué queda fuera o para una versión futura, y los pendientes por definir.
+
+SF-06Hoja 6: pantallas con perfil, navegación, campos, validaciones y RF que implementan.
+
+SF-07Hoja 7: desglose de la información (qué existe, qué ocurre, sus datos y relaciones) y la lógica paso a paso de las reglas principales.
+
+SF-08Hoja 8: señales de éxito, matriz de trazabilidad y cobertura de la rúbrica.
+Regla práctica: si no pueden explicar cómo comprobarían que la app cumple un requerimiento, ese requerimiento todavía no está bien escrito. Vuelvan a redactarlo.
+Desmarcar todo
+DSY1105 · Desarrollo de Aplicaciones Móviles  ·  Duoc UC  ·  2026-2  ·  Cuestionario IEEE 830
