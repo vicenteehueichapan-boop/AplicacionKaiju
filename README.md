@@ -97,6 +97,7 @@ Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/Aplica
 
 ## Documentación
 
+- **[Evidencia de avance (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx):** estado de B-01 a B-09, RF y RN, ficha de recursos, verificación, indicadores, commits y espacios para las capturas de la Guía 11.
 - [Prototipo, demostración y verificación](docs/17-prototipo-guia-11.md) y [auditoría independiente del 14-10](docs/16-auditoria-claude-2026-10-14.md).
 - [Auditoría Guía 10](docs/11-auditoria-guia-10.md), [definición de base](docs/12-definicion-base-semana-10.md), [entrega base](docs/13-entrega-base-android.md).
 - [Plantilla de requerimientos](docs/entregables/kaiju-requerimientos-guia-10.xlsx), [fuentes originales](docs/fuentes/2026-10-14/README.md).
