@@ -1,77 +1,109 @@
-# Kaiju · DSY1105 · Base Android
+# Kaiju · DSY1105 · Inventario y trazabilidad
 
-Integrante: **Vicente Hueichapan**. Trabajo individual; número de grupo y aceptación docente de esta modalidad pendientes. Nombre provisional: Kaiju.
+Integrante: **Vicente Hueichapan** (trabajo individual). Número de grupo y confirmación docente de la modalidad individual: pendientes.
 
-App académica de inventario en Kotlin y Jetpack Compose, organizada según Guía 10. Utiliza diez productos y tres usuarios ficticios, con listas en memoria. Las exigencias académicas se distinguen de los acuerdos comerciales; no hay respuestas de entrevista registradas.
+App Android académica para el caso Kaiju (CITT San Bernardo): consultar existencias, registrar entradas y salidas con su historial, y detectar a tiempo los productos que hay que reponer. Kotlin, Jetpack Compose, MVVM y Room. Todos los datos son ficticios (C-01 §5.1); no hay acta de entrevista, así que la base sigue la solicitud académica de la Guía 10 y no se presenta como acuerdo del cliente.
 
 ## Abrir y revisar
 
-1. En Android Studio, abrir **`android/`**, que contiene `settings.gradle.kts`.
-2. Completar la sincronización con JDK 21 y Android SDK 36. La ubicación del SDK se configura en el IDE o `local.properties`, excluido de Git.
-3. Ejecutar `app` cuando decidas iniciar el dispositivo. **No iniciar emuladores automáticamente.**
-4. Seguir la [pauta de revisión](docs/13-entrega-base-android.md).
+1. En Android Studio, abrir **`android/`** (contiene `settings.gradle.kts`).
+2. Sincronizar con SDK 36. La línea de comandos está verificada con JDK 21; Android Studio usa su propio JBR.
+3. Ejecutar `app` en un teléfono físico por USB o Wi-Fi (más liviano que el emulador). El lector de códigos necesita Google Play services.
+4. Seguir la [pauta de demostración](docs/17-prototipo-guia-11.md).
 
-Desde `android/`, para compilar y revisar sin emulador:
+Verificación sin emulador, desde `android/`:
 
 ```powershell
-.\gradlew.bat --no-daemon assembleDebug testDebugUnitTest lintDebug
+.\gradlew.bat --no-daemon testDebugUnitTest assembleDebug lintDebug
 ```
 
-APK generado: `android/app/build/outputs/apk/debug/app-debug.apk`. Los archivos generados no se versionan. Compilación y pruebas de lógica no sustituyen la revisión visual.
+Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **38 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
 
-Verificación del 07-10-2026: compilación correcta y 15 pruebas unitarias aprobadas. Lint no concluyó por atasco del analizador; limitación documentada en la pauta. Ejecución visual pendiente a cargo de Vicente.
+## Qué hace (Guía 10 §1)
 
-## Contenido y límites
+| RF | Estado | Dónde |
+|---|---|---|
+| RF-01 Usuario de prueba y perfil activo | Hecho. Perfil visible en la barra superior; botón para cambiar de usuario. | Login, barra superior |
+| RF-02 Catálogo con nombre, categoría, precio y disponible | Hecho | Catálogo |
+| RF-03 Buscar por nombre o código y filtrar por categoría | Hecho | Catálogo |
+| RF-04 Detalle con historial, más reciente primero | Hecho, con fecha, tipo, cantidad, usuario y motivo | Detalle |
+| RF-05 Crear y editar productos (administrador) | Editar: hecho. **Crear: valida, pero no guarda** hasta definir el stock inicial (G10-02) | Formulario |
+| RF-06 Entrada | Hecho (inventario y administrador) | Movimiento |
+| RF-07 Salida por venta o consumo | Hecho (venta: vendedor; venta y consumo: inventario) | Movimiento |
+| RF-08 Ajuste con motivo | **Valida el motivo, pero no modifica el stock** hasta definir el cálculo (G10-01) | Movimiento |
+| RF-09 Marca de stock bajo y alertas | Hecho, más aviso del teléfono | Catálogo, Alertas |
+| RF-10 Datos al cerrar y reabrir | Hecho con Room | Toda la app |
 
-- Selección validada de usuario ficticio con perfil asociado.
-- Seis rutas: login, catálogo, detalle, formulario de producto, movimiento y alertas.
-- Menú inferior Catálogo/Movimiento/Alertas, con acceso a alertas y creación según perfiles académicos.
-- Catálogo desde ViewModel; stock bajo identificado por texto y color según RN-06; detalle y alertas derivados del mismo estado.
-- Formulario con errores por campo en ViewModel, iconos, conversión segura de enteros y código duplicado literal.
-- Movimiento provisional, permitido por Guía 10 §7 para esta primera revisión.
+Reglas (Guía 10 §1): RN-01 a RN-06 se revisan en `InventarioViewModel` antes de guardar. RN-05: un movimiento no se edita ni se borra (el repositorio no ofrece esas operaciones). Stock e historial se guardan en una sola transacción.
 
-**El alta no guarda todavía:** falta definir stock inicial (G10-02). El botón valida y explica el pendiente; no supone cero ni inventa movimientos iniciales. B-07 está parcial. Búsqueda, edición, registro de movimientos, persistencia, recursos nativos, animaciones y módulo propio quedan pendientes.
-
-## Responsabilidades
+## Arquitectura
 
 ```text
-Pantalla: muestra estado y envía eventos
-  -> ViewModel: valida campos, permisos y reglas
-     -> Repositorio: guarda y entrega datos en memoria
+Pantalla (ui/screen): muestra estado y avisa eventos
+  -> ViewModel (viewmodel): valida campos, permisos y reglas RN
+     -> Repositorio (repository): guarda y entrega; Room en el teléfono
   <- StateFlow: estado observable
 ```
 
-MainActivity llama a AppNavHost. Navegación comparte dos ViewModels y un repositorio; pantallas reciben datos y acciones. Modelos y semillas están separados. Los ViewModels conservan estado durante cambios de configuración; cerrar el proceso puede perderlo porque RF-10 aún no está implementado.
+- `MainActivity` solo llama a `AppNavHost`. `navigation/` tiene las seis rutas y el menú inferior.
+- `InventarioRepository` es la interfaz; `InventarioRepositoryRoom` la implementa. Las pruebas usan una versión en memoria con el mismo contrato, por eso las reglas se prueban sin Android.
+- Los permisos y la Activity viven en `ui/`; el resultado del lector va al ViewModel (Guía 11 §4).
+- Los diez productos se cargan solo la primera vez; después nunca se sobrescriben los cambios guardados.
 
-## Decisiones de Guía 10 §6
+## Decisiones propias (Guía 10 §6)
 
-| Tema | Estado y justificación |
-|---|---|
-| Identidad visual | Implementada: nombre provisional Kaiju, paleta clara verde petróleo, tipografía Material 3 y alertas también por texto. Busca legibilidad del inventario; revisión visual pendiente. |
-| Dos recursos nativos | Propuestas: notificaciones de stock bajo (RF-09) y vibración de confirmación de registro (RF-06/07/08). Definir disparo, permisos y comportamiento antes de integrar. No son acuerdos del cliente ni están implementadas. |
-| Animaciones | Propuesta: transición de la marca de stock bajo para comunicar un cambio de RN-06. Pendiente de definir e implementar. |
-| Módulo propio | Pendiente de seleccionar y justificar con el caso. No agregar funciones por llenar la plantilla. Los RF propios seguirán desde RF-11. |
+### Recursos nativos: ficha de decisión (Guía 11 §9)
 
-B-08 sigue parcial hasta cerrar estas decisiones. Los ejemplos opcionales del profesor no se convierten en requisitos comerciales.
+Los dos recursos aparecen textualmente en el caso (C-01 §3.3): "notificaciones asociadas a niveles mínimos de stock" y "uso de la cámara para lectura de códigos QR o códigos de barras".
 
-## Fuentes y seguimiento
+| Necesidad del caso | Recurso y API | Permiso y tipo | RF | Si la persona dice que no |
+|---|---|---|---|---|
+| El encargado de inventario y el administrador necesitan enterarse cuando un producto queda bajo su mínimo | Notificaciones · `NotificationCompat` con canal propio | `POST_NOTIFICATIONS`, tiempo de ejecución (Android 13+) | RF-09 | La pantalla Alertas sigue mostrando los productos; se ofrece "Activar en Ajustes" |
+| Quien registra un movimiento necesita elegir el producto rápido y sin equivocarse de código | Cámara · Google code scanner (ML Kit) | Ninguno: Google Play services abre el lector | RF-06, RF-07 | Elegir el producto de la lista |
 
-- [Contexto para auditoría independiente, actualizado al 14-10](docs/14-contexto-transferencia-claude.md) y [prompt para Claude](docs/15-prompt-auditoria-claude.md). Incluyen Guía 11, estado manual informado por Vicente y límites de la evidencia. [Fuentes originales preservadas](docs/fuentes/2026-10-14/README.md).
+- **Flujo de permiso completo** (Guía 11 §4): se pide en contexto al tocar "Activar avisos" en Alertas, nunca al abrir la app. Si Android lo sugiere, se explica antes con un diálogo que permite decir "Ahora no". Tras un rechazo, la app sigue funcionando. Se vuelve a verificar al regresar a la app (`LifecycleResumeEffect`).
+- **Manifiesto:** `POST_NOTIFICATIONS` y `uses-feature camera.any` con `required="false"`. Antes de abrir el lector se revisa que haya cámara.
+- **Investigaciones aplicadas (Guía 11 §10):** Google code scanner (`ui/recursos/LectorCodigo.kt`) y canales de notificación (`ui/recursos/NotificacionesStock.kt`), cada una con su línea comentada.
+- Las notificaciones se emiten cuando un movimiento hace **entrar** un producto en alerta (RN-06), no en cada salida. Es una decisión técnica reversible, no una regla del cliente.
 
-- [Entrega Android: evidencia, demostración y pendientes](docs/13-entrega-base-android.md).
-- [Auditoría Guía 10](docs/11-auditoria-guia-10.md) y [definición de base](docs/12-definicion-base-semana-10.md).
-- [Plantilla del profesor actualizada](docs/entregables/kaiju-requerimientos-guia-10.xlsx): mantiene estructura, RD y rúbrica; no acredita implementación completa ni validación del cliente.
-- [Auditoría del caso](docs/01-auditoria-caso.md), [preguntas](docs/02-preguntas-cliente.md), [reglas](docs/03-reglas-proyecto.md), [capacidades](docs/04-capacidades-y-construccion.md) y [responsabilidades](docs/05-responsabilidades-construccion.md).
-- [Auditoría complementaria](docs/07-auditoria-material-nuevo.md), [preparación entrevista](docs/08-preparacion-entrevista.md), [borrador SRS](docs/09-borrador-previo-srs.md) y [kit editable](docs/10-kit-reunion-kaiju.md).
-- [Kit imprimible](output/pdf/kit-reunion-kaiju.pdf) y [Excel anterior](docs/entregables/kaiju-requerimientos-previos-entrevista.xlsx): versiones históricas anteriores a Guía 10.
-- [Exploración visual anterior](docs/06-exploracion-visual.md): propuestas; no es la app Android.
+### Animaciones
 
-Fuentes preservadas en `docs/fuentes/`, PDF original en raíz; ejemplo docente local excluido de Git.
+- La marca "Stock bajo" aparece y desaparece con `AnimatedVisibility` cuando un movimiento cruza el mínimo: comunica el cambio de estado.
+- En el detalle, el número disponible cambia de color de forma gradual (`animateColorAsState`) al entrar o salir de alerta.
+- Confirmación con Snackbar después de guardar un producto o un movimiento.
 
-Repositorio autorizado: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/AplicacionKaiju). Visibilidad pública actual distinta de la privada solicitada en Guía 07: pendiente de aclarar. Trello y acceso del profesor pendientes; no se simulan participantes ni commits ajenos.
+### Identidad visual
+
+Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reservado para stock bajo y errores; títulos y cantidades en seminegrita; ícono propio (caja de inventario). Definido en `ui/theme/Theme.kt` y `res/`.
+
+### Módulo propio
+
+**Pendiente.** Los candidatos que salen del caso (más y menos vendidos, tendencias; C-01 §4.1) necesitan saber cómo se mide y en qué período (preguntas P-13 y P-14 al cliente). Implementarlo sin esas respuestas sería inventar una métrica. La Guía 10 §9 indica recortar el módulo antes que la base.
+
+## Pendientes que no se inventan
+
+| ID | Qué falta | Mientras tanto |
+|---|---|---|
+| G10-02 | Stock con que nace un producto nuevo | El formulario valida y explica que no guarda. Cambio en un solo punto: `stockInicialAcordado` en `InventarioViewModel` |
+| G10-01 | Si un ajuste suma, resta o fija la cantidad contada | El ajuste exige motivo y cantidad, pero no cambia el stock |
+| G10-04 | Si el administrador registra salidas | Se aplica literal la tabla de RF-07: no las registra |
+| G10-03 / G10-06 | Cambiar códigos y semántica comercial de la búsqueda | El código no se edita; la búsqueda es parcial y no distingue mayúsculas (decisión técnica reversible) |
+
+## Trabajo y seguimiento
+
+Trabajo individual con GitHub como único registro: no se usa Trello. Los entregables que la guía pide "en Trello" (capturas de Guía 11) quedan pendientes de confirmar con el docente.
+
+Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/AplicacionKaiju).
+
+## Documentación
+
+- [Prototipo, demostración y verificación](docs/17-prototipo-guia-11.md) y [auditoría independiente del 14-10](docs/16-auditoria-claude-2026-10-14.md).
+- [Auditoría Guía 10](docs/11-auditoria-guia-10.md), [definición de base](docs/12-definicion-base-semana-10.md), [entrega base](docs/13-entrega-base-android.md).
+- [Plantilla de requerimientos](docs/entregables/kaiju-requerimientos-guia-10.xlsx), [fuentes originales](docs/fuentes/2026-10-14/README.md).
+- Antecedentes: [auditoría del caso](docs/01-auditoria-caso.md), [preguntas](docs/02-preguntas-cliente.md), [preparación de entrevista](docs/08-preparacion-entrevista.md).
 
 ## Configuración técnica
 
-Paquete provisional `cl.academico.kaiju`; SDK mínimo 26, objetivo 36; bytecode Java 17. AGP 9.3.3, Gradle 9.5.0, Kotlin integrado en AGP y plugin Compose 2.3.20; BOM Compose 2026.02.01. Compatibilidad revisada en [AGP oficial](https://developer.android.com/build/releases/agp-9-3-0-release-notes) y [Kotlin integrado](https://developer.android.com/build/migrate-to-built-in-kotlin). Son decisiones técnicas; no se copió la configuración del ejemplo antiguo.
+Paquete `cl.academico.kaiju`; SDK mínimo 26, objetivo 36; Java 17. AGP 9.3.3, Gradle 9.5.0, Kotlin integrado, Compose BOM 2026.02.01, Room 2.8.5 con KSP 2.3.12, code scanner 16.1.0. El esquema de la base se versiona en `android/app/schemas/`. No se actualizan versiones solo porque haya una más nueva.
 
-No incluir credenciales, datos productivos ni firmas. Mantener cambios pequeños, trazables y verificables; no prometer ausencia absoluta de deuda técnica.
+Sin credenciales, datos productivos ni firmas. Respaldo en la nube desactivado: los datos son de prueba.
