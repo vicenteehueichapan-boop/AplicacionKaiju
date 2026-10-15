@@ -31,10 +31,10 @@ Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría 
 
 | Pendiente | Por qué no se resolvió | Cómo se ve en la app |
 |---|---|---|
-| G10-02 stock inicial del alta | Ninguna fuente lo define | "Crear producto" valida y muestra que falta el dato; no guarda |
-| G10-01 cálculo del ajuste | Ninguna fuente lo define; con cantidad > 0 (Guía 10 sección 5) no se sabe si suma, resta o fija | "Ajuste" valida el motivo y no cambia el stock |
+| G10-02 stock inicial del alta | Resuelto el 15-10 como en SAP y Odoo | El producto nace con 0 y el stock entra con una Entrada (docs/18) |
+| G10-01 cálculo del ajuste | Resuelto el 15-10 como conteo físico (Odoo) | Se ingresa lo contado, se confirma la diferencia y se guarda (docs/18) |
 | Módulo propio | Necesita métricas del cliente (P-13, P-14) | No implementado; Guía 10 sección 9 permite recortarlo |
-| Trello y capturas | Trabajo individual sin Trello | Consultar al docente |
+| Capturas de evidencia | Se toman con el diseño final (fase 4 del plan) | Se agregan al Word, a GitHub y a Trello |
 
 ## 2. Verificación ejecutada (14-10-2026)
 
@@ -69,13 +69,13 @@ Instalar desde Android Studio en un teléfono por USB. Para empezar desde cero: 
 
 **Formulario de producto (RF-05)**
 7. Como administrador, + → Crear producto vacío: errores por campo con ícono. Código DEMO-001: "ya existe". Precio 0 o 1.5, mínimo -1: rechazados.
-8. Datos válidos: aparece el mensaje del stock inicial pendiente (G10-02). Es lo esperado.
+8. Datos válidos: el producto aparece en el catálogo con 0 unidades y el mensaje ofrece "Registrar entrada".
 9. Detalle de DEMO-001 → Editar: cambiar nombre y precio → Guardar. Snackbar de confirmación; el stock no cambia y el código no se puede editar.
 
 **Movimientos (RF-06, RF-07, RF-08, RN-01, RN-04, RN-05)**
 10. Como inventario: entrada de 5 a DEMO-001 → disponible 17; en el historial aparecen fecha, "Entrada · +5" y el usuario.
 11. Salida por consumo mayor a lo disponible: error "supera lo disponible"; no cambia nada.
-12. Ajuste sin motivo: error. Con motivo: mensaje de G10-01; el stock no cambia.
+12. Ajuste sin motivo: error. Con motivo y cantidad contada: la app muestra la diferencia y pide confirmar; al confirmar, el disponible pasa a ser lo contado.
 13. Como vendedor: solo aparece "Salida por venta". Vender DEMO-001 hasta dejarlo en 4: la marca "Stock bajo" aparece animada.
 
 **Recursos nativos (Guía 11 sección 9)**
@@ -96,4 +96,4 @@ Anotar fecha, teléfono, versión de Android y resultado de cada paso.
 - Por qué stock e historial se guardan en una transacción, y qué pasa si el stock cambió entretanto.
 - Diferencia entre rotar el teléfono (el ViewModel sobrevive), cerrar el proceso (Room conserva los datos y la sesión vuelve al login) y borrar datos.
 - Por qué el lector no pide permiso de cámara y las notificaciones sí (desde Android 13).
-- Qué quedó pendiente y por qué no lo inventaste: stock inicial, cálculo del ajuste, módulo propio.
+- Por qué el producto nace con 0 y el ajuste es un conteo (docs/18, con fuentes de SAP y Odoo), y por qué el módulo propio quedó fuera.

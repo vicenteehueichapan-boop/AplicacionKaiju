@@ -17,7 +17,7 @@ Verificación sin emulador, desde `android/`:
 .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug lintDebug
 ```
 
-Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **40 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
+Verificación del 15-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **45 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
 
 ## Qué hace (Guía 10 sección 1)
 
@@ -27,10 +27,10 @@ Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md))
 | RF-02 Catálogo con nombre, categoría, precio y disponible | Hecho | Catálogo |
 | RF-03 Buscar por nombre o código y filtrar por categoría | Hecho | Catálogo |
 | RF-04 Detalle con historial, más reciente primero | Hecho, con fecha, tipo, cantidad, usuario y motivo | Detalle |
-| RF-05 Crear y editar productos (administrador) | Editar: hecho. **Crear: valida, pero no guarda** hasta definir el stock inicial (G10-02) | Formulario |
+| RF-05 Crear y editar productos (administrador) | Hecho. El producto nace con 0 unidades y la app ofrece registrar su entrada inicial ([decisión](docs/18-decisiones-diseno.md)) | Formulario |
 | RF-06 Entrada | Hecho (inventario y administrador) | Movimiento |
 | RF-07 Salida por venta o consumo | Hecho (venta: vendedor; venta y consumo: inventario) | Movimiento |
-| RF-08 Ajuste con motivo | **Valida el motivo, pero no modifica el stock** hasta definir el cálculo (G10-01) | Movimiento |
+| RF-08 Ajuste con motivo | Hecho como conteo físico: se ingresa lo contado, la app muestra la diferencia, pide confirmar y la guarda con su motivo ([decisión](docs/18-decisiones-diseno.md)) | Movimiento |
 | RF-09 Marca de stock bajo y alertas | Hecho, más aviso del teléfono | Catálogo, Alertas |
 | RF-10 Datos al cerrar y reabrir | Hecho con Room | Toda la app |
 
@@ -80,12 +80,14 @@ Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reser
 
 **Pendiente.** Los candidatos que salen del caso (más y menos vendidos, tendencias; caso sección 4.1) necesitan saber cómo se mide y en qué período (preguntas P-13 y P-14 al cliente). Implementarlo sin esas respuestas sería inventar una métrica. La Guía 10 sección 9 indica recortar el módulo antes que la base.
 
-## Pendientes que no se inventan
+## Decisiones revisables y pendientes
+
+Las decisiones de stock inicial y ajuste siguen la práctica de sistemas profesionales y están explicadas, con fuentes, en [docs/18-decisiones-diseno.md](docs/18-decisiones-diseno.md).
 
 | ID | Qué falta | Mientras tanto |
 |---|---|---|
-| G10-02 | Stock con que nace un producto nuevo | El formulario valida y explica que no guarda. Cambio en un solo punto: `stockInicialAcordado` en `InventarioViewModel` |
-| G10-01 | Si un ajuste suma, resta o fija la cantidad contada | El ajuste exige motivo y cantidad, pero no cambia el stock |
+| G10-02 | Stock con que nace un producto nuevo | Resuelto como en SAP y Odoo: nace con 0 y el stock entra con una Entrada. Revisable con el cliente |
+| G10-01 | Si un ajuste suma, resta o fija la cantidad contada | Resuelto como conteo físico (Odoo): fija lo contado y guarda la diferencia. Revisable con el cliente |
 | G10-04 | Si el administrador registra salidas | Se aplica literal la tabla de RF-07: no las registra |
 | G10-03 / G10-06 | Cambiar códigos y semántica comercial de la búsqueda | El código no se edita; la búsqueda es parcial y no distingue mayúsculas (decisión técnica reversible) |
 
