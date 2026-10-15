@@ -14,7 +14,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** Room en el teléfono: carga inicial única y movimiento + stock en una sola transacción (RF-10, A-10 §4). */
+/** Room en el teléfono: carga inicial única y movimiento + stock en una sola transacción (RF-10, Guía 10 sección 4). */
 @RunWith(AndroidJUnit4::class)
 class InventarioDaoTest {
     private lateinit var base: BaseDeDatosKaiju

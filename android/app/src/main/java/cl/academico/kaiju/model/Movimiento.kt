@@ -14,10 +14,10 @@ enum class TipoMovimiento {
 }
 
 /**
- * Registro de un movimiento (A-10 §4). RN-05: guarda fecha, tipo, cantidad y quién lo
+ * Registro de un movimiento (Guía 10 sección 4). RN-05: guarda fecha, tipo, cantidad y quién lo
  * registró; no se edita ni se borra, por eso el repositorio no ofrece esas operaciones.
  */
-// Investigación Guía Room §10 (relaciones): @ForeignKey enlaza cada movimiento con su producto,
+// Investigación Guía Room sección 10 (relaciones): @ForeignKey enlaza cada movimiento con su producto,
 // así SQLite rechaza un movimiento de un producto que no existe (relación uno a muchos).
 @Entity(
     tableName = "movimientos",
@@ -28,6 +28,7 @@ data class Movimiento(
     @PrimaryKey val id: String,
     val codigoProducto: String,
     val tipo: TipoMovimiento,
+    /** Unidades que entran o salen. En un AJUSTE es la diferencia con signo: contado − disponible. */
     val cantidad: Int,
     val motivo: String?,
     /** Instante del registro en milisegundos. */

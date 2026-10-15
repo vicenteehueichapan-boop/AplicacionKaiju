@@ -2,7 +2,7 @@
 
 Integrante: **Vicente Hueichapan** (trabajo individual). Número de grupo y confirmación docente de la modalidad individual: pendientes.
 
-App Android académica para el caso Kaiju (CITT San Bernardo): consultar existencias, registrar entradas y salidas con su historial, y detectar a tiempo los productos que hay que reponer. Kotlin, Jetpack Compose, MVVM y Room. Todos los datos son ficticios (C-01 §5.1). La entrevista con el cliente aún no se agenda; por indicación del docente (informada por Vicente el 14-10-2026) se avanza con el material entregado: Guías 10 y 11 y el caso. Nada se presenta como acuerdo del cliente. Después de la entrevista solo se cambia lo que el cliente pida o responda, citando el acta como origen.
+App Android académica para el caso Kaiju (CITT San Bernardo): consultar existencias, registrar entradas y salidas con su historial, y detectar a tiempo los productos que hay que reponer. Kotlin, Jetpack Compose, MVVM y Room. Todos los datos son ficticios (caso sección 5.1). La entrevista con el cliente aún no se agenda; por indicación del docente (informada por Vicente el 14-10-2026) se avanza con el material entregado: Guías 10 y 11 y el caso. Nada se presenta como acuerdo del cliente. Después de la entrevista solo se cambia lo que el cliente pida o responda, citando el acta como origen.
 
 ## Abrir y revisar
 
@@ -19,7 +19,7 @@ Verificación sin emulador, desde `android/`:
 
 Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **40 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
 
-## Qué hace (Guía 10 §1)
+## Qué hace (Guía 10 sección 1)
 
 | RF | Estado | Dónde |
 |---|---|---|
@@ -34,7 +34,7 @@ Verificación del 14-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md))
 | RF-09 Marca de stock bajo y alertas | Hecho, más aviso del teléfono | Catálogo, Alertas |
 | RF-10 Datos al cerrar y reabrir | Hecho con Room | Toda la app |
 
-Reglas (Guía 10 §1): RN-01 a RN-06 se revisan en `InventarioViewModel` antes de guardar. RN-05: un movimiento no se edita ni se borra (el repositorio no ofrece esas operaciones). Stock e historial se guardan en una sola transacción.
+Reglas (Guía 10 sección 1): RN-01 a RN-06 se revisan en `InventarioViewModel` antes de guardar. RN-05: un movimiento no se edita ni se borra (el repositorio no ofrece esas operaciones). Stock e historial se guardan en una sola transacción.
 
 ## Arquitectura
 
@@ -47,23 +47,23 @@ Pantalla (ui/screen): muestra estado y avisa eventos
 
 - `MainActivity` solo llama a `AppNavHost`. `navigation/` tiene las seis rutas y el menú inferior.
 - Persistencia con la organización de la Guía de Room y el ejemplo docente: `database/` (`BaseDeDatosKaiju` con `obtenerInstancia`, `InventarioDao`), `repository/InventarioRepository` (único que conoce al DAO) y `viewmodel/InventarioViewModelFactory`. Las pruebas usan `FakeInventarioDao` en memoria, igual que `FakeEventoDao` del ejemplo, por eso las reglas se prueban sin Android.
-- Los permisos y la Activity viven en `ui/`; el resultado del lector va al ViewModel (Guía 11 §4).
+- Los permisos y la Activity viven en `ui/`; el resultado del lector va al ViewModel (Guía 11 sección 4).
 - Los diez productos se cargan solo la primera vez; después nunca se sobrescriben los cambios guardados.
 
-## Decisiones propias (Guía 10 §6)
+## Decisiones propias (Guía 10 sección 6)
 
-### Recursos nativos: ficha de decisión (Guía 11 §9)
+### Recursos nativos: ficha de decisión (Guía 11 sección 9)
 
-Los dos recursos aparecen textualmente en el caso (C-01 §3.3): "notificaciones asociadas a niveles mínimos de stock" y "uso de la cámara para lectura de códigos QR o códigos de barras".
+Los dos recursos aparecen textualmente en el caso (caso sección 3.3): "notificaciones asociadas a niveles mínimos de stock" y "uso de la cámara para lectura de códigos QR o códigos de barras".
 
 | Necesidad del caso | Recurso y API | Permiso y tipo | RF | Si la persona dice que no |
 |---|---|---|---|---|
 | El encargado de inventario y el administrador necesitan enterarse cuando un producto queda bajo su mínimo | Notificaciones · `NotificationCompat` con canal propio | `POST_NOTIFICATIONS`, tiempo de ejecución (Android 13+) | RF-09 | La pantalla Alertas sigue mostrando los productos; se ofrece "Activar en Ajustes" |
 | Quien registra un movimiento necesita elegir el producto rápido y sin equivocarse de código | Cámara · Google code scanner (ML Kit) | Ninguno: Google Play services abre el lector | RF-06, RF-07 | Elegir el producto de la lista |
 
-- **Flujo de permiso completo** (Guía 11 §4): se pide en contexto al tocar "Activar avisos" en Alertas, nunca al abrir la app. Si Android lo sugiere, se explica antes con un diálogo que permite decir "Ahora no". Tras un rechazo, la app sigue funcionando. Se vuelve a verificar al regresar a la app (`LifecycleResumeEffect`).
+- **Flujo de permiso completo** (Guía 11 sección 4): se pide en contexto al tocar "Activar avisos" en Alertas, nunca al abrir la app. Si Android lo sugiere, se explica antes con un diálogo que permite decir "Ahora no". Tras un rechazo, la app sigue funcionando. Se vuelve a verificar al regresar a la app (`LifecycleResumeEffect`).
 - **Manifiesto:** `POST_NOTIFICATIONS` y `uses-feature camera.any` con `required="false"`. Antes de abrir el lector se revisa que haya cámara.
-- **Investigaciones aplicadas (Guía 11 §10):** Google code scanner (`ui/recursos/LectorCodigo.kt`) y canales de notificación (`ui/recursos/NotificacionesStock.kt`), cada una con su línea comentada.
+- **Investigaciones aplicadas (Guía 11 sección 10):** Google code scanner (`ui/recursos/LectorCodigo.kt`) y canales de notificación (`ui/recursos/NotificacionesStock.kt`), cada una con su línea comentada.
 - Las notificaciones se emiten cuando un movimiento hace **entrar** un producto en alerta (RN-06), no en cada salida. Es una decisión técnica reversible, no una regla del cliente.
 
 ### Animaciones
@@ -78,7 +78,7 @@ Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reser
 
 ### Módulo propio
 
-**Pendiente.** Los candidatos que salen del caso (más y menos vendidos, tendencias; C-01 §4.1) necesitan saber cómo se mide y en qué período (preguntas P-13 y P-14 al cliente). Implementarlo sin esas respuestas sería inventar una métrica. La Guía 10 §9 indica recortar el módulo antes que la base.
+**Pendiente.** Los candidatos que salen del caso (más y menos vendidos, tendencias; caso sección 4.1) necesitan saber cómo se mide y en qué período (preguntas P-13 y P-14 al cliente). Implementarlo sin esas respuestas sería inventar una métrica. La Guía 10 sección 9 indica recortar el módulo antes que la base.
 
 ## Pendientes que no se inventan
 
@@ -97,10 +97,11 @@ Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/Aplica
 
 ## Documentación
 
+- **[Evidencia del código](docs/evidencia/CODIGO.md):** cada archivo por capa, con qué hace, qué requisito cumple y su prueba.
 - **[Bitácora por fecha](docs/evidencia/BITACORA.md)** (desde el historial de Git) y **[tablero Trello](docs/evidencia/trello/TABLERO-KAIJU.md)** con las tarjetas por pantalla y formulario.
 - **[Guion de demostración](docs/evidencia/demo/GUION-DEMOSTRACION.md)** y [códigos QR de prueba](docs/evidencia/demo/codigos-demo.html).
 - **[Evidencia de avance (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx):** estado de B-01 a B-09, RF y RN, ficha de recursos, verificación, indicadores, commits y espacios para las capturas de la Guía 11.
-- Investigación de la Guía de Room (§10), con línea comentada en el código: relaciones con `@ForeignKey` (`model/Movimiento.kt`) y migraciones con esquema exportado (`database/BaseDeDatosKaiju.kt`, `app/schemas/`).
+- Investigación de la Guía de Room (sección 10), con línea comentada en el código: relaciones con `@ForeignKey` (`model/Movimiento.kt`) y migraciones con esquema exportado (`database/BaseDeDatosKaiju.kt`, `app/schemas/`).
 - [Prototipo, demostración y verificación](docs/17-prototipo-guia-11.md) y [auditoría independiente del 14-10](docs/16-auditoria-claude-2026-10-14.md).
 - [Auditoría Guía 10](docs/11-auditoria-guia-10.md), [definición de base](docs/12-definicion-base-semana-10.md), [entrega base](docs/13-entrega-base-android.md).
 - [Plantilla de requerimientos](docs/entregables/kaiju-requerimientos-guia-10.xlsx), [fuentes originales](docs/fuentes/2026-10-14/README.md).

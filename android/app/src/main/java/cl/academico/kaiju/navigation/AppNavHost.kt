@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import cl.academico.kaiju.model.TipoMovimiento
 import cl.academico.kaiju.repository.DatosDePrueba
 import cl.academico.kaiju.ui.components.etiqueta
 import cl.academico.kaiju.ui.recursos.NotificacionesStock
@@ -25,7 +26,7 @@ import cl.academico.kaiju.viewmodel.InventarioViewModelFactory
 import cl.academico.kaiju.viewmodel.SesionViewModel
 
 /**
- * NavHost, menú inferior y ViewModels compartidos por las seis pantallas (A-10 §3).
+ * NavHost, menú inferior y ViewModels compartidos por las seis pantallas (Guía 10 sección 3).
  * Los ViewModels se crean aquí una sola vez y se pasan a cada pantalla: así todas ven los mismos datos.
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,8 +59,15 @@ fun AppNavHost(
     }
     LaunchedEffect(confirmacion) {
         confirmacion?.let {
-            snackbar.showSnackbar(it)
+            val codigo = it.codigoParaEntrada
+            // Un producto nuevo nace con 0 unidades: se ofrece ir directo a registrar su entrada.
+            val resultado = snackbar.showSnackbar(it.mensaje, actionLabel = codigo?.let { "Registrar entrada" },
+                duration = if (codigo != null) SnackbarDuration.Long else SnackbarDuration.Short)
             inventario.confirmacionMostrada()
+            if (resultado == SnackbarResult.ActionPerformed && codigo != null) {
+                inventario.nuevoMovimiento(codigo, TipoMovimiento.ENTRADA)
+                nav.navigate(Rutas.Movimiento.ruta) { launchSingleTop = true }
+            }
         }
     }
     LaunchedEffect(avisoStockBajo) {
@@ -149,6 +157,8 @@ fun AppNavHost(
                             cantidad = inventario::actualizarCantidad, motivo = inventario::actualizarMotivo,
                             codigoLeido = inventario::codigoLeido, lectorNoDisponible = inventario::lectorNoDisponible,
                             registrar = { inventario.registrarMovimiento(usuario) },
+                            confirmarAjuste = { inventario.confirmarAjuste(usuario) },
+                            cancelarAjuste = inventario::cancelarAjuste,
                         ),
                     )
                 }
@@ -161,7 +171,7 @@ fun AppNavHost(
     }
 }
 
-/** Catálogo, Movimiento y Alertas (A-10-D2). Alertas solo para inventario y administrador (RF-09). */
+/** Catálogo, Movimiento y Alertas (diagrama  de la Guía 10). Alertas solo para inventario y administrador (RF-09). */
 @Composable
 private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Boolean) {
     val destinos = buildList {
@@ -174,10 +184,11 @@ private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Bool
             NavigationBarItem(
                 selected = ruta == destino.ruta,
                 onClick = {
+                    // Cada pestaña parte limpia desde el Catálogo: no se guardan ni restauran las pantallas
+                    // abiertas encima (Detalle, Movimiento), así "Catálogo" siempre vuelve al catálogo.
                     nav.navigate(destino.ruta) {
-                        popUpTo(Rutas.Catalogo.ruta) { saveState = true }
+                        popUpTo(Rutas.Catalogo.ruta)
                         launchSingleTop = true
-                        restoreState = true
                     }
                 },
                 icon = { Icon(icono, contentDescription = null) },

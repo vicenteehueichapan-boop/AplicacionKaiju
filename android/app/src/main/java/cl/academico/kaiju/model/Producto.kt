@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Producto con los campos de A-10 §4. `precio` en pesos chilenos, sin decimales.
- * `stockActual` solo cambia al registrar un movimiento (A-10 §4); el formulario no lo edita.
+ * Producto con los campos de Guía 10 sección 4. `precio` en pesos chilenos, sin decimales.
+ * `stockActual` solo cambia al registrar un movimiento (Guía 10 sección 4); el formulario no lo edita.
  * Es también la tabla `productos` de Room (RF-10).
  */
 @Entity(tableName = "productos")

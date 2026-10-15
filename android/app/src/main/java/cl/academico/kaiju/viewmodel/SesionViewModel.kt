@@ -18,7 +18,7 @@ class SesionViewModel(val usuarios: List<Usuario>) : ViewModel() {
         it.copy(seleccionado = usuarios.find { usuario -> usuario.id == id }, error = null)
     }
 
-    /** A-10 §5: el login exige elegir un usuario. */
+    /** Guía 10 sección 5: el login exige elegir un usuario. */
     fun ingresar(): Boolean {
         val elegido = _estado.value.seleccionado
         if (elegido == null) {

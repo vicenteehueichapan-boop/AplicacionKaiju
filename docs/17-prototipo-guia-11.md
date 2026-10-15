@@ -6,34 +6,34 @@ Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría 
 
 | Parte | Fuente textual | Implementación |
 |---|---|---|
-| Búsqueda y filtro | A-10 §1 RF-03, §2 | `InventarioViewModel.catalogo`, `PantallaCatalogo` |
-| Edición de producto | A-10 RF-05; diagrama A-10-D2 | Botón "Editar" en el detalle (solo administrador); el código queda bloqueado |
-| Entrada y salidas | A-10 RF-06/07, RN-01, §5 | `registrarMovimiento`, `PantallaMovimiento` |
-| Historial | A-10 RF-04, RN-05, §2 | `historial(codigo)`, lista en el detalle |
-| Stock y movimiento juntos | A-10 §4 | `InventarioDao.registrarMovimiento` con `@Transaction` |
-| Persistencia | A-10 RF-10, plantilla RD-03 | Room según la Guía de Room: `database/BaseDeDatosKaiju`, `database/InventarioDao`, `InventarioRepository`, `InventarioViewModelFactory` |
-| Permisos por perfil | Tabla A-10 §1 | `tiposPermitidos(rol)`, `puedeGestionarProductos`, `puedeVerAlertas` |
-| Recursos nativos | C-01 §3.3; A-11 §4, §6, §7, §9, §10 | `ui/recursos/` |
-| Animaciones | A-10 §6, IE 2.2.2 | `IndicadorStock`, color del stock en el detalle, Snackbar |
-| Identidad visual | A-10 §6 | `ui/theme/Theme.kt`, ícono adaptable |
+| Búsqueda y filtro | Guía 10 sección 1 RF-03, sección 2 | `InventarioViewModel.catalogo`, `PantallaCatalogo` |
+| Edición de producto | Guía 10 RF-05; diagrama diagrama  de la Guía 10 | Botón "Editar" en el detalle (solo administrador); el código queda bloqueado |
+| Entrada y salidas | Guía 10 RF-06/07, RN-01, sección 5 | `registrarMovimiento`, `PantallaMovimiento` |
+| Historial | Guía 10 RF-04, RN-05, sección 2 | `historial(codigo)`, lista en el detalle |
+| Stock y movimiento juntos | Guía 10 sección 4 | `InventarioDao.registrarMovimiento` con `@Transaction` |
+| Persistencia | Guía 10 RF-10, plantilla RD-03 | Room según la Guía de Room: `database/BaseDeDatosKaiju`, `database/InventarioDao`, `InventarioRepository`, `InventarioViewModelFactory` |
+| Permisos por perfil | Tabla Guía 10 sección 1 | `tiposPermitidos(rol)`, `puedeGestionarProductos`, `puedeVerAlertas` |
+| Recursos nativos | caso sección 3.3; Guía 11 sección 4, sección 6, sección 7, sección 9, sección 10 | `ui/recursos/` |
+| Animaciones | Guía 10 sección 6, IE 2.2.2 | `IndicadorStock`, color del stock en el detalle, Snackbar |
+| Identidad visual | Guía 10 sección 6 | `ui/theme/Theme.kt`, ícono adaptable |
 | Correcciones de la auditoría | doc 16 H-06, H-07, H-11, H-12, H-13, H-15, H-16 | Vuelta al login sin sesión, íconos por campo, precio único, ícono de app, perfil visible, repositorio sin exponer, error que se limpia al corregir |
 
 ### Decisiones técnicas reversibles (no son reglas del cliente)
 
 - **Búsqueda:** coincidencia parcial en nombre o código, sin distinguir mayúsculas; se combina con la categoría. La pregunta G10-06 sigue abierta para el cliente.
-- **Código no editable al editar:** es la clave del historial (A-10 §4: `Movimiento.codigoProducto`). G10-03 sigue abierta.
+- **Código no editable al editar:** es la clave del historial (Guía 10 sección 4: `Movimiento.codigoProducto`). G10-03 sigue abierta.
 - **Espacios al inicio y al final** se recortan al guardar, como hace el ejemplo docente (`trim()` en la Guía 09). Las mayúsculas no se normalizan: eso sí es una regla de negocio.
 - **Guardado seguro:** si el stock cambió entre la validación y el guardado (por ejemplo, dos toques seguidos), no se guarda nada y se pide revisar. Así RN-01 no se rompe por un estado desactualizado.
 - **Aviso del teléfono:** solo cuando un movimiento hace **entrar** un producto en alerta, para no repetirlo en cada salida.
-- **Tras registrar** se conservan el producto y el tipo, para que registrar varios movimientos seguidos sea más rápido (señal de éxito "mayor rapidez", C-01 §4.1).
+- **Tras registrar** se conservan el producto y el tipo, para que registrar varios movimientos seguidos sea más rápido (señal de éxito "mayor rapidez", caso sección 4.1).
 
 ### Lo que sigue pendiente a propósito
 
 | Pendiente | Por qué no se resolvió | Cómo se ve en la app |
 |---|---|---|
 | G10-02 stock inicial del alta | Ninguna fuente lo define | "Crear producto" valida y muestra que falta el dato; no guarda |
-| G10-01 cálculo del ajuste | Ninguna fuente lo define; con cantidad > 0 (A-10 §5) no se sabe si suma, resta o fija | "Ajuste" valida el motivo y no cambia el stock |
-| Módulo propio | Necesita métricas del cliente (P-13, P-14) | No implementado; A-10 §9 permite recortarlo |
+| G10-01 cálculo del ajuste | Ninguna fuente lo define; con cantidad > 0 (Guía 10 sección 5) no se sabe si suma, resta o fija | "Ajuste" valida el motivo y no cambia el stock |
+| Módulo propio | Necesita métricas del cliente (P-13, P-14) | No implementado; Guía 10 sección 9 permite recortarlo |
 | Trello y capturas | Trabajo individual sin Trello | Consultar al docente |
 
 ## 2. Verificación ejecutada (14-10-2026)
@@ -78,10 +78,10 @@ Instalar desde Android Studio en un teléfono por USB. Para empezar desde cero: 
 12. Ajuste sin motivo: error. Con motivo: mensaje de G10-01; el stock no cambia.
 13. Como vendedor: solo aparece "Salida por venta". Vender DEMO-001 hasta dejarlo en 4: la marca "Stock bajo" aparece animada.
 
-**Recursos nativos (Guía 11 §9)**
+**Recursos nativos (Guía 11 sección 9)**
 14. Como inventario, Alertas → "Activar avisos" → **Permitir**. Registrar una salida que deje un producto en alerta: llega la notificación. *Captura 1.*
 15. Borrar almacenamiento, repetir y tocar **No permitir**: la lista sigue funcionando y aparecen "Activar avisos" y "Activar en Ajustes". *Captura 2.*
-16. Tocar "Activar avisos" otra vez: primero aparece la explicación propia ("¿Activar avisos?"), con opción "Ahora no". Si continúas y vuelves a rechazar, Android ya no muestra su diálogo: queda solo el camino de Ajustes (rechazo reiterado, Guía 11 §3).
+16. Tocar "Activar avisos" otra vez: primero aparece la explicación propia ("¿Activar avisos?"), con opción "Ahora no". Si continúas y vuelves a rechazar, Android ya no muestra su diálogo: queda solo el camino de Ajustes (rechazo reiterado, Guía 11 sección 3).
 17. Activarlo desde Ajustes y volver: la tarjeta cambia a "Activados" sin reiniciar.
 18. Movimiento → "Escanear código": apuntar a un código QR que contenga el texto `DEMO-005` (generado en el PC, sin personas en la imagen) → queda elegido DEMO-005. Cancelar no cambia nada; un código desconocido muestra el error en el campo producto.
 

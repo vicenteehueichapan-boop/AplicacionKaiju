@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.google.mlkit.vision.codescanner.GmsBarcodeScanning
 
 /**
- * Recurso nativo 1 · cámara para leer el código del producto (C-01 §3.3, RF-06/RF-07).
+ * Recurso nativo 1 · cámara para leer el código del producto (caso sección 3.3, RF-06/RF-07).
  * La pantalla solo abre el lector; el código leído va al ViewModel, que busca el producto.
  * Si el teléfono no tiene cámara o el lector falla, la alternativa es elegir de la lista.
  */
@@ -25,12 +25,12 @@ fun BotonLectorCodigo(onCodigo: (String) -> Unit, onNoDisponible: () -> Unit) {
     val context = LocalContext.current
     OutlinedButton(
         onClick = {
-            // A-11 §7: revisar que el hardware exista antes de usarlo.
+            // Guía 11 sección 7: revisar que el hardware exista antes de usarlo.
             if (!context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
                 onNoDisponible()
                 return@OutlinedButton
             }
-            // Investigación A-11 §10 (Google code scanner): Google Play services abre su propio lector
+            // Investigación Guía 11 sección 10 (Google code scanner): Google Play services abre su propio lector
             // y entrega solo el texto del código; por eso la app no declara ni pide el permiso CAMERA.
             GmsBarcodeScanning.getClient(context).startScan()
                 .addOnSuccessListener { codigo -> codigo.rawValue?.let(onCodigo) ?: onNoDisponible() }

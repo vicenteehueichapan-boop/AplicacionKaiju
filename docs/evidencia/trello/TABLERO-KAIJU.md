@@ -1,6 +1,6 @@
 # Tablero Trello · Kaiju
 
-Tablero con las cinco listas de la Guía 07 y una tarjeta por pantalla y por formulario (Guía 10 §7). Responsable de todas las tarjetas: Vicente Hueichapan (trabajo individual).
+Tablero con las cinco listas de la Guía 07 y una tarjeta por pantalla y por formulario (Guía 10 sección 7). Responsable de todas las tarjetas: Vicente Hueichapan (trabajo individual).
 
 **Cómo cargarlo rápido:** en Trello, en cada lista toca "Añadir una tarjeta" y pega el bloque completo de esa lista. Trello pregunta si quieres crear una tarjeta por línea: acepta. Después, en cada tarjeta de "Hecho", pega en la descripción el enlace del commit (tabla al final).
 
@@ -32,7 +32,7 @@ Pegar en este orden (de la más antigua a la más reciente):
 [14-10] Recurso nativo 2: lector de códigos (Guía 11) · 454fa57
 [14-10] Animaciones de stock y confirmación (IE 2.2.2) · 454fa57
 [14-10] Identidad visual: tema e ícono (IE 2.1.1) · 454fa57
-[14-10] Ficha de recursos nativos en README (Guía 11 §9) · e00a55f
+[14-10] Ficha de recursos nativos en README (Guía 11 sección 9) · e00a55f
 [14-10] Plantilla de requerimientos completa (hojas 1 a 9) · 7e9ab17
 [14-10] Documento de evidencia en Word · f743187
 [14-10] Persistencia local con Room (RF-10) · bb521cb
@@ -47,7 +47,7 @@ Revisar la app en emulador o teléfono con la pauta de docs/17 (B-01)
 ## Lista: Por hacer
 
 ```
-Probar permiso de avisos: conceder, rechazar y rechazar dos veces (Guía 11 §9)
+Probar permiso de avisos: conceder, rechazar y rechazar dos veces (Guía 11 sección 9)
 Capturas Guía 11: permiso concedido y alternativa tras rechazo
 Probar persistencia: registrar, cerrar la app por completo y reabrir (RF-10)
 Dejar el repositorio privado y agregar al docente como colaborador (Guía 07)
@@ -59,9 +59,9 @@ Preguntar al docente cómo evaluar trabajo individual y Trello (IE 2.3.2)
 ## Lista: Backlog
 
 ```
-Entrevista con el cliente y acta (guía extra §7)
+Entrevista con el cliente y acta (guía extra sección 7)
 Cálculo del ajuste según respuesta (RF-08, G10-01)
-Módulo propio según respuesta del cliente (Guía 10 §6, P-13/P-14)
+Módulo propio según respuesta del cliente (Guía 10 sección 6, P-13/P-14)
 Actualizar requerimientos con el acta (después de la entrevista)
 ```
 

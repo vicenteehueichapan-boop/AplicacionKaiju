@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onStart
 
 /**
- * El único punto que conoce al DAO (A-10 §3). No valida: el ViewModel revisa las reglas RN
+ * El único punto que conoce al DAO (Guía 10 sección 3). No valida: el ViewModel revisa las reglas RN
  * antes de llamar aquí. Si mañana cambia la fuente de datos, solo se toca esta clase.
  */
 class InventarioRepository(private val dao: InventarioDao) {
@@ -27,7 +27,7 @@ class InventarioRepository(private val dao: InventarioDao) {
     }
 
     /**
-     * Guarda el movimiento y el stock resultante en una sola operación (A-10 §4).
+     * Guarda el movimiento y el stock resultante en una sola operación (Guía 10 sección 4).
      * Devuelve `false` sin guardar nada si el stock ya no es [stockAnterior], es decir,
      * si cambió después de que el ViewModel validó el movimiento.
      */

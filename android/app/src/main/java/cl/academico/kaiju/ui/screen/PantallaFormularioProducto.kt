@@ -50,6 +50,8 @@ fun PantallaFormularioProducto(estado: FormularioProductoEstado, categorias: Lis
         }
         Text(if (estado.esEdicion) "Editar producto" else "Crear producto", style = MaterialTheme.typography.headlineMedium)
         Text("Campos obligatorios: código, nombre, categoría, precio y stock mínimo.", style = MaterialTheme.typography.bodySmall)
+        if (!estado.esEdicion) Text("El producto se crea con 0 unidades; sus existencias entran con una Entrada.",
+            style = MaterialTheme.typography.bodySmall)
         Spacer(Modifier.height(8.dp))
         CampoFormulario(estado.codigo, "Código", if (estado.esEdicion) Icons.Default.Lock else Icons.Default.Info,
             errores.codigo, eventos.codigo, habilitado = !estado.esEdicion,

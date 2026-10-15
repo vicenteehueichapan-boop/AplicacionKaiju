@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 
-// Identidad visual (A-10 §6): verde petróleo con alto contraste para leer en bodega;
+// Identidad visual (Guía 10 sección 6): verde petróleo con alto contraste para leer en bodega;
 // el rojo se reserva para stock bajo y errores.
 private val colores = lightColorScheme(
     primary = Color(0xFF006B60), onPrimary = Color.White,

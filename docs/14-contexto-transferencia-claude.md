@@ -4,11 +4,11 @@ Fecha de preparación: 14-10-2026. Este documento prepara una transferencia y un
 
 ## 1. Objetivo y necesidad
 
-Proyecto semestral DSY1105, Desarrollo de Aplicaciones Móviles, Duoc UC, caso canalizado por CITT San Bernardo. Kaiju administra productos, materiales e insumos que recibe, almacena, utiliza o vende. Según C-01 §2, usa registros manuales/planillas; puede haber información distribuida, olvidos y diferencias entre stock registrado y disponible. La necesidad es mejorar control y trazabilidad, consulta de existencias y detección de reposición. No se conoce el rubro específico suficiente para afirmar que es una tienda de ropa.
+Proyecto semestral DSY1105, Desarrollo de Aplicaciones Móviles, Duoc UC, caso canalizado por CITT San Bernardo. Kaiju administra productos, materiales e insumos que recibe, almacena, utiliza o vende. Según C-01 sección 2, usa registros manuales/planillas; puede haber información distribuida, olvidos y diferencias entre stock registrado y disponible. La necesidad es mejorar control y trazabilidad, consulta de existencias y detección de reposición. No se conoce el rubro específico suficiente para afirmar que es una tienda de ropa.
 
 La calidad se evalúa por cómo las funciones sustentadas ayudan a esa necesidad, además de la evidencia académica. Una interfaz atractiva, más pantallas o más librerías no demuestran utilidad. El posible trabajo futuro con el cliente no amplía el alcance del MVP.
 
-C-01 §4.1 declara seis señales de éxito: stock actualizado y trazable; menos quiebres/diferencias; identificar más/menos vendidos; tendencias por período/categoría/tipo; registro más rápido; disponibilidad más clara para internos y público. No hay fórmulas, períodos ni metas numéricas confirmadas. Conservar las seis en trazabilidad, señalando lo no cubierto; no inventar un dashboard ni excluirlas por no estar todas en la primera base.
+C-01 sección 4.1 declara seis señales de éxito: stock actualizado y trazable; menos quiebres/diferencias; identificar más/menos vendidos; tendencias por período/categoría/tipo; registro más rápido; disponibilidad más clara para internos y público. No hay fórmulas, períodos ni metas numéricas confirmadas. Conservar las seis en trazabilidad, señalando lo no cubierto; no inventar un dashboard ni excluirlas por no estar todas en la primera base.
 
 ## 2. Personas y entorno
 
@@ -26,7 +26,7 @@ Al comenzar esta transferencia, rama `main`, último commit local `d8e89b7` (doc
 
 Había un archivo local **no versionado**, `android/gradle/gradle-daemon-jvm.properties`, generado por `updateDaemonJvm`, con `toolchainVersion=25`. El README documenta JDK 21. No se conoce autoría ni fecha de ese archivo. Auditar compatibilidad y diferencia entre checkout local/remoto antes de cambiar nada. Se deja intacto y fuera de los commits de esta transferencia; la carpeta de auditoría lleva copia separada en `estado-local-no-versionado/` para que pueda inspeccionarse sin activarla en otro checkout.
 
-GitHub no reemplaza Trello. No se aportó tablero ni evidencia de acceso del profesor. `docs/13-entrega-base-android.md` §8 tiene tarjetas preparadas, no un tablero creado. No publicar, crear servicios, enviar mensajes o invitar personas como efecto automático de una auditoría.
+GitHub no reemplaza Trello. No se aportó tablero ni evidencia de acceso del profesor. `docs/13-entrega-base-android.md` sección 8 tiene tarjetas preparadas, no un tablero creado. No publicar, crear servicios, enviar mensajes o invitar personas como efecto automático de una auditoría.
 
 ## 4. Fuentes y cómo tratarlas
 
@@ -49,24 +49,24 @@ Los ejemplos de Agenda y Club Los Aromos enseñan razonamiento y estructura. No 
 
 ## 5. Base académica explícita de Guía 10
 
-### RF, fuente A-10 §1
+### RF, fuente A-10 sección 1
 
 | ID | Exigencia | Perfil indicado |
 |---|---|---|
 | RF-01 | Ingresar con usuario de prueba, conocer perfil activo y mostrar lo correspondiente. | Todos |
 | RF-02 | Catálogo con nombre, categoría, precio y cantidad disponible. | Todos |
 | RF-03 | Buscar por nombre/código y filtrar por categoría. | Todos |
-| RF-04 | Detalle con historial de movimientos, más recientes primero (§2). | Todos |
+| RF-04 | Detalle con historial de movimientos, más recientes primero (sección 2). | Todos |
 | RF-05 | Crear y editar productos con formulario validado. | Administrador |
 | RF-06 | Registrar entrada por llegada de mercadería. | Inventario y administrador |
 | RF-07 | Registrar salida por venta o consumo. | Vendedor para ventas; inventario, con detalles por aclarar |
 | RF-08 | Ajuste de inventario indicando motivo. | Inventario y administrador |
-| RF-09 | Marcar stock bajo y listar alertas; tocar alerta abre detalle (§2). | Inventario y administrador |
+| RF-09 | Marcar stock bajo y listar alertas; tocar alerta abre detalle (sección 2). | Inventario y administrador |
 | RF-10 | Mantener datos al cerrar y reabrir mediante persistencia local. | Todos |
 
 No añadir derechos del administrador a las salidas por herencia implícita. La marca en catálogo también aparece en B-06 y RF-02 es para todos; revisar presentación y acceso según ambas exigencias. RF propios continúan desde RF-11 cuando estén definidos.
 
-### Reglas, fuente A-10 §1
+### Reglas, fuente A-10 sección 1
 
 - RN-01: salida/venta no deja disponibilidad bajo cero.
 - RN-02: precio mayor a cero; mínimo mayor o igual a cero.
@@ -77,7 +77,7 @@ No añadir derechos del administrador a las salidas por herencia implícita. La 
 
 El profesor identifica umbral RN-06 y permisos como supuestos revisables tras entrevista. Usarlos para la base académica con ese origen, sin presentarlos como reglas comerciales firmadas.
 
-### Modelo y validaciones, A-10 §4–5
+### Modelo y validaciones, A-10 sección 4–5
 
 - Producto: `codigo, nombre, descripcion, categoria, tipo, precio, stockActual, stockMinimo, detalle`. Detalle es texto opcional; no implementar variantes/lotes por su sola mención.
 - Movimiento: `id, codigoProducto, tipo, cantidad, motivo, fecha, usuario`. Tipos: ENTRADA, SALIDA_VENTA, SALIDA_CONSUMO, AJUSTE.
@@ -88,26 +88,26 @@ El profesor identifica umbral RN-06 y permisos como supuestos revisables tras en
 - Validación en ViewModel con estado/errores; retroalimentación visual por campo e iconos.
 - Cada movimiento futuro actualiza stock e historial en la misma operación; no dejar escrituras parciales.
 
-### Arquitectura, A-10 §3 y diagramas
+### Arquitectura, A-10 sección 3 y diagramas
 
 MainActivity llama a AppNavHost. `navigation/`: Rutas y AppNavHost. `model/`: modelos/enums y estados/errores de formularios. `repository/`: InventarioRepository y DatosDePrueba. `viewmodel/`: SesionViewModel e InventarioViewModel. `ui/screen/`: seis pantallas; `ui/components/`: TarjetaProducto e IndicadorStock; `ui/theme/`: tema.
 
 Pantalla presenta estado y envía eventos; ViewModel valida RN antes de llamar al repositorio; repositorio guarda/entrega. Estado mediante StateFlow. Repositorio en memoria en esta etapa; después persistencia. No añadir Clean Architecture, servidor, frameworks de inyección o módulos Gradle por costumbre. Guía 11 precisa que permisos/Activity viven en UI y resultados/reglas pasan al ViewModel.
 
-Rutas: Login, Catálogo, DetalleProducto, FormularioProducto, Movimiento, Alertas. Menú inferior: Catálogo/Movimiento/Alertas según perfil. La guía permite títulos provisionales en pantallas aún no desarrolladas (§7); esto no acredita funciones finales.
+Rutas: Login, Catálogo, DetalleProducto, FormularioProducto, Movimiento, Alertas. Menú inferior: Catálogo/Movimiento/Alertas según perfil. La guía permite títulos provisionales en pantallas aún no desarrolladas (sección 7); esto no acredita funciones finales.
 
 ## 6. Primera revisión y Parcial 2
 
 | B | Lo pedido | Estado comprobable del código / evidencia disponible |
 |---|---|---|
 | 01 | Abre y corre en emulador. | Compiló 07-10; usuario informó funcionamiento práctico después. Evidencia manual declarada, no nueva prueba automática. |
-| 02 | Estructura §3. | Creada, inspeccionable. |
+| 02 | Estructura sección 3. | Creada, inspeccionable. |
 | 03 | Modelos/enums. | Creados, inspeccionables. |
 | 04 | Diez productos/tres usuarios ficticios y stock bajo. | Semillas creadas, inspeccionables. |
 | 05 | Seis rutas y menú. | Implementados; usuario confirmó la pauta en general. |
 | 06 | Catálogo desde ViewModel con marca. | Implementado; misma confirmación manual. |
 | 07 | Validación y producto nuevo visible en catálogo. | **Parcial**: validación; no guarda por stock inicial pendiente. |
-| 08 | README con equipo, descripción y decisiones §6. | **Parcial**: Vicente, descripción/tema; recursos/animación propuestos, módulo/grupo pendientes. |
+| 08 | README con equipo, descripción y decisiones sección 6. | **Parcial**: Vicente, descripción/tema; recursos/animación propuestos, módulo/grupo pendientes. |
 | 09 | Commits de integrantes y Trello actualizado. | **Parcial**: commits propios en GitHub, tablero/modalidad individual pendientes. |
 
 No presentar 9/9 ni una nota inventada. B-01–06 tienen distintos tipos de evidencia; la declaración del usuario sobre funcionamiento no prueba alta, persistencia ni recursos inexistentes. Los contadores «0 de 9» y «0 de 35» del texto son estado del navegador de la guía, no medición del repositorio.
@@ -124,28 +124,28 @@ La sección 6 pide justificar dos recursos, animaciones, un módulo propio e ide
 | IE 2.3.2 | 20% | GitHub/Trello, participación real y continuidad. |
 | IE 2.4.1 | 15% | Dos recursos seguros, funcionales y coherentes. |
 
-Fuente: A-10 §9 y plantilla hoja 8. No convertir estos porcentajes en nota propia sin la rúbrica completa de evaluación.
+Fuente: A-10 sección 9 y plantilla hoja 8. No convertir estos porcentajes en nota propia sin la rúbrica completa de evaluación.
 
 ## 7. Lo nuevo de Guía 11
 
-A-11 §0/1/7: al menos dos recursos del dispositivo coherentes con la necesidad. Completar «[perfil] necesita [acción], por eso [recurso], vinculado a [RF]». No elegir ubicación/contactos/micrófono/fotos porque figuren en una tabla genérica.
+A-11 sección 0/1/7: al menos dos recursos del dispositivo coherentes con la necesidad. Completar «[perfil] necesita [acción], por eso [recurso], vinculado a [RF]». No elegir ubicación/contactos/micrófono/fotos porque figuren en una tabla genérica.
 
-A-11 §4–7: permisos en contexto, explicación cuando corresponda, alternativa al rechazo, verificación antes de usar y al volver de Ajustes; manejo de hardware ausente, cancelación y ciclo de vida; liberar sensores/cámara cuando no se usan. Mantener Activity/permisos en UI y procesar resultado/reglas en ViewModel. No guardar datos de personas ni pedir permisos innecesarios.
+A-11 sección 4–7: permisos en contexto, explicación cuando corresponda, alternativa al rechazo, verificación antes de usar y al volver de Ajustes; manejo de hardware ausente, cancelación y ciclo de vida; liberar sensores/cámara cuando no se usan. Mantener Activity/permisos en UI y procesar resultado/reglas en ViewModel. No guardar datos de personas ni pedir permisos innecesarios.
 
-A-11 §9 pide:
+A-11 sección 9 pide:
 
 1. Ficha README por cada recurso: necesidad del caso, recurso/API, permiso/tipo, RF y alternativa al rechazo.
 2. Manifiesto/uses-feature pertinentes, flujo de permiso de ejecución para al menos un recurso. Si ambos no lo necesitan: flujo para notificaciones de stock bajo **o justificar por qué no aplica en README**, como permite la fuente. No convertir esto en obligación automática de un tercer recurso.
 3. Probar concesión, rechazo y rechazo reiterado; capturas en Trello: permiso concedido y alternativa tras rechazo.
 4. Commit descriptivo; mensaje sugerido `feat: recurso nativo con manejo de permisos` es sugerencia, no evidencia de ejecución.
 
-A-11 §10 pide elegir **al menos dos** investigaciones de su lista y aplicarlas con una línea comentada en el código. Opciones: RequestMultiplePermissions, code scanner, LocalHapticFeedback, canales de notificación, acceso parcial de fotos/Photo Picker, observación de ciclo de vida y reinicio de permisos. No implementar todas ni añadir funciones para poder usar una API.
+A-11 sección 10 pide elegir **al menos dos** investigaciones de su lista y aplicarlas con una línea comentada en el código. Opciones: RequestMultiplePermissions, code scanner, LocalHapticFeedback, canales de notificación, acceso parcial de fotos/Photo Picker, observación de ciclo de vida y reinicio de permisos. No implementar todas ni añadir funciones para poder usar una API.
 
 El texto incluye simplificaciones y ejemplos técnicos: Claude debe contrastar con documentación oficial actual permisos de cada API, hardware/versión Android, rationale/rechazo permanente, supervivencia ante muerte de proceso frente a rotación y TakePicture frente a CameraX. Si algo es incompatible, explicar la discrepancia y mantener el objetivo académico; no copiar una receta incorrecta ni atribuir una corrección técnica al cliente. Las guías 12 y 13 oficiales mencionadas aún no están en este paquete.
 
 ## 8. Documentación esperada y entrevista
 
-Fuente N-EXTRA §7–8: antes de reunión, hojas 1/2 con contexto, problema, objetivo, glosario y roles; borrador; **al menos ocho preguntas**, priorizadas, con origen, y roles de conversación. Después: acta con fecha/asistentes/preguntas/respuestas; al menos ocho RF, tres RNF y tres RN con IDs/prioridad/origen/aceptación; alcance justificado y pendientes; modelo y lógica; trazabilidad a señales de éxito.
+Fuente N-EXTRA sección 7–8: antes de reunión, hojas 1/2 con contexto, problema, objetivo, glosario y roles; borrador; **al menos ocho preguntas**, priorizadas, con origen, y roles de conversación. Después: acta con fecha/asistentes/preguntas/respuestas; al menos ocho RF, tres RNF y tres RN con IDs/prioridad/origen/aceptación; alcance justificado y pendientes; modelo y lógica; trazabilidad a señales de éxito.
 
 Las cuotas no autorizan inventar reglas ni métricas para llenar filas. Mantener responsables/fechas «por acordar» cuando no existan. Diferenciar pregunta al docente sobre evaluación de pregunta al cliente sobre negocio.
 
@@ -175,4 +175,4 @@ No bloquear todo el trabajo por un pendiente parcial. Tampoco convertir toda dec
 
 La carpeta `output/claude/paquete-auditoria-kaiju/` contiene fuentes originales, documentos propios, plantilla original/copia previa, código Android y tests versionados. Añade referencia docente y archivo local no versionado separados, sin cachés/build/credenciales/configuración SDK. No incluye APK de depuración ni `.git`: es una instantánea del 14-10, no un reemplazo del historial remoto ni del proyecto activo. `INVENTARIO-PAQUETE.json` lista cada archivo y hash. Empezar por `LEER-PRIMERO.md`.
 
-Faltan acta de cliente, respuestas identificables a pendientes, material ficticio prometido por C-01 §6, encargo/rúbrica completos de AVA, guías 12/13, capturas y tablero Trello, grupo y aceptación del trabajo individual. Pedir solo los necesarios para el siguiente incremento. No prometer software sin fallos o deuda cero: buscar problemas verificables, corregirlos con pruebas pertinentes y registrar lo que quede.
+Faltan acta de cliente, respuestas identificables a pendientes, material ficticio prometido por C-01 sección 6, encargo/rúbrica completos de AVA, guías 12/13, capturas y tablero Trello, grupo y aceptación del trabajo individual. Pedir solo los necesarios para el siguiente incremento. No prometer software sin fallos o deuda cero: buscar problemas verificables, corregirlos con pruebas pertinentes y registrar lo que quede.

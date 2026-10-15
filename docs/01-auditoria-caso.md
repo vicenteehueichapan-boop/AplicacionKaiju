@@ -8,7 +8,7 @@ Nota de vigencia 07-10-2026: esta auditoría conserva lo afirmable desde C-01. L
 
 Se revisaron las cuatro páginas completas del caso, mediante extracción de texto y revisión visual de las páginas. Una segunda revisión independiente contrastó la clasificación. No se utilizaron fuentes web para completar el alcance.
 
-Fuente C-01: `Caso_DSY1105_Aplicaciones_Móviles_KAIJU (1).pdf`, conservado en la raíz del repositorio. Fecha de entrega al docente indicada en §1: 07-09-2026. SHA-256: `61ed398d01c0497c9880e9e67ac161931182d12b8c84e962b93aaa87a4155d0b`.
+Fuente C-01: `Caso_DSY1105_Aplicaciones_Móviles_KAIJU (1).pdf`, conservado en la raíz del repositorio. Fecha de entrega al docente indicada en sección 1: 07-09-2026. SHA-256: `61ed398d01c0497c9880e9e67ac161931182d12b8c84e962b93aaa87a4155d0b`.
 
 La ruta mencionada por el usuario usa `Desktop/Semestre_2026-2/...`; el espacio de trabajo usa `Desktop/SEGUNDO_SEMESTRE/...`. Se comprobó que ambos PDF existen y tienen el mismo SHA-256. Esta auditoría utiliza la copia del espacio de trabajo, sin alterarla.
 
@@ -30,13 +30,13 @@ Los IDs de este informe son identificadores del equipo para trazabilidad, no num
 
 | ID | Información declarada | Fuente |
 |---|---|---|
-| CT-01 | Título: Gestión y trazabilidad de inventario para Kaiju. Organización: Kaiju. Rubro: comercio / servicios / gestión de productos. | p. 1, §1 |
-| CT-02 | Sede/coordinación: CITT San Bernardo / Paz Morales. Asignatura: DSY1105. | p. 1, §1 |
-| CT-03 | Se administran productos, materiales e insumos recibidos, almacenados, utilizados o vendidos. | p. 1, §2.1 |
-| CT-04 | El control actual usa registros manuales, planillas u otros mecanismos que requieren actualización constante. | p. 1, §2.2 |
-| CT-05 | Se registran ingresos, salidas por venta o consumo, consultas de existencias y conteos para determinar reposición. Es descripción del proceso actual; no define una pantalla de conteos. | p. 1, §2.2 |
-| CT-06 | Se describen posibles diferencias de stock, olvidos, poca visibilidad de bajas existencias y dificultades de reposición. Pueden generar quiebres, compras innecesarias, pérdida de tiempo y menor control. No se aportan mediciones. | p. 1, §2.3 |
-| CT-07 | Se espera ordenar, actualizar y hacer trazable el proceso para disminuir errores, facilitar control y apoyar decisiones. | p. 1, §2.4 |
+| CT-01 | Título: Gestión y trazabilidad de inventario para Kaiju. Organización: Kaiju. Rubro: comercio / servicios / gestión de productos. | p. 1, sección 1 |
+| CT-02 | Sede/coordinación: CITT San Bernardo / Paz Morales. Asignatura: DSY1105. | p. 1, sección 1 |
+| CT-03 | Se administran productos, materiales e insumos recibidos, almacenados, utilizados o vendidos. | p. 1, sección 2.1 |
+| CT-04 | El control actual usa registros manuales, planillas u otros mecanismos que requieren actualización constante. | p. 1, sección 2.2 |
+| CT-05 | Se registran ingresos, salidas por venta o consumo, consultas de existencias y conteos para determinar reposición. Es descripción del proceso actual; no define una pantalla de conteos. | p. 1, sección 2.2 |
+| CT-06 | Se describen posibles diferencias de stock, olvidos, poca visibilidad de bajas existencias y dificultades de reposición. Pueden generar quiebres, compras innecesarias, pérdida de tiempo y menor control. No se aportan mediciones. | p. 1, sección 2.3 |
+| CT-07 | Se espera ordenar, actualizar y hacer trazable el proceso para disminuir errores, facilitar control y apoyar decisiones. | p. 1, sección 2.4 |
 
 El rubro específico, los productos reales y la operación detallada de Kaiju no están descritos. No hay base para afirmar que sea una tienda de ropa ni para crear funcionalidades de compras a partir de la mención de compras innecesarias.
 
@@ -46,15 +46,15 @@ Esta es una base de requerimientos a nivel de capacidad. Ninguna fila equivale p
 
 | ID | Qué puede afirmarse | Evidencia textual breve y fuente | Qué falta definir / preguntas |
 |---|---|---|---|
-| RC-01 | Hay tareas de registro, consulta y gestión de productos. | “registro y consulta de productos”; “gestiona productos”, p. 2, §3.1 | Qué acciones comprende gestión; datos y reglas. P-01, P-03, P-06, P-07. |
-| RC-02 | El administrador o encargado gestiona categorías. | “categorías”, p. 2, §3.1 | Acciones y significado respecto de tipo de producto. P-03, P-06. |
-| RC-03 | Se requiere control y consulta de existencias; personal de venta consulta disponibilidad. | “control de existencias”; “consulta disponibilidad”, p. 2, §3.1 | Unidad, alcance y momento de actualización. P-08, P-09, P-15. |
-| RC-04 | El encargado de inventario registra ingresos, salidas y ajustes. | “registra ingresos, salidas y ajustes”, p. 2, §3.1 | Tipos, causas, efectos y reglas; relación con venta/consumo. P-08, P-09, P-10. |
-| RC-05 | Se registra y gestiona información de ventas. | “registra ventas”; “gestiona ... ventas”, p. 2, §3.1 | Qué constituye una venta; relación con stock y movimientos. P-03, P-10. |
-| RC-06 | Se necesita revisar movimientos y contar con trazabilidad de inventario por producto. | “revisión del movimiento de artículos”, p. 2, §3.1; “trazable por producto”, p. 3, §4.1 | Información conservada, consulta y tratamiento de correcciones. P-09, P-11. |
-| RC-07 | Se busca detectar necesidades de reposición y controlar niveles de stock. | “detectar oportunamente las necesidades de reposición”, p. 1, §2.4; p. 2, §3.1 | Definición de stock bajo, umbral y respuesta esperada. No confirma notificaciones. P-12, P-17. |
-| RC-08 | El administrador o encargado gestiona usuarios. | “usuarios”, p. 2, §3.1 | Acciones concretas, perfiles y autorización. No confirma login, registro público ni administración CRUD completa. P-02, P-03, P-04. |
-| RC-09 | El administrador o encargado gestiona indicadores. | “indicadores”, p. 2, §3.1 | Indicadores, acciones, fórmulas y presentación. P-03, P-13, P-14. |
+| RC-01 | Hay tareas de registro, consulta y gestión de productos. | “registro y consulta de productos”; “gestiona productos”, p. 2, sección 3.1 | Qué acciones comprende gestión; datos y reglas. P-01, P-03, P-06, P-07. |
+| RC-02 | El administrador o encargado gestiona categorías. | “categorías”, p. 2, sección 3.1 | Acciones y significado respecto de tipo de producto. P-03, P-06. |
+| RC-03 | Se requiere control y consulta de existencias; personal de venta consulta disponibilidad. | “control de existencias”; “consulta disponibilidad”, p. 2, sección 3.1 | Unidad, alcance y momento de actualización. P-08, P-09, P-15. |
+| RC-04 | El encargado de inventario registra ingresos, salidas y ajustes. | “registra ingresos, salidas y ajustes”, p. 2, sección 3.1 | Tipos, causas, efectos y reglas; relación con venta/consumo. P-08, P-09, P-10. |
+| RC-05 | Se registra y gestiona información de ventas. | “registra ventas”; “gestiona ... ventas”, p. 2, sección 3.1 | Qué constituye una venta; relación con stock y movimientos. P-03, P-10. |
+| RC-06 | Se necesita revisar movimientos y contar con trazabilidad de inventario por producto. | “revisión del movimiento de artículos”, p. 2, sección 3.1; “trazable por producto”, p. 3, sección 4.1 | Información conservada, consulta y tratamiento de correcciones. P-09, P-11. |
+| RC-07 | Se busca detectar necesidades de reposición y controlar niveles de stock. | “detectar oportunamente las necesidades de reposición”, p. 1, sección 2.4; p. 2, sección 3.1 | Definición de stock bajo, umbral y respuesta esperada. No confirma notificaciones. P-12, P-17. |
+| RC-08 | El administrador o encargado gestiona usuarios. | “usuarios”, p. 2, sección 3.1 | Acciones concretas, perfiles y autorización. No confirma login, registro público ni administración CRUD completa. P-02, P-03, P-04. |
+| RC-09 | El administrador o encargado gestiona indicadores. | “indicadores”, p. 2, sección 3.1 | Indicadores, acciones, fórmulas y presentación. P-03, P-13, P-14. |
 
 ### Perfiles descritos, sin matriz de permisos acordada
 
@@ -65,27 +65,27 @@ Esta es una base de requerimientos a nivel de capacidad. Ninguna fila equivale p
 | Encargado de inventario | Registra ingresos, salidas y ajustes; controla niveles de stock. | No especifica permisos detallados ni equivalencia con administrador. |
 | Público general o cliente | Cuando corresponda, puede consultar productos, características y disponibilidad publicada. | Participación condicional. No confirmar inclusión ni exclusión todavía. |
 
-Fuente: p. 2, §3.1. P-02, P-04 y P-05. “Personal autorizado” en §3.3 describe una condición de uso; no especifica el mecanismo de acceso.
+Fuente: p. 2, sección 3.1. P-02, P-04 y P-05. “Personal autorizado” en sección 3.3 describe una condición de uso; no especifica el mecanismo de acceso.
 
 ## 4. Información de datos expresamente mencionada
 
-§3.2 dice “se requiere considerar información como”. Confirma considerar estos conceptos en el análisis; no constituye un esquema cerrado, ni exige que todos sean campos obligatorios en un formulario. No se crean entidades ni tipos de datos en esta etapa.
+sección 3.2 dice “se requiere considerar información como”. Confirma considerar estos conceptos en el análisis; no constituye un esquema cerrado, ni exige que todos sean campos obligatorios en un formulario. No se crean entidades ni tipos de datos en esta etapa.
 
 | ID | Conceptos mencionados | Estado y fuente | Pendiente |
 |---|---|---|---|
-| DT-01 | Código o identificador del producto, nombre, descripción. | Explícito documental, p. 2, §3.2 | Si código e identificador son alternativas o distintos; formato, unicidad y obligatoriedad. P-06, P-07. |
-| DT-02 | Categoría, tipo de producto. | Explícito documental, p. 2, §3.2 | Diferencias, clasificación y reglas de relación. P-06. |
-| DT-03 | Precio. | Explícito documental, p. 2, §3.2 | Significado, moneda, precisión y condiciones. No se deducen impuestos ni descuentos. P-06. |
-| DT-04 | Cantidad disponible, stock mínimo. | Explícito documental, p. 2, §3.2 | Unidad, cálculo, alcance, validaciones y umbral. P-08, P-12. |
-| DT-05 | Fecha y tipo de movimiento; cantidad de entrada o salida. | Explícito documental, p. 2, §3.2 | Fechas, clases de movimiento, relación de ajustes, reglas y trazabilidad. P-09, P-11. |
-| DT-06 | Ventas realizadas; fechas, cantidades vendidas, categorías y productos para análisis. | Explícito documental, p. 2, §3.2 | Composición de la venta y cálculo de indicadores. P-10, P-13, P-14. |
-| DT-07 | Talla, color, modelo, lote o fecha de vencimiento según tipo de producto. | Condicional: “se podrán considerar”, p. 2, §3.2 | Cuáles aplican y cómo se relacionan. No confirmar variantes ni control por lote. P-07. |
+| DT-01 | Código o identificador del producto, nombre, descripción. | Explícito documental, p. 2, sección 3.2 | Si código e identificador son alternativas o distintos; formato, unicidad y obligatoriedad. P-06, P-07. |
+| DT-02 | Categoría, tipo de producto. | Explícito documental, p. 2, sección 3.2 | Diferencias, clasificación y reglas de relación. P-06. |
+| DT-03 | Precio. | Explícito documental, p. 2, sección 3.2 | Significado, moneda, precisión y condiciones. No se deducen impuestos ni descuentos. P-06. |
+| DT-04 | Cantidad disponible, stock mínimo. | Explícito documental, p. 2, sección 3.2 | Unidad, cálculo, alcance, validaciones y umbral. P-08, P-12. |
+| DT-05 | Fecha y tipo de movimiento; cantidad de entrada o salida. | Explícito documental, p. 2, sección 3.2 | Fechas, clases de movimiento, relación de ajustes, reglas y trazabilidad. P-09, P-11. |
+| DT-06 | Ventas realizadas; fechas, cantidades vendidas, categorías y productos para análisis. | Explícito documental, p. 2, sección 3.2 | Composición de la venta y cálculo de indicadores. P-10, P-13, P-14. |
+| DT-07 | Talla, color, modelo, lote o fecha de vencimiento según tipo de producto. | Condicional: “se podrán considerar”, p. 2, sección 3.2 | Cuáles aplican y cómo se relacionan. No confirmar variantes ni control por lote. P-07. |
 
 Faltan reglas de obligatoriedad, longitudes, rangos, valores admitidos, unidades y manejo de valores ausentes. No aplicar las validaciones del formulario de eventos a Kaiju.
 
 ## 5. Resultados esperados explícitos
 
-Todos provienen de p. 3, §4.1. Se conserva su naturaleza de señales de éxito; no se inventan metas numéricas ni diseño visual.
+Todos provienen de p. 3, sección 4.1. Se conserva su naturaleza de señales de éxito; no se inventan metas numéricas ni diseño visual.
 
 | ID | Resultado expresado | Lo que no permite afirmar | Preguntas |
 |---|---|---|---|
@@ -102,16 +102,16 @@ RE-03 y RE-04 son expectativas documentales que deben conservarse en el análisi
 
 | ID | Condición documentada | Fuente | Estado / límite |
 |---|---|---|---|
-| CO-01 | Uso principalmente desde teléfonos Android por personal autorizado. | p. 2, §3.3 | Explícito como escenario de uso. No fija versión mínima, tablets, otros sistemas ni mecanismo de acceso. P-04, P-15. |
-| CO-02 | Se considera internet para sincronizar información. | p. 2, §3.3 | Condición descrita con alcance incompleto; no confirma backend, proveedor, frecuencia o algoritmo. P-15. |
-| CO-03 | Persistencia local para consultas o registros temporales puede evaluarse. | p. 2, §3.3 | Evaluable, no obligación offline. P-16. |
-| CO-04 | Pueden considerarse notificaciones de niveles mínimos y cámara para QR o barras, dentro del alcance académico. | p. 2, §3.3 | Opciones condicionadas. No permisos ni notificaciones obligatorios. P-17. |
-| RS-01 | Desarrollo de un MVP móvil académico; no aplicación productiva definitiva. | p. 3, §5.1 | Restricción explícita. La oportunidad futura indicada por el usuario no amplía el MVP. |
-| RS-02 | Uso de datos ficticios o anonimizados (§3.4); §5.1 enumera ficticios, sintéticos, agregados, públicos o debidamente anonimizados. | p. 2, §3.4; p. 3, §5.1 | Restricción explícita. Los públicos/agregados no autorizan datos personales reales ni registros productivos prohibidos. Para esta etapa basta la documentación; no se importan datos. |
-| RS-03 | No usar datos personales reales, credenciales, llaves, tokens, respaldos, registros productivos ni accesos a sistemas internos. | p. 3, §5.1 | Restricción explícita. El caso no detalla un entorno de pruebas ni excepciones; antes de necesitar autenticación técnica de prueba aclarar compatibilidad con el docente. P-20. |
-| RS-04 | Probar permisos sin capturar datos reales de personas. | p. 3, §5.1 | Restricción explícita, aplicable si se autoriza usar recursos del dispositivo. |
-| RS-05 | No se exige integración con sistemas externos existentes para el MVP. | p. 2, §3.4; p. 3, §5.1 | Ausencia de exigencia; no es prohibición universal de infraestructura de pruebas ni pedido de integrar. |
-| FU-01 | Es deseable evolución futura hacia herramientas de venta, catálogos digitales o facturación. | p. 2, §3.4 | Futuro deseable. No implementar integraciones en el MVP por esta frase. |
+| CO-01 | Uso principalmente desde teléfonos Android por personal autorizado. | p. 2, sección 3.3 | Explícito como escenario de uso. No fija versión mínima, tablets, otros sistemas ni mecanismo de acceso. P-04, P-15. |
+| CO-02 | Se considera internet para sincronizar información. | p. 2, sección 3.3 | Condición descrita con alcance incompleto; no confirma backend, proveedor, frecuencia o algoritmo. P-15. |
+| CO-03 | Persistencia local para consultas o registros temporales puede evaluarse. | p. 2, sección 3.3 | Evaluable, no obligación offline. P-16. |
+| CO-04 | Pueden considerarse notificaciones de niveles mínimos y cámara para QR o barras, dentro del alcance académico. | p. 2, sección 3.3 | Opciones condicionadas. No permisos ni notificaciones obligatorios. P-17. |
+| RS-01 | Desarrollo de un MVP móvil académico; no aplicación productiva definitiva. | p. 3, sección 5.1 | Restricción explícita. La oportunidad futura indicada por el usuario no amplía el MVP. |
+| RS-02 | Uso de datos ficticios o anonimizados (sección 3.4); sección 5.1 enumera ficticios, sintéticos, agregados, públicos o debidamente anonimizados. | p. 2, sección 3.4; p. 3, sección 5.1 | Restricción explícita. Los públicos/agregados no autorizan datos personales reales ni registros productivos prohibidos. Para esta etapa basta la documentación; no se importan datos. |
+| RS-03 | No usar datos personales reales, credenciales, llaves, tokens, respaldos, registros productivos ni accesos a sistemas internos. | p. 3, sección 5.1 | Restricción explícita. El caso no detalla un entorno de pruebas ni excepciones; antes de necesitar autenticación técnica de prueba aclarar compatibilidad con el docente. P-20. |
+| RS-04 | Probar permisos sin capturar datos reales de personas. | p. 3, sección 5.1 | Restricción explícita, aplicable si se autoriza usar recursos del dispositivo. |
+| RS-05 | No se exige integración con sistemas externos existentes para el MVP. | p. 2, sección 3.4; p. 3, sección 5.1 | Ausencia de exigencia; no es prohibición universal de infraestructura de pruebas ni pedido de integrar. |
+| FU-01 | Es deseable evolución futura hacia herramientas de venta, catálogos digitales o facturación. | p. 2, sección 3.4 | Futuro deseable. No implementar integraciones en el MVP por esta frase. |
 
 No hay objetivos cuantificados de rendimiento, accesibilidad, volumen, disponibilidad ni versiones Android. No fijar cifras ni obligaciones del cliente por cuenta del equipo.
 
@@ -119,7 +119,7 @@ No hay objetivos cuantificados de rendimiento, accesibilidad, volumen, disponibi
 
 | ID | Material / propósito | Revisión indicada | Estado constatado |
 |---|---|---|---|
-| MA-01 | Catálogo ficticio: ejemplificar estructura de inventario. | Institución | Anunciado en p. 4, §6; no encontrado entre los materiales proporcionados para esta revisión. |
+| MA-01 | Catálogo ficticio: ejemplificar estructura de inventario. | Institución | Anunciado en p. 4, sección 6; no encontrado entre los materiales proporcionados para esta revisión. |
 | MA-02 | Movimientos ficticios: probar entradas, salidas y trazabilidad. | Institución / Empresa | Anunciado, no recibido en esta revisión. |
 | MA-03 | Reglas generales de stock: definir alertas y comportamiento esperado. | Empresa | Anunciado, no recibido en esta revisión. |
 
@@ -131,16 +131,16 @@ No se identificó una contradicción lógica definitiva entre afirmaciones categ
 
 | ID | Hallazgo | Fuentes | Efecto / pregunta |
 |---|---|---|---|
-| AM-01 | Público condicionado por “cuando corresponda”, pero aparece en las señales de éxito; uso principalmente interno. | §3.1, §3.3, §4.1 | Pendiente decidir inclusión y disponibilidad publicada. P-05. |
-| AM-02 | “Gestión” y tareas de perfiles no especifican acciones, permisos ni fronteras del MVP. | §3.1, §5.1 | Pendiente alcance detallado y autorización. P-01 a P-04. |
-| AM-03 | Productos, materiales e insumos en contexto, pero capacidades expresadas sobre productos. | §2.1, §3.1 | No asumir tres entidades ni excluir materiales. P-06. |
-| AM-04 | Información enumerada sin contrato de datos; atributos dependientes del tipo. | §3.2 | No definir formularios/modelo definitivo ni validaciones. P-06 a P-08. |
-| AM-05 | Venta y consumo aparecen como salidas; no se explica relación entre ventas y movimientos ni ajustes. | §2.2, §3.1, §3.2 | No descontar stock automáticamente ni registrar dos veces por suposición. P-09, P-10. |
-| AM-06 | Trazabilidad sin definición de qué se conserva ni cómo se revisa. | §2.4, §3.1, §4.1 | No inventar datos de auditoría ni historial inmutable. P-11. |
-| AM-07 | Reposición y stock mínimo explícitos; reglas pendientes y notificaciones posibles. | §2.4, §3.2, §3.3, §6 | No inventar comparación < o <=, umbrales, frecuencia ni canal. P-12, P-17, P-19. |
-| AM-08 | Actualización y sincronización consideradas, con persistencia local evaluable. | §3.3, §4.1 | No asumir operación offline, sincronización automática ni resolución de conflictos. P-15, P-16. |
-| AM-09 | Indicadores y tendencias sin fórmulas, períodos, presentación ni medidas de éxito. | §3.1, §3.2, §4.1 | No crear dashboard, ranking concreto ni metas. P-13, P-14, P-18. |
-| AM-10 | Alcance académico condiciona funciones; guías incluyen tareas genéricas y restricciones del caso limitan los datos/accesos. | §3.3, §3.4, §5.1 y guías | Aclarar con docente aplicación académica sin agregar negocio ni credenciales. P-17, P-20. |
+| AM-01 | Público condicionado por “cuando corresponda”, pero aparece en las señales de éxito; uso principalmente interno. | sección 3.1, sección 3.3, sección 4.1 | Pendiente decidir inclusión y disponibilidad publicada. P-05. |
+| AM-02 | “Gestión” y tareas de perfiles no especifican acciones, permisos ni fronteras del MVP. | sección 3.1, sección 5.1 | Pendiente alcance detallado y autorización. P-01 a P-04. |
+| AM-03 | Productos, materiales e insumos en contexto, pero capacidades expresadas sobre productos. | sección 2.1, sección 3.1 | No asumir tres entidades ni excluir materiales. P-06. |
+| AM-04 | Información enumerada sin contrato de datos; atributos dependientes del tipo. | sección 3.2 | No definir formularios/modelo definitivo ni validaciones. P-06 a P-08. |
+| AM-05 | Venta y consumo aparecen como salidas; no se explica relación entre ventas y movimientos ni ajustes. | sección 2.2, sección 3.1, sección 3.2 | No descontar stock automáticamente ni registrar dos veces por suposición. P-09, P-10. |
+| AM-06 | Trazabilidad sin definición de qué se conserva ni cómo se revisa. | sección 2.4, sección 3.1, sección 4.1 | No inventar datos de auditoría ni historial inmutable. P-11. |
+| AM-07 | Reposición y stock mínimo explícitos; reglas pendientes y notificaciones posibles. | sección 2.4, sección 3.2, sección 3.3, sección 6 | No inventar comparación < o <=, umbrales, frecuencia ni canal. P-12, P-17, P-19. |
+| AM-08 | Actualización y sincronización consideradas, con persistencia local evaluable. | sección 3.3, sección 4.1 | No asumir operación offline, sincronización automática ni resolución de conflictos. P-15, P-16. |
+| AM-09 | Indicadores y tendencias sin fórmulas, períodos, presentación ni medidas de éxito. | sección 3.1, sección 3.2, sección 4.1 | No crear dashboard, ranking concreto ni metas. P-13, P-14, P-18. |
+| AM-10 | Alcance académico condiciona funciones; guías incluyen tareas genéricas y restricciones del caso limitan los datos/accesos. | sección 3.3, sección 3.4, sección 5.1 y guías | Aclarar con docente aplicación académica sin agregar negocio ni credenciales. P-17, P-20. |
 
 ## 9. Qué todavía no implementar
 

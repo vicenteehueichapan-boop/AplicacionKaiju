@@ -26,7 +26,7 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.compose.LifecycleResumeEffect
 
 /**
- * Flujo completo del permiso de notificaciones (A-11 §4 y §9): se pide en contexto al tocar
+ * Flujo completo del permiso de notificaciones (Guía 11 sección 4 y sección 9): se pide en contexto al tocar
  * "Activar avisos", se explica si Android lo sugiere, y si la persona dice que no la app sigue
  * funcionando con la lista de alertas y ofrece Ajustes para activarlo después.
  */
@@ -43,7 +43,7 @@ fun TarjetaAvisosStock() {
         rechazado = !concedido
     }
 
-    // Se vuelve a verificar cada vez que la app regresa a primer plano, por ejemplo desde Ajustes (A-11 §5).
+    // Se vuelve a verificar cada vez que la app regresa a primer plano, por ejemplo desde Ajustes (Guía 11 sección 5).
     LifecycleResumeEffect(Unit) {
         activos = NotificacionesStock.puedeNotificar(context)
         if (activos) rechazado = false

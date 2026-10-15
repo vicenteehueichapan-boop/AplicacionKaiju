@@ -18,7 +18,7 @@ class InventarioViewModelTest {
     private fun valido() = FormularioProductoEstado(codigo = "NUEVO", nombre = "Muestra",
         categoria = DatosDePrueba.categorias.first(), precio = "100", stockMinimo = "0")
 
-    // ── Validación de producto (A-10 §5) ──
+    // ── Validación de producto (Guía 10 sección 5) ──
 
     @Test fun formularioVacioDaErroresPorCampo() {
         val errores = vm.validarProducto(FormularioProductoEstado())
@@ -56,23 +56,19 @@ class InventarioViewModelTest {
         vm.actualizarStockMinimo(estado.stockMinimo)
     }
 
-    @Test fun altaValidaNoSeGuardaMientrasFalteElStockInicial() {
-        cargar(valido())
-        assertFalse(vm.guardarProducto(Rol.ADMINISTRADOR))
-        assertEquals(DatosDePrueba.productos, dao.productosGuardados)
-        assertFalse(vm.formulario.value.errores.hayErrores)
-        assertEquals(InventarioViewModel.MENSAJE_STOCK_INICIAL, vm.formulario.value.mensaje)
+    @Test fun altaValidaApareceEnElCatalogoConCeroUnidades() {
+        cargar(valido().copy(codigo = " NUEVO "))
+        assertTrue(vm.guardarProducto(Rol.ADMINISTRADOR))
+        val creado = vm.catalogo.value.single { it.codigo == "NUEVO" }
+        assertEquals(0, creado.stockActual)
+        assertEquals(11, vm.catalogo.value.size)
+        assertNotNull("El código recién creado ya no se acepta", vm.validarProducto(valido()).codigo)
     }
-    @Test fun conStockInicialDefinidoElAltaApareceEnElCatalogo() {
-        // El 7 es un dato de esta prueba para ejercitar el camino de alta; no es la política de la app.
-        val conRespuesta = InventarioViewModel(repository, stockInicialAcordado = 7)
-        conRespuesta.actualizarCodigo(" NUEVO "); conRespuesta.actualizarNombre("Muestra")
-        conRespuesta.seleccionarCategoria(DatosDePrueba.categorias.first())
-        conRespuesta.actualizarPrecio("100"); conRespuesta.actualizarStockMinimo("0")
-        assertTrue(conRespuesta.guardarProducto(Rol.ADMINISTRADOR))
-        val creado = conRespuesta.catalogo.value.single { it.codigo == "NUEVO" }
-        assertEquals(7, creado.stockActual)
-        assertNotNull("El código recién creado ya no se acepta", conRespuesta.validarProducto(valido()).codigo)
+    @Test fun altaOfreceRegistrarLaEntradaInicial() {
+        cargar(valido())
+        vm.guardarProducto(Rol.ADMINISTRADOR)
+        assertEquals("NUEVO", vm.confirmacion.value?.codigoParaEntrada)
+        assertEquals(FormularioProductoEstado(), vm.formulario.value)
     }
     @Test fun soloElAdministradorCreaOEdita() {
         cargar(valido())

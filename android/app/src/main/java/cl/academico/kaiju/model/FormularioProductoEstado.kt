@@ -1,6 +1,6 @@
 package cl.academico.kaiju.model
 
-/** Errores por campo del formulario de producto (A-10 §5). `null` = campo correcto. */
+/** Errores por campo del formulario de producto (Guía 10 sección 5). `null` = campo correcto. */
 data class FormularioProductoErrores(
     val codigo: String? = null,
     val nombre: String? = null,
