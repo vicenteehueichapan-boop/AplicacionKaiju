@@ -1,24 +1,46 @@
 package cl.academico.kaiju.ui.components
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.Producto
 
 /** Producto en el catálogo y en alertas: los cuatro datos de RF-02 y la marca de RN-06. */
 @Composable
 fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
-    Card(onClick = abrir, modifier = Modifier.fillMaxWidth()) {
-        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Text(producto.nombre, style = MaterialTheme.typography.titleMedium)
-            Text("${producto.codigo} · ${producto.categoria}", style = MaterialTheme.typography.bodySmall)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(precioClp(producto.precio))
-                Text("Disponible: ${producto.stockActual}", style = MaterialTheme.typography.titleSmall)
+    // El borde se tiñe de rojo de forma gradual cuando el producto entra en alerta.
+    val borde by animateColorAsState(
+        if (enAlerta) MaterialTheme.colorScheme.error.copy(alpha = 0.6f) else Color.Transparent, label = "bordeAlerta")
+    Card(
+        onClick = abrir,
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        border = BorderStroke(1.dp, borde),
+    ) {
+        Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+            AvatarCategoria(producto.categoria)
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                Text(producto.nombre, style = MaterialTheme.typography.titleMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text("${producto.codigo} · ${producto.categoria}", style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(precioClp(producto.precio), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
+                IndicadorStock(enAlerta)
             }
-            IndicadorStock(enAlerta)
+            Spacer(Modifier.width(12.dp))
+            Column(horizontalAlignment = Alignment.End) {
+                Text("${producto.stockActual}", style = MaterialTheme.typography.headlineSmall,
+                    color = if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
+                Text("disponibles", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
     }
 }

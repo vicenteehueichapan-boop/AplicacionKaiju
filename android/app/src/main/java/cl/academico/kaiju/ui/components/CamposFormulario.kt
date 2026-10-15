@@ -39,6 +39,7 @@ fun CampoFormulario(
         enabled = habilitado,
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = if (numerico) KeyboardType.Number else KeyboardType.Text),
+        shape = MaterialTheme.shapes.medium,
         modifier = Modifier.fillMaxWidth(),
     )
 }
@@ -59,7 +60,8 @@ fun <T> SelectorFormulario(
         Box {
             OutlinedButton(
                 onClick = { abierto = true },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                shape = MaterialTheme.shapes.medium,
                 colors = if (error != null) ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
                 else ButtonDefaults.outlinedButtonColors(),
             ) {

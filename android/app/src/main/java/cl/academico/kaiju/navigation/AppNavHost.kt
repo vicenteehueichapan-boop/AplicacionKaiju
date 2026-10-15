@@ -1,5 +1,9 @@
 package cl.academico.kaiju.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
@@ -81,10 +85,12 @@ fun AppNavHost(
         Scaffold(
             topBar = {
                 if (usuario != null) TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                     title = {
                         Column {
-                            Text("Kaiju")
-                            Text("${usuario.nombre} · ${usuario.rol.etiqueta()}", style = MaterialTheme.typography.bodySmall)
+                            Text("KAIJU", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)
+                            Text("${usuario.nombre} · ${usuario.rol.etiqueta()}", style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     },
                     actions = {
@@ -98,7 +104,15 @@ fun AppNavHost(
             bottomBar = { if (usuario != null) MenuInferior(nav, ruta, inventario.puedeVerAlertas(rol)) },
             snackbarHost = { SnackbarHost(snackbar) },
         ) { padding ->
-            NavHost(navController = nav, startDestination = Rutas.Login.ruta, modifier = Modifier.padding(padding)) {
+            // Animación con propósito: al cambiar de pantalla, la nueva entra deslizándose y aparece suavemente,
+            // así se entiende hacia dónde se navega (avanzar entra por la derecha; volver, por la izquierda).
+            NavHost(
+                navController = nav, startDestination = Rutas.Login.ruta, modifier = Modifier.padding(padding),
+                enterTransition = { fadeIn(tween(250)) + slideInHorizontally(tween(250)) { it / 10 } },
+                exitTransition = { fadeOut(tween(200)) },
+                popEnterTransition = { fadeIn(tween(250)) + slideInHorizontally(tween(250)) { -it / 10 } },
+                popExitTransition = { fadeOut(tween(200)) },
+            ) {
                 composable(Rutas.Login.ruta) {
                     PantallaLogin(sesion.usuarios, estadoSesion, sesion::seleccionar) {
                         if (sesion.ingresar()) nav.navigate(Rutas.Catalogo.ruta) { popUpTo(Rutas.Login.ruta) { inclusive = true } }
@@ -106,7 +120,8 @@ fun AppNavHost(
                 }
                 composable(Rutas.Catalogo.ruta) {
                     PantallaCatalogo(
-                        productos = catalogo, total = productos.size, filtro = filtro, categorias = inventario.categorias,
+                        productos = catalogo, total = productos.size, enAlerta = alertas.size, filtro = filtro,
+                        categorias = inventario.categorias,
                         alerta = inventario::estaEnAlerta, puedeCrear = inventario.puedeGestionarProductos(rol),
                         buscar = inventario::actualizarBusqueda, filtrar = inventario::filtrarPorCategoria,
                         abrir = { nav.navigate(Rutas.Detalle.crear(it)) },
