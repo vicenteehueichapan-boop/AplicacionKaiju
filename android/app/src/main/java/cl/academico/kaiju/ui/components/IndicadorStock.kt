@@ -7,12 +7,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,12 +31,14 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun IndicadorStock(enAlerta: Boolean) {
     AnimatedVisibility(visible = enAlerta, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
-        Row(verticalAlignment = Alignment.CenterVertically,
+        Surface(color = MaterialTheme.colorScheme.errorContainer, shape = MaterialTheme.shapes.small,
             modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
-            Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.error,
-                modifier = Modifier.size(18.dp))
-            Spacer(Modifier.width(4.dp))
-            Text("Stock bajo", color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge)
+            Row(Modifier.padding(horizontal = 8.dp, vertical = 3.dp), verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.onErrorContainer,
+                    modifier = Modifier.size(14.dp))
+                Spacer(Modifier.width(4.dp))
+                Text("Stock bajo", color = MaterialTheme.colorScheme.onErrorContainer, style = MaterialTheme.typography.labelMedium)
+            }
         }
     }
 }
