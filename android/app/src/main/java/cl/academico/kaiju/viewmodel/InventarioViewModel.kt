@@ -19,14 +19,16 @@ import java.util.UUID
 /** Búsqueda y filtro del catálogo (RF-03). */
 data class FiltroCatalogo(val texto: String = "", val categoria: String? = null)
 
+/** Mensaje después de guardar. Si trae [codigoParaEntrada], la pantalla ofrece registrar su entrada inicial. */
+data class Confirmacion(val mensaje: String, val codigoParaEntrada: String? = null)
+
 /**
  * Catálogo, formularios y reglas RN del inventario. Todas las reglas se revisan aquí,
  * antes de llamar al repositorio (Guía 10 sección 3); las pantallas solo muestran el estado.
+ * Decisiones de stock inicial y ajuste: docs/18-decisiones-diseno.md.
  */
 class InventarioViewModel(
     private val repository: InventarioRepository,
-    // G10-02: stock con que nace un producto nuevo. `null` = sin respuesta del docente; el alta no se guarda.
-    private val stockInicialAcordado: Int? = null,
     private val reloj: () -> Long = System::currentTimeMillis,
     private val nuevoId: () -> String = { UUID.randomUUID().toString() },
 ) : ViewModel() {
@@ -57,8 +59,8 @@ class InventarioViewModel(
     val formularioMovimiento: StateFlow<FormularioMovimientoEstado> = _formularioMovimiento.asStateFlow()
 
     // Mensaje breve que la pantalla muestra en un Snackbar después de guardar.
-    private val _confirmacion = MutableStateFlow<String?>(null)
-    val confirmacion: StateFlow<String?> = _confirmacion.asStateFlow()
+    private val _confirmacion = MutableStateFlow<Confirmacion?>(null)
+    val confirmacion: StateFlow<Confirmacion?> = _confirmacion.asStateFlow()
 
     // Producto que acaba de quedar en alerta; la interfaz decide si puede notificarlo.
     private val _avisoStockBajo = MutableStateFlow<Producto?>(null)
@@ -179,15 +181,12 @@ class InventarioViewModel(
         )
         if (estado.esEdicion) {
             viewModelScope.launch { repository.actualizarDatosProducto(datos) }
-            _confirmacion.value = "Producto actualizado."
+            _confirmacion.value = Confirmacion("Producto actualizado.")
         } else {
-            val stockInicial = stockInicialAcordado
-            if (stockInicial == null) {
-                _formulario.update { it.copy(mensaje = MENSAJE_STOCK_INICIAL) }
-                return false
-            }
-            viewModelScope.launch { repository.agregarProducto(datos.copy(stockActual = stockInicial)) }
-            _confirmacion.value = "Producto creado."
+            // Como en SAP u Odoo, la ficha nace sin unidades: las existencias entran con un movimiento
+            // (Entrada), así cada unidad queda trazada (RN-05). Ver docs/18-decisiones-diseno.md.
+            viewModelScope.launch { repository.agregarProducto(datos) }
+            _confirmacion.value = Confirmacion("Producto creado con 0 unidades.", codigoParaEntrada = datos.codigo)
         }
         nuevoFormulario()
         return true
@@ -195,9 +194,9 @@ class InventarioViewModel(
 
     // ── Formulario de movimiento (RF-06, RF-07, RF-08) ──
 
-    /** Abre el formulario, con el producto ya elegido si se viene desde su detalle. */
-    fun nuevoMovimiento(codigoProducto: String? = null) {
-        _formularioMovimiento.value = FormularioMovimientoEstado(codigoProducto = codigoProducto)
+    /** Abre el formulario, con el producto (y el tipo) ya elegidos si se viene desde otra pantalla. */
+    fun nuevoMovimiento(codigoProducto: String? = null, tipo: TipoMovimiento? = null) {
+        _formularioMovimiento.value = FormularioMovimientoEstado(codigoProducto = codigoProducto, tipo = tipo)
     }
 
     fun seleccionarProductoMovimiento(codigo: String) = _formularioMovimiento.update {
@@ -239,6 +238,13 @@ class InventarioViewModel(
                 else -> null
             },
             cantidad = when {
+                // Ajuste por conteo físico: se ingresa lo contado; 0 es válido (producto agotado).
+                estado.tipo == TipoMovimiento.AJUSTE -> when {
+                    cantidad == null || cantidad < 0 -> "Ingresa la cantidad contada: un entero, 0 o más."
+                    producto != null && cantidad == producto.stockActual ->
+                        "Coincide con lo disponible (${producto.stockActual}): no hay diferencia que ajustar."
+                    else -> null
+                }
                 cantidad == null || cantidad <= 0 -> "Ingresa un entero mayor que cero."
                 estado.tipo?.esSalida == true && producto != null && cantidad > producto.stockActual ->
                     "La salida supera lo disponible (${producto.stockActual})."
@@ -250,7 +256,8 @@ class InventarioViewModel(
 
     /**
      * Registra el movimiento de [usuario] y actualiza el stock en la misma operación (Guía 10 sección 4).
-     * Devuelve `true` si el movimiento era válido y se envió a guardar.
+     * Una entrada o salida se guarda de inmediato y devuelve `true`. Un ajuste válido no se guarda
+     * todavía: queda en [FormularioMovimientoEstado.ajustePendiente] para que la persona confirme el cambio.
      */
     fun registrarMovimiento(usuario: Usuario?): Boolean {
         val estado = _formularioMovimiento.value
@@ -261,30 +268,45 @@ class InventarioViewModel(
         val tipo = estado.tipo ?: return false
         val producto = producto(estado.codigoProducto) ?: return false
         val cantidad = estado.cantidad.trim().toInt()
-        val stockResultante = when (tipo) {
-            TipoMovimiento.ENTRADA -> producto.stockActual + cantidad
-            TipoMovimiento.SALIDA_VENTA, TipoMovimiento.SALIDA_CONSUMO -> producto.stockActual - cantidad
-            TipoMovimiento.AJUSTE -> {
-                _formularioMovimiento.update { it.copy(mensaje = MENSAJE_AJUSTE) }
-                return false
+        if (tipo == TipoMovimiento.AJUSTE) {
+            // Como en un conteo físico de Odoo: primero se muestra el cambio y se pide confirmación.
+            _formularioMovimiento.update {
+                it.copy(ajustePendiente = AjustePendiente(producto, contado = cantidad, motivo = estado.motivo.trim()))
             }
+            return false
         }
+        val stockResultante = if (tipo == TipoMovimiento.ENTRADA) producto.stockActual + cantidad else producto.stockActual - cantidad
+        guardar(producto, tipo, cantidad, estado.motivo.trim().ifBlank { null }, stockResultante, usuario)
+        return true
+    }
+
+    /** RF-08: aplica el ajuste confirmado. El stock pasa a ser lo contado y se guarda la diferencia (RN-05). */
+    fun confirmarAjuste(usuario: Usuario?): Boolean {
+        val pendiente = _formularioMovimiento.value.ajustePendiente ?: return false
+        if (usuario == null || TipoMovimiento.AJUSTE !in tiposPermitidos(usuario.rol)) return false
+        guardar(pendiente.producto, TipoMovimiento.AJUSTE, pendiente.diferencia, pendiente.motivo, pendiente.contado, usuario)
+        return true
+    }
+
+    fun cancelarAjuste() = _formularioMovimiento.update { it.copy(ajustePendiente = null) }
+
+    private fun guardar(producto: Producto, tipo: TipoMovimiento, cantidad: Int, motivo: String?, stockResultante: Int, usuario: Usuario) {
         val movimiento = Movimiento(
             id = nuevoId(), codigoProducto = producto.codigo, tipo = tipo, cantidad = cantidad,
-            motivo = estado.motivo.trim().ifBlank { null }, fecha = reloj(), usuario = usuario,
+            motivo = motivo, fecha = reloj(), usuario = usuario,
         )
         // Se conservan producto y tipo para registrar el siguiente movimiento más rápido.
         _formularioMovimiento.value = FormularioMovimientoEstado(codigoProducto = producto.codigo, tipo = tipo)
         viewModelScope.launch {
             if (repository.registrarMovimiento(movimiento, producto.stockActual, stockResultante)) {
-                _confirmacion.value = "Movimiento registrado. Disponible: $stockResultante."
+                val texto = if (tipo == TipoMovimiento.AJUSTE) "Ajuste registrado" else "Movimiento registrado"
+                _confirmacion.value = Confirmacion("$texto. Disponible: $stockResultante.")
                 val actualizado = producto.copy(stockActual = stockResultante)
                 if (!estaEnAlerta(producto) && estaEnAlerta(actualizado)) _avisoStockBajo.value = actualizado
             } else {
                 _formularioMovimiento.update { it.copy(mensaje = "El stock cambió mientras registrabas. Revisa y vuelve a intentar.") }
             }
         }
-        return true
     }
 
     fun confirmacionMostrada() {
@@ -293,12 +315,5 @@ class InventarioViewModel(
 
     fun avisoAtendido() {
         _avisoStockBajo.value = null
-    }
-
-    companion object {
-        const val MENSAJE_STOCK_INICIAL =
-            "Datos válidos. No se guardó: falta confirmar con el docente el stock inicial de un producto nuevo (G10-02)."
-        const val MENSAJE_AJUSTE =
-            "Datos válidos. No se registró: falta definir si un ajuste suma, resta o fija la cantidad contada (G10-01)."
     }
 }

@@ -33,6 +33,8 @@ class EventosMovimiento(
     val codigoLeido: (String) -> Unit,
     val lectorNoDisponible: () -> Unit,
     val registrar: () -> Unit,
+    val confirmarAjuste: () -> Unit,
+    val cancelarAjuste: () -> Unit,
 )
 
 /** RF-06, RF-07 y RF-08: registrar entrada, salida o ajuste. Solo muestra los tipos del perfil activo. */
@@ -70,11 +72,31 @@ fun PantallaMovimiento(
             }
         }
         errores.tipo?.let { MensajeError(it) }
-        CampoFormulario(estado.cantidad, "Cantidad", Icons.Default.Add, errores.cantidad, eventos.cantidad, numerico = true)
-        CampoFormulario(estado.motivo,
-            if (estado.tipo == TipoMovimiento.AJUSTE) "Motivo del ajuste" else "Motivo (opcional)",
+        val esAjuste = estado.tipo == TipoMovimiento.AJUSTE
+        CampoFormulario(estado.cantidad, if (esAjuste) "Cantidad contada" else "Cantidad", Icons.Default.Add,
+            errores.cantidad, eventos.cantidad, numerico = true,
+            ayuda = if (esAjuste) "Lo que hay físicamente. Se registra la diferencia con lo disponible." else null)
+        CampoFormulario(estado.motivo, if (esAjuste) "Motivo del ajuste" else "Motivo (opcional)",
             Icons.Default.Create, errores.motivo, eventos.motivo)
         estado.mensaje?.let { MensajeError(it, Modifier.padding(vertical = 4.dp)) }
-        Button(onClick = eventos.registrar, modifier = Modifier.fillMaxWidth()) { Text("Registrar movimiento") }
+        Button(onClick = eventos.registrar, modifier = Modifier.fillMaxWidth()) {
+            Text(if (esAjuste) "Revisar ajuste" else "Registrar ${estado.tipo?.etiqueta()?.lowercase() ?: "movimiento"}")
+        }
+    }
+
+    // Confirmación antes de cambiar el stock por un conteo (como en Odoo): se ve el cambio exacto.
+    estado.ajustePendiente?.let { ajuste ->
+        val signo = if (ajuste.diferencia > 0) "+" else "−"
+        AlertDialog(
+            onDismissRequest = eventos.cancelarAjuste,
+            icon = { Icon(Icons.Default.Create, contentDescription = null) },
+            title = { Text("¿Confirmar ajuste?") },
+            text = {
+                Text("${ajuste.producto.nombre}: el disponible pasa de ${ajuste.producto.stockActual} a " +
+                    "${ajuste.contado} (diferencia $signo${kotlin.math.abs(ajuste.diferencia)}).\nMotivo: ${ajuste.motivo}")
+            },
+            confirmButton = { TextButton(onClick = eventos.confirmarAjuste) { Text("Confirmar") } },
+            dismissButton = { TextButton(onClick = eventos.cancelarAjuste) { Text("Cancelar") } },
+        )
     }
 }

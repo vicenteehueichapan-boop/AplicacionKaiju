@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.Movimiento
 import cl.academico.kaiju.model.Producto
-import cl.academico.kaiju.model.TipoMovimiento
 import cl.academico.kaiju.ui.components.IndicadorStock
 import cl.academico.kaiju.ui.components.etiqueta
 import cl.academico.kaiju.ui.components.fechaHora
@@ -86,14 +85,15 @@ fun PantallaDetalleProducto(
 
 @Composable
 private fun FilaMovimiento(movimiento: Movimiento) {
-    val signo = when {
-        movimiento.tipo.esSalida -> "−"
-        movimiento.tipo == TipoMovimiento.ENTRADA -> "+"
-        else -> ""
+    // Salidas restan; entradas suman; un ajuste guarda su diferencia con signo.
+    val cambio = when {
+        movimiento.tipo.esSalida -> -movimiento.cantidad
+        else -> movimiento.cantidad
     }
+    val texto = (if (cambio >= 0) "+" else "−") + kotlin.math.abs(cambio)
     ElevatedCard(Modifier.fillMaxWidth()) {
         Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-            Text("${movimiento.tipo.etiqueta()} · $signo${movimiento.cantidad}", style = MaterialTheme.typography.titleSmall)
+            Text("${movimiento.tipo.etiqueta()} · $texto", style = MaterialTheme.typography.titleSmall)
             Text("${fechaHora(movimiento.fecha)} · ${movimiento.usuario.nombre}", style = MaterialTheme.typography.bodySmall)
             movimiento.motivo?.let { Text("Motivo: $it", style = MaterialTheme.typography.bodySmall) }
         }

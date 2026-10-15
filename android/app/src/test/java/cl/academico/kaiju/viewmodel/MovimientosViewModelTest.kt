@@ -88,18 +88,54 @@ class MovimientosViewModelTest {
         assertTrue(dao.movimientosGuardados.isEmpty())
     }
 
-    // ── Ajuste (RF-08, RN-04): validado; su efecto espera G10-01 ──
+    // ── Ajuste por conteo físico (RF-08, RN-04, RN-05) ──
 
     @Test fun ajusteSinMotivoSeRechaza() {
-        assertFalse(registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "2"))
+        assertFalse(registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "9"))
         assertNotNull(vm.formularioMovimiento.value.errores.motivo)
+        assertNull(vm.formularioMovimiento.value.ajustePendiente)
     }
-    @Test fun ajusteValidoNoCambiaStockMientrasFalteDefinirSuCalculo() {
-        assertFalse(registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "2", motivo = "Conteo"))
-        assertFalse(vm.formularioMovimiento.value.errores.hayErrores)
-        assertEquals(InventarioViewModel.MENSAJE_AJUSTE, vm.formularioMovimiento.value.mensaje)
+    @Test fun conteoNegativoOIgualAlDisponibleSeRechaza() {
+        assertFalse(registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "-1", motivo = "Conteo"))
+        assertNotNull(vm.formularioMovimiento.value.errores.cantidad)
+        assertFalse(registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "12", motivo = "Conteo"))
+        assertNotNull(vm.formularioMovimiento.value.errores.cantidad)
+    }
+    @Test fun ajusteValidoEsperaConfirmacionSinCambiarNada() {
+        registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "9", motivo = "Conteo físico")
+        val pendiente = vm.formularioMovimiento.value.ajustePendiente
+        assertEquals(9, pendiente?.contado)
+        assertEquals(-3, pendiente?.diferencia)
         assertEquals(12, stock("DEMO-001"))
         assertTrue(dao.movimientosGuardados.isEmpty())
+    }
+    @Test fun ajusteConfirmadoFijaLoContadoYGuardaLaDiferencia() {
+        registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "9", motivo = "Conteo físico")
+        assertTrue(vm.confirmarAjuste(admin))
+        assertEquals(9, stock("DEMO-001"))
+        val movimiento = dao.movimientosGuardados.single()
+        assertEquals(TipoMovimiento.AJUSTE, movimiento.tipo)
+        assertEquals(-3, movimiento.cantidad)
+        assertEquals("Conteo físico", movimiento.motivo)
+        assertEquals(admin, movimiento.usuario)
+    }
+    @Test fun conteoEnCeroEsValidoParaUnProductoAgotado() {
+        registrar(inventario, "DEMO-005", TipoMovimiento.AJUSTE, "0", motivo = "Merma")
+        assertTrue(vm.confirmarAjuste(inventario))
+        assertEquals(0, stock("DEMO-005"))
+        assertEquals(-20, dao.movimientosGuardados.single().cantidad)
+    }
+    @Test fun ajusteCanceladoNoGuardaNada() {
+        registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "15", motivo = "Conteo")
+        vm.cancelarAjuste()
+        assertNull(vm.formularioMovimiento.value.ajustePendiente)
+        assertFalse(vm.confirmarAjuste(admin))
+        assertEquals(12, stock("DEMO-001"))
+    }
+    @Test fun vendedorNoPuedeConfirmarUnAjuste() {
+        registrar(admin, "DEMO-001", TipoMovimiento.AJUSTE, "9", motivo = "Conteo")
+        assertFalse(vm.confirmarAjuste(vendedor))
+        assertEquals(12, stock("DEMO-001"))
     }
 
     // ── Historial y avisos ──

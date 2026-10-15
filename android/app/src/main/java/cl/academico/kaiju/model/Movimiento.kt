@@ -28,6 +28,7 @@ data class Movimiento(
     @PrimaryKey val id: String,
     val codigoProducto: String,
     val tipo: TipoMovimiento,
+    /** Unidades que entran o salen. En un AJUSTE es la diferencia con signo: contado − disponible. */
     val cantidad: Int,
     val motivo: String?,
     /** Instante del registro en milisegundos. */
