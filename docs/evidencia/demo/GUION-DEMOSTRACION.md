@@ -27,8 +27,8 @@ Pauta completa y fundamentos en [docs/17](../../17-prototipo-guia-11.md). Datos 
 
 ## Si preguntan
 
-- **¿Por qué crear producto no guarda?** La Guía 10 no dice con qué stock nace un producto nuevo; está preguntado al docente (G10-02). Se cambia en un solo punto del ViewModel.
-- **¿Y el ajuste?** No está definido si suma, resta o fija lo contado (G10-01). Valida el motivo y no cambia el stock.
+- **¿Con cuánto stock nace un producto?** Con 0, como en SAP y Odoo: las unidades entran con una Entrada, así cada unidad queda trazada. Al guardar, la app ofrece registrar la entrada inicial.
+- **¿Cómo funciona el ajuste?** Como un conteo físico: se ingresa lo contado, la app muestra la diferencia, pide confirmar y la guarda con su motivo (como Odoo).
 - **¿Módulo propio?** Más/menos vendidos o tendencias necesitan que el cliente defina cómo medir. La Guía 10 sección 9 permite recortarlo antes que la base.
 - **¿Por qué no hay Trello?** Trabajo individual; todo el registro está en GitHub.
 - **¿Dónde están las reglas?** En `InventarioViewModel`: la pantalla solo muestra el estado, el repositorio solo guarda.
