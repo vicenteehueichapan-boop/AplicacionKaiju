@@ -17,7 +17,7 @@ Verificación sin emulador, desde `android/`:
 .\gradlew.bat --no-daemon testDebugUnitTest assembleDebug lintDebug
 ```
 
-Verificación del 15-10-2026 (detalle en [doc 17](docs/17-prototipo-guia-11.md)): compilación correcta, **45 pruebas unitarias aprobadas**, prueba instrumentada de Room compilada (se ejecuta en un teléfono con `connectedDebugAndroidTest`), lint sin errores; solo avisa de versiones más nuevas disponibles.
+Verificación del 15-10-2026: compilación correcta, **45 pruebas unitarias aprobadas**, **3 pruebas de Room aprobadas en el emulador** (`connectedDebugAndroidTest`) y lint sin errores (solo avisa de versiones más nuevas disponibles). Recorrido completo en el emulador con 29 [capturas](docs/evidencia/capturas/README.md). Contraste punto por punto con la rúbrica: **[docs/19-cumplimiento-entrega.md](docs/19-cumplimiento-entrega.md)**.
 
 ## Qué hace (Guía 10 sección 1)
 
@@ -70,11 +70,13 @@ Los dos recursos aparecen textualmente en el caso (caso sección 3.3): "notifica
 
 - La marca "Stock bajo" aparece y desaparece con `AnimatedVisibility` cuando un movimiento cruza el mínimo: comunica el cambio de estado.
 - En el detalle, el número disponible cambia de color de forma gradual (`animateColorAsState`) al entrar o salir de alerta.
+- El borde de la tarjeta de un producto en alerta se tiñe de rojo de forma gradual: se ve qué reponer sin leer números.
+- Al navegar, la pantalla nueva aparece deslizándose: avanzar entra por la derecha y volver por la izquierda.
 - Confirmación con Snackbar después de guardar un producto o un movimiento.
 
 ### Identidad visual
 
-Nombre Kaiju; verde petróleo con buen contraste para leer en bodega; rojo reservado para stock bajo y errores; títulos y cantidades en seminegrita; ícono propio (caja de inventario). Definido en `ui/theme/Theme.kt` y `res/`.
+Nombre Kaiju. Tema oscuro Material 3 en negro y morado: fondo casi negro para leer cómodo en la bodega y morado (`#BB86FC`) para lo que se puede tocar. El rojo queda solo para stock bajo y errores; el verde, para el disponible normal y las entradas; el naranja, para las salidas. Cada pantalla tiene título, bajada e indicadores grandes; los títulos y cantidades van en negrita. Ícono propio: caja de inventario morada. Definido en `ui/theme/Theme.kt` (colores, tipografía y formas), `ui/components/Elementos.kt` (encabezado, indicadores, avatar y estado vacío) y `res/`.
 
 ### Módulo propio
 
@@ -102,7 +104,9 @@ Repositorio: [AplicacionKaiju](https://github.com/vicenteehueichapan-boop/Aplica
 - **[Evidencia del código](docs/evidencia/CODIGO.md):** cada archivo por capa, con qué hace, qué requisito cumple y su prueba.
 - **[Bitácora por fecha](docs/evidencia/BITACORA.md)** (desde el historial de Git) y **[tablero Trello](docs/evidencia/trello/TABLERO-KAIJU.md)** con las tarjetas por pantalla y formulario.
 - **[Guion de demostración](docs/evidencia/demo/GUION-DEMOSTRACION.md)** y [códigos QR de prueba](docs/evidencia/demo/codigos-demo.html).
-- **[Evidencia de avance (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx):** estado de B-01 a B-09, RF y RN, ficha de recursos, verificación, indicadores, commits y espacios para las capturas de la Guía 11.
+- **[Cumplimiento de la entrega](docs/19-cumplimiento-entrega.md):** requisito por requisito, con su código, prueba y captura.
+- **[Capturas del emulador](docs/evidencia/capturas/README.md)** (29, del 15 y 16-10-2026) y **[evidencia final en Word](docs/evidencia/evidencia-final-kaiju-2026-10-16.docx)** con las capturas incluidas.
+- [Evidencia de avance del 14-10 (Word)](docs/evidencia/evidencia-prototipo-kaiju-2026-10-14.docx): registro de ese día; la versión vigente es la final.
 - Investigación de la Guía de Room (sección 10), con línea comentada en el código: relaciones con `@ForeignKey` (`model/Movimiento.kt`) y migraciones con esquema exportado (`database/BaseDeDatosKaiju.kt`, `app/schemas/`).
 - [Prototipo, demostración y verificación](docs/17-prototipo-guia-11.md) y [auditoría independiente del 14-10](docs/16-auditoria-claude-2026-10-14.md).
 - [Auditoría Guía 10](docs/11-auditoria-guia-10.md), [definición de base](docs/12-definicion-base-semana-10.md), [entrega base](docs/13-entrega-base-android.md).

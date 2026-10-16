@@ -75,14 +75,15 @@ Esquema versionado: `android/app/schemas/`.
 | `screen/PantallaFormularioProducto.kt` | Crear o editar, errores e íconos por campo | RF-05, IE 2.1.2 |
 | `screen/PantallaMovimiento.kt` | Producto, tipo según perfil, cantidad y motivo | RF-06 a RF-08 |
 | `screen/PantallaAlertas.kt` | Productos en alerta y tarjeta de avisos | RF-09 |
-| `components/TarjetaProducto.kt` | Tarjeta con los 4 datos de RF-02 | RF-02 |
+| `components/TarjetaProducto.kt` | Tarjeta con los 4 datos de RF-02; borde rojo animado si está en alerta | RF-02, IE 2.2.2 |
+| `components/Elementos.kt` | Encabezado de pantalla, indicador clave, avatar de categoría y estado vacío | IE 2.1.1 |
 | `components/IndicadorStock.kt` | Marca "Stock bajo" animada | RN-06, IE 2.2.2 |
 | `components/CamposFormulario.kt` | Campo con ícono y error; selector desplegable | IE 2.1.2 |
 | `components/Formato.kt` | Precio en CLP, fecha y nombres de tipos y perfiles | IE 2.1.1 |
 | `recursos/NotificacionesStock.kt` | Recurso nativo 1: notificación con canal propio | Guía 11 secciones 4 y 10 |
 | `recursos/TarjetaAvisosStock.kt` | Flujo completo del permiso de notificaciones | Guía 11 secciones 4, 5 y 9 |
 | `recursos/LectorCodigo.kt` | Recurso nativo 2: lector de códigos sin permiso de cámara | Guía 11 secciones 6 y 10 |
-| `theme/Theme.kt` | Colores y tipografía | Guía 10 sección 6 |
+| `theme/Theme.kt` | Tema oscuro negro y morado: colores, tipografía y formas | Guía 10 sección 6 |
 
 Recursos de Android: `AndroidManifest.xml` (permiso y hardware opcional), `res/mipmap-anydpi` y `res/drawable` (íconos), `res/xml` (reglas de respaldo).
 
@@ -91,10 +92,10 @@ Recursos de Android: `AndroidManifest.xml` (permiso y hardware opcional), `res/m
 | Archivo | Qué comprueba | Cantidad |
 |---|---|---|
 | `InventarioViewModelTest.kt` | Validación del producto, edición, permisos, catálogo, búsqueda, filtro y alertas | 19 |
-| `MovimientosViewModelTest.kt` | Entradas, salidas, RN-01, perfiles, ajuste, historial, aviso y lector | 15 |
+| `MovimientosViewModelTest.kt` | Entradas, salidas, RN-01, perfiles, ajuste por conteo con confirmación, historial, aviso y lector | 20 |
 | `PersistenciaViewModelTest.kt` | Reabrir la app: lo guardado sigue | 2 |
 | `SesionViewModelTest.kt` | Login y cambio de usuario | 4 |
 | `FakeInventarioDao.kt` | DAO en memoria para probar sin emulador (como `FakeEventoDao` del ejemplo) | — |
-| `androidTest/.../InventarioDaoTest.kt` | Room real en el teléfono: carga inicial y transacción | 3 |
+| `androidTest/.../InventarioDaoTest.kt` | Room real en el emulador o teléfono: carga inicial y transacción | 3 |
 
-Última verificación (14-10-2026): 40 pruebas unitarias aprobadas, APK generado y lint sin errores.
+Última verificación (15-10-2026): 45 pruebas unitarias aprobadas, 3 pruebas de Room aprobadas en el emulador, APK generado y lint sin errores. Capturas de cada pantalla en [capturas/](capturas/README.md).

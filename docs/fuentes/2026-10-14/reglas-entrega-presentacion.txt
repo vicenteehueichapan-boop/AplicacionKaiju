@@ -1,0 +1,94 @@
+📋
+Reglas de
+Entrega y
+Presentación
+DSY1105 · Desarrollo de Aplicaciones Móviles · 2026-2
+Evaluación 2: Encargo y Presentación
+Situaciones: Parcial 2 Encargo (8%) + Parcial 3 Presentación (32%)
+Modalidad: Equipos de hasta 3 integrantes · defensa individual
+0
+Fechas clave para su equipo
+Trabajo autónomo
+Esta semana, última para avanzar
+Plazo final de entrega
+Domingo 25 de octubre, 23:59
+Defensa individual
+Semana 12
+Duración defensa
+15 minutos en general
+El plazo de entrega es estricto. Cualquier cambio detectado en el repositorio de GitHub después del domingo 25 de octubre a las 23:59 (por mínimo que sea, y venga de quien venga del equipo) asigna automáticamente nota 1,0 tanto grupal como individual. No hay prórroga ni entrega por otro medio si no suben el código a tiempo al enlace de AVA grupal.
+Usen lo que queda de esta semana y el inicio de la próxima para dejar todo funcionando y probado, no para seguir agregando funcionalidades nuevas a último minuto. El orden de las defensas de la semana 12 lo define el docente al azar, así que todo el equipo debe estar listo desde el primer día de esa semana, no solo quien crea que le toca más tarde.
+
+1
+Cómo se distribuye la nota
+Situación evaluativa	Qué evalúa	Ponderación
+1. Encargo	El proyecto Android entregado por el equipo: interfaz, formularios, lógica, persistencia, colaboración y recursos nativos.	8%
+2. Presentación	La defensa individual de cada integrante: dominio técnico, ejecución en vivo y modificación de código en tiempo real.	32%
+La nota de la presentación es 100% individual. Aunque el proyecto se construye en equipo (hasta 3 integrantes en esta sección), cada estudiante responde y demuestra por su cuenta. Si alguien no puede explicar con claridad el proyecto, no logra ejecutarlo o no sabe modificar el código en vivo, se asume que no participó activamente en el desarrollo, y su nota individual refleja eso, sin importar que el proyecto en sí esté bien construido o que lo haya hecho su compañero.
+2
+Qué debe incluir el encargo entregado
+El proyecto Android (Android Studio) debe incluir, de forma funcional:
+
+Interfaz visual organizada y con navegación clara entre todas las pantallas.
+Formularios validados, con íconos y mensajes de retroalimentación visual ante errores en cada campo.
+Validaciones manejadas desde la lógica, no acopladas directo al componente visual.
+Animaciones funcionales que aporten fluidez o retroalimentación real, no decorativas sin propósito.
+Estructura modular (MVVM) y persistencia local funcionando de verdad (Room/SQLite).
+Repositorio en GitHub + planificación en Trello, con actividad real de ambos (no un commit único de último momento).
+Acceso a al menos dos recursos nativos del dispositivo, integrados con coherencia en la interfaz.
+Forma de entrega (los dos pasos, todos obligatorios)
+Repositorio de GitHub público, con acceso otorgado al docente y a todo el equipo. Debe contener la carpeta completa del proyecto (app/, build.gradle, etc.), un README.md con descripción del proyecto, nombres de los integrantes, funcionalidades implementadas y pasos para ejecutar, y commits bien distribuidos y explicados técnicamente (no mensajes como "cambios" o "avance").
+Código fuente subido al enlace de AVA grupal, por un solo integrante del equipo, con los mismos elementos que en GitHub. Si no se entrega por AVA, no se puede entregar por ningún otro medio ni después del plazo.
+La entrega es una sola, de equipo. Lo individual llega recién en la Presentación (Sección 4): ahí cada estudiante responde por su propia nota, no en esta entrega.
+Dos formas distintas de sacarse un 1,0 automático (revisen esto con el equipo antes del domingo):
+Cambios en el repositorio de GitHub después del plazo → 1,0 grupal e individual para quien hizo el cambio y para el equipo.
+No entregar el código en el enlace de AVA grupal → 1,0 grupal e individual automático, sin importar que esté listo en GitHub.
+3
+Rúbrica del Encargo (Parcial 2)
+Niveles de logro: Muy buen desempeño 100% · Buen desempeño 80% · Aceptable 60% · Incipiente 30% · No logrado 0%
+Indicador	Qué mide	Ponderación
+IE 2.1.1	Interfaz visual coherente, estructurada jerárquicamente, con navegación funcional entre vistas.	15%
+IE 2.1.2	Formularios completos, con validaciones visuales por campo, retroalimentación clara e íconos adecuados.	15%
+IE 2.2.1	Lógica de validación centralizada y desacoplada de la interfaz.	10%
+IE 2.2.2	Animaciones visuales funcionales que aportan fluidez y retroalimentación.	10%
+IE 2.3.1	Estructura modular del proyecto, separando responsabilidades e integrando persistencia local.	15%
+IE 2.3.2	Uso efectivo de GitHub y Trello, con participación visible y distribuida del equipo.	20%
+IE 2.4.1	Acceso seguro y funcional a al menos dos recursos nativos del dispositivo.	15%
+4
+Qué va a pasar en su defensa individual (semana 12)
+La defensa es presencial, 15 minutos en general, con el proyecto corriendo en emulador o dispositivo físico. El docente sigue este orden, y cada punto corresponde a un indicador que se califica por separado:
+
+Configuración del entorno: abrir y ejecutar el proyecto, verificar que funcione, explicar brevemente cómo lo configuraron.
+Estructura y arquitectura: explicar la organización del proyecto y justificar el uso de MVVM (responsabilidades de ViewModel, Repository, Screens/Composables y Model).
+Diseño visual y usabilidad: justificar jerarquía visual, navegación entre pantallas, Material Design 3, diseño responsivo.
+Formularios y validación: explicar la estructura de los formularios y su lógica de validación; mostrar qué pasa con datos inválidos.
+Gestión de estado: explicar State/StateFlow y cómo la UI se actualiza según el flujo de datos.
+Animaciones: mostrarlas en vivo y justificar por qué se eligieron.
+Persistencia local: explicar cómo se integró Room/SQLite, mostrar la clase que guarda y recupera datos, ejecutar una funcionalidad que demuestre persistencia activa.
+Recursos nativos: explicar qué recursos se integraron, qué permisos se gestionaron, y ejecutar una funcionalidad real mostrando el resultado en la interfaz.
+Explicación de una modificación: a pedido del docente, explica cómo agregaría una validación o campo nuevo, o cómo ajustaría una función o componente existente, y por qué lo haría de esa forma.
+Si el proyecto no corre al momento de la defensa, los ítems posteriores al error se califican con 0: no se pueden evaluar pruebas ni modificaciones sobre algo que no ejecuta. De la misma forma, si algún elemento de los que se entregaron en el código no está realmente implementado en la app, todos los ítems grupales e individuales asociados a ese elemento se califican con 0 de inmediato.
+Otras reglas de la defensa: pueden pedir que se repita una pregunta si no la entienden y anotar los pasos que van a seguir antes de ejecutarlos. No se admite usar IA ni recursos de apoyo durante la defensa, y no se requiere ni se evalúa material de apoyo visual adicional (sin diapositivas); todo se demuestra sobre el proyecto real.
+5
+Rúbrica de la Presentación (Parcial 3)
+Niveles de logro: Muy buen desempeño 100% · Buen desempeño 80% · Aceptable 60% · Incipiente 30% · No logrado 0%
+Indicador	Qué mide	Ponderación
+IE 2.1.1	Explica y justifica la lógica de validación, integra condiciones nuevas o corrige errores en tiempo real.	20%
+IE 2.2.1	Incorpora en vivo una clase, módulo, componente o animación nueva, respetando la estructura del proyecto.	22%
+IE 2.3.1	Implementa o modifica en vivo una función de almacenamiento local, explicando cómo se guardan y recuperan datos.	18%
+IE 2.4.2	Ejecuta en tiempo real el recurso nativo y ajusta su presentación de forma coherente con la UI.	12%
+IE 2.1.2	Domina técnicamente el diseño visual: estructura de interfaces, navegación e integración de formularios validados.	7%
+IE 2.2.2	Explica estructuras de control, gestión de estado y su relación con la respuesta visual.	7%
+IE 2.3.2	Explica la arquitectura del proyecto (MVVM) y justifica el uso de GitHub/Trello para la mantenibilidad.	7%
+IE 2.4.1	Explica cómo integró recursos nativos: permisos, flujo de integración y medidas de seguridad.	7%
+6
+Recomendaciones de preparación
+Antes del domingo 25 de octubre (entrega)
+Confirmen que los 7 requisitos de la Sección 2 están todos funcionando, no solo "casi listos".
+Revisen que el README.md tenga nombres, funcionalidades y pasos para ejecutar: es lo primero que lee el docente.
+Dejen de tocar el repositorio apenas suban la versión final: cualquier commit posterior, aunque sea un typo, cuesta un 1,0.
+Antes de la defensa (semana 12)
+Prueben la app completa en el emulador o dispositivo con el que van a presentar, no solo en el computador donde programaron.
+Cada integrante debe poder explicar los 9 puntos de la Sección 4 por su cuenta, no solo la parte que programó.
+Practiquen explicar en voz alta cómo agregarían un campo o componente nuevo: el ítem 9 (y el de la Sección 5 con más peso, 22%) depende de eso.
+Lleguen desde el inicio del período de evaluación: el orden es al azar y puede tocarles primero.

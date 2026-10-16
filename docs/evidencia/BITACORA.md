@@ -38,6 +38,27 @@ Registro cronológico del trabajo de Vicente Hueichapan (trabajo individual), ar
 | 13:50 | Documento de evidencia en Word | Evidencia de avance | [f743187](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/f743187) |
 | 14:52 | Ajuste de memoria de compilación y material de demostración (guion y códigos QR) | Demostración | [45fe467](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/45fe467) |
 | 15:06 | Persistencia organizada como la guía de Room: `database/`, Repository, Factory y prueba de reapertura | Guía de Room sección 9–10 | [bb521cb](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/bb521cb) |
+| 15:17 | Bitácora por fecha y tablero de Trello creado | IE 2.3.2 | [ff9ff68](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/ff9ff68) |
+| 15:28 | Enlace al tablero de Trello en el README | IE 2.3.2 | [76060e3](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/76060e3) |
+| 15:34 | Redacción ("sección" en vez de "§") y evidencia ordenada del código | B-08 | [497daa0](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/497daa0) |
+
+## 15-10-2026 · Decisiones de stock y rediseño visual
+
+| Hora | Qué se hizo | Guía / requisito | Commit |
+|---|---|---|---|
+| 16:41 | El producto nuevo nace con 0 unidades y la app ofrece registrar su entrada; el ajuste es un conteo físico con confirmación | RF-05, RF-08, B-07 | [44827c8](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/44827c8) |
+| 16:41 | Decisiones de stock inicial y ajuste explicadas con fuentes de SAP y Odoo (docs/18) | G10-01, G10-02 | [9689e8b](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/9689e8b) |
+| 16:58 | Rediseño negro y morado con Material 3: encabezados, indicadores, línea de tiempo y transiciones | IE 2.1.1, IE 2.2.2 | [eac9a7a](https://github.com/vicenteehueichapan-boop/AplicacionKaiju/commit/eac9a7a) |
+| 17:00 | Pruebas de Room ejecutadas en el emulador: 3 de 3 aprobadas | IE 2.3.1 | (verificación, sin commit) |
+| 17:01–17:20 | Recorrido completo en el emulador: permisos, notificación, persistencia y perfiles | Reglas de Entrega sección 2 | (capturas en el commit del 16-10) |
+
+## 16-10-2026 · Evidencia final y cumplimiento
+
+| Qué se hizo | Guía / requisito |
+|---|---|
+| Capturas finales ordenadas en `docs/evidencia/capturas/` con su índice | Reglas de Entrega, Guía 11 sección 9 |
+| Contraste requisito por requisito con las Reglas de Entrega y las guías (docs/19) | Rúbrica del Encargo |
+| Reglas de Entrega guardadas como fuente; README, evidencia del código y Word final actualizados | B-08 |
 
 ## Pendiente
 

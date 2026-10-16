@@ -14,6 +14,7 @@ Copias sin edición de los adjuntos del usuario. `manifest.json` registra origen
 | A-07 | guia-07-arquitectura.txt | Guía anterior recibida, preservada ahora para facilitar transferencia. |
 | A-ROOM | guia-room-persistencia.txt | Guía de persistencia con Room (rotulada «Guía N°10», tema EA2 Almacenamiento local), texto pegado por Vicente el 14-10-2026. Ejemplo docente actualizado: zip «dsy1105-ejemplo-agenda-eventos-main (1).zip» en Descargas, SHA256 9b8e0e477e4c44bbe13e3391df866c4ae3026df146627e26570e41f025f339b6. Material genérico del curso: menciona equipos de 2 y «tienda de ropa»; no cambia requisitos de Kaiju. |
 | A-08 | guia-08-primera-pantalla.txt | Guía anterior recibida, preservada ahora para facilitar transferencia. |
+| A-REGLAS | reglas-entrega-presentacion.txt | Reglas de Entrega y Presentación de la Evaluación 2: plazo (25-10-2026 23:59), requisitos del encargo, forma de entrega, rúbricas del Encargo y de la Presentación. Texto pegado por Vicente el 14-10-2026; agregado al paquete el 16-10-2026. Contraste completo en `docs/19-cumplimiento-entrega.md`. |
 
 N-830 y N-EXTRA corresponden respectivamente a N-03 y N-02 de la auditoría histórica del 04-10; son alias de fuentes, no nuevos requerimientos.
 

@@ -34,7 +34,7 @@ Fecha: 14-10-2026. Desarrollo autorizado por Vicente después de la [auditoría 
 | G10-02 stock inicial del alta | Resuelto el 15-10 como en SAP y Odoo | El producto nace con 0 y el stock entra con una Entrada (docs/18) |
 | G10-01 cálculo del ajuste | Resuelto el 15-10 como conteo físico (Odoo) | Se ingresa lo contado, se confirma la diferencia y se guarda (docs/18) |
 | Módulo propio | Necesita métricas del cliente (P-13, P-14) | No implementado; Guía 10 sección 9 permite recortarlo |
-| Capturas de evidencia | Se toman con el diseño final (fase 4 del plan) | Se agregan al Word, a GitHub y a Trello |
+| Capturas de evidencia | Tomadas el 15 y 16-10 en el emulador con el diseño final | [docs/evidencia/capturas/](evidencia/capturas/README.md); contraste en [docs/19](19-cumplimiento-entrega.md) |
 
 ## 2. Verificación ejecutada (14-10-2026)
 
@@ -50,6 +50,8 @@ Copia temporal de `android/` sin cachés ni el archivo local de JDK 25; JDK 21.0
 Qué demuestran las pruebas unitarias: validaciones por campo y límites numéricos; código duplicado, también con espacios; edición que conserva código y stock; permisos por perfil; entrada, venta igual a lo disponible, salida mayor rechazada sin escribir; ajuste sin motivo; historial ordenado con empates de fecha; aviso solo al entrar en alerta; resultado del lector (código existente o inexistente); búsqueda y filtro combinados; sesión y cambio de usuario.
 
 **No verificado por mí:** la interfaz en un dispositivo, el lector real (necesita Play services y cámara), el diálogo de permiso del sistema, ni la persistencia al cerrar el proceso. Para eso está la pauta de la sección 3.
+
+**Actualización 15-10-2026:** el recorrido de la sección 3 se hizo en el emulador (API 36): interfaz, diálogo de permiso, notificación real y persistencia con el proceso cerrado quedaron verificados, y las 3 pruebas de Room pasaron en el emulador. El lector real sigue pendiente de un teléfono con Play Store, porque el emulador no puede descargar el módulo de Google. Detalle en [docs/19](19-cumplimiento-entrega.md).
 
 Nota de entorno: en este PC, Gradle por línea de comandos necesita `JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=Z:\kaiju-no-unix-sockets` (falla la conexión local de Java). Además, el `local.properties` generado debe escapar los dos puntos (`sdk.dir=C\:/Users/...`), o lint marca error. Ninguno de los dos cambios se guarda en el proyecto.
 

@@ -67,5 +67,13 @@
     "bytes": 25954,
     "sha256": "c596da8e1286d2f19c4da1af861650cb2d0fee5bb02a512d817168bd42bbce6d",
     "origen": "C:\\Users\\Vivobook Pro 15\\.codex\\attachments\\c825e21d-e175-48dd-b13d-5af1f60db85c\\Texto pegado.txt"
+  },
+  {
+    "id": "A-REGLAS",
+    "archivo": "reglas-entrega-presentacion.txt",
+    "bytes": 9166,
+    "sha256": "4b79c91138c3b7e22f7913cab466b23092a99fcd599bf2a8895263d9ec334dba",
+    "origen": "Texto pegado por Vicente en la sesión de trabajo el 14-10-2026 15:58",
+    "igual_a_fuente_anterior": null
   }
 ]
