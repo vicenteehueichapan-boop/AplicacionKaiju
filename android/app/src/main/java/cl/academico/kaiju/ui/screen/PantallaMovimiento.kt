@@ -22,6 +22,7 @@ import cl.academico.kaiju.model.TipoMovimiento
 import cl.academico.kaiju.ui.components.CampoFormulario
 import cl.academico.kaiju.ui.components.EncabezadoPantalla
 import cl.academico.kaiju.ui.components.IndicadorClave
+import cl.academico.kaiju.ui.components.IndicadorStock
 import cl.academico.kaiju.ui.components.MensajeError
 import cl.academico.kaiju.ui.components.SelectorFormulario
 import cl.academico.kaiju.ui.components.etiqueta
@@ -53,6 +54,7 @@ fun PantallaMovimiento(
     estado: FormularioMovimientoEstado,
     productos: List<Producto>,
     tiposPermitidos: List<TipoMovimiento>,
+    alerta: (Producto) -> Boolean,
     eventos: EventosMovimiento,
 ) {
     val errores = estado.errores
@@ -67,12 +69,16 @@ fun PantallaMovimiento(
         SelectorFormulario("Elegir producto", Icons.AutoMirrored.Filled.List, producto?.let(descripcion),
             productos, descripcion, errores.producto) { eventos.producto(it.codigo) }
         BotonLectorCodigo(eventos.codigoLeido, eventos.lectorNoDisponible)
+        // Al registrar, el disponible cambia aquí mismo: si cruza el mínimo, el número pasa a rojo
+        // de forma gradual y aparece la marca "Stock bajo" animada (retroalimentación inmediata).
         producto?.let {
+            val enAlerta = alerta(it)
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 IndicadorClave("Disponible", "${it.stockActual}", Icons.AutoMirrored.Filled.List, Modifier.weight(1f),
-                    color = if (it.stockActual <= it.stockMinimo) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary)
+                    color = if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary)
                 IndicadorClave("Mínimo", "${it.stockMinimo}", Icons.Default.Notifications, Modifier.weight(1f))
             }
+            IndicadorStock(enAlerta)
         }
 
         Text("2. Tipo de movimiento", style = MaterialTheme.typography.titleMedium)

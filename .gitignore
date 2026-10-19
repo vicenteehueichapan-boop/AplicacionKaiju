@@ -1,8 +1,6 @@
-# Archivos temporales de revisión
+# Carpetas locales de trabajo, fuera de la entrega
 /tmp/
-/output/claude/paquete-auditoria-kaiju/
-
-# Referencia docente local, ajena a la aplicación propia
+/output/
 /dsy1105-ejemplo-agenda-eventos-main/
 
 # Android / Gradle: archivos generados y configuración de cada equipo

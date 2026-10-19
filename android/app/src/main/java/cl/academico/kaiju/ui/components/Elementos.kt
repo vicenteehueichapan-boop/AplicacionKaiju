@@ -1,10 +1,12 @@
 package cl.academico.kaiju.ui.components
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +27,7 @@ fun EncabezadoPantalla(titulo: String, bajada: String) {
     }
 }
 
-/** Número destacado con su etiqueta, por ejemplo "Disponible 12". */
+/** Número destacado con su etiqueta, por ejemplo "Disponible 12". Si cambia de color (normal ↔ alerta), cambia de forma gradual. */
 @Composable
 fun IndicadorClave(
     etiqueta: String,
@@ -34,10 +36,11 @@ fun IndicadorClave(
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
+    val colorAnimado by animateColorAsState(color, label = "colorIndicador")
     Card(modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Icon(icono, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
-            Text(valor, style = MaterialTheme.typography.headlineSmall, color = color, fontWeight = FontWeight.Bold)
+            Icon(icono, contentDescription = null, tint = colorAnimado, modifier = Modifier.size(20.dp))
+            Text(valor, style = MaterialTheme.typography.headlineSmall, color = colorAnimado, fontWeight = FontWeight.Bold)
             Text(etiqueta, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }

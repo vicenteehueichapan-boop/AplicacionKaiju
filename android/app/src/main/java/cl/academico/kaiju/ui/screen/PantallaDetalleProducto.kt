@@ -1,6 +1,5 @@
 package cl.academico.kaiju.ui.screen
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,7 +17,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,9 +44,8 @@ fun PantallaDetalleProducto(
     editar: () -> Unit,
     volver: () -> Unit,
 ) {
-    // Animación con propósito: el disponible cambia de color de forma gradual al entrar o salir de alerta.
-    val colorStock by animateColorAsState(
-        if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary, label = "colorStock")
+    // El disponible cambia de color de forma gradual al entrar o salir de alerta (IndicadorClave lo anima).
+    val colorStock = if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item {
             TextButton(onClick = volver) {

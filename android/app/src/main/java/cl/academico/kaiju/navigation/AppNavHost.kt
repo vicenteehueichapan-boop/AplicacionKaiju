@@ -166,7 +166,7 @@ fun AppNavHost(
                 }
                 composable(Rutas.Movimiento.ruta) {
                     PantallaMovimiento(
-                        formularioMovimiento, productos, inventario.tiposPermitidos(rol),
+                        formularioMovimiento, productos, inventario.tiposPermitidos(rol), inventario::estaEnAlerta,
                         EventosMovimiento(
                             producto = inventario::seleccionarProductoMovimiento, tipo = inventario::seleccionarTipoMovimiento,
                             cantidad = inventario::actualizarCantidad, motivo = inventario::actualizarMotivo,
