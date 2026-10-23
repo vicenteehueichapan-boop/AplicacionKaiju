@@ -31,7 +31,7 @@ Cada perfil ve solo lo que le corresponde (administrador, personal de venta y en
 | RF-09 | Marca de stock bajo, pantalla de alertas y notificación al teléfono | Catálogo, Movimiento, Alertas |
 | RF-10 | Los datos se conservan al cerrar y volver a abrir la app (Room) | Toda la app |
 
-**Reglas de negocio:** RN-01 a RN-06 se validan en `InventarioViewModel` antes de guardar. Una salida nunca deja el stock bajo cero; el precio es mayor que cero y el mínimo mayor o igual a cero; el código es obligatorio y único; todo ajuste exige motivo; y el stock y su movimiento se guardan juntos en una sola transacción.
+**Reglas de negocio:** se validan en `InventarioViewModel` antes de guardar: una salida nunca deja el stock bajo cero (RN-01); el precio es mayor que cero y el mínimo mayor o igual a cero (RN-02); el código es obligatorio y único (RN-03); todo ajuste exige motivo (RN-04); y un producto está en alerta cuando su disponible es igual o menor a su mínimo (RN-06). RN-05 se cumple en la base de datos: cada movimiento guarda fecha, tipo, cantidad y usuario, no existen operaciones para editarlo ni borrarlo, y el stock y su movimiento se guardan juntos en una sola transacción.
 
 **Permisos por perfil:**
 

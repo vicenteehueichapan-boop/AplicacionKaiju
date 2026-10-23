@@ -11,5 +11,3 @@ gradlew text eol=lf
 *.jar binary
 *.png binary
 *.jpg binary
-# Conservar byte a byte los adjuntos fuente, incluidos los TXT.
-docs/fuentes/** -text
