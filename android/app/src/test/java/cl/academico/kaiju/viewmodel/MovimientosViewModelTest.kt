@@ -44,6 +44,11 @@ class MovimientosViewModelTest {
         assertEquals(1_000L, movimiento.fecha)
         assertEquals(inventario, movimiento.usuario)
     }
+    @Test fun entradaQueDesbordariaElStockSeRechazaSinEscribir() {
+        assertFalse(registrar(inventario, "DEMO-001", TipoMovimiento.ENTRADA, Int.MAX_VALUE.toString()))
+        assertEquals(12, stock("DEMO-001"))
+        assertTrue(dao.movimientosGuardados.isEmpty())
+    }
     @Test fun ventaIgualALoDisponibleDejaCero() {
         assertTrue(registrar(vendedor, "DEMO-009", TipoMovimiento.SALIDA_VENTA, "5"))
         assertEquals(0, stock("DEMO-009"))

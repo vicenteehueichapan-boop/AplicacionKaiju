@@ -1,5 +1,6 @@
 package cl.academico.kaiju.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -62,6 +63,7 @@ fun <T> SelectorFormulario(
                 onClick = { abierto = true },
                 modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
                 shape = MaterialTheme.shapes.medium,
+                border = BorderStroke(1.dp, if (error != null) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.outline),
                 colors = if (error != null) ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
                 else ButtonDefaults.outlinedButtonColors(),
             ) {

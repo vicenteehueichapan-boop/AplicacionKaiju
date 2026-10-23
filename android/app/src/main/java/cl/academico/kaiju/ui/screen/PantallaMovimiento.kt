@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.FormularioMovimientoEstado
@@ -61,6 +62,7 @@ fun PantallaMovimiento(
     val producto = productos.find { it.codigo == estado.codigoProducto }
     val descripcion: (Producto) -> String = { "${it.codigo} · ${it.nombre}" }
     val esAjuste = estado.tipo == TipoMovimiento.AJUSTE
+    val foco = LocalFocusManager.current
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
         EncabezadoPantalla("Registrar movimiento", "Cada movimiento queda en el historial con fecha y usuario.")
@@ -106,7 +108,8 @@ fun PantallaMovimiento(
         CampoFormulario(estado.motivo, if (esAjuste) "Motivo del ajuste" else "Motivo (opcional)",
             Icons.Default.Create, errores.motivo, eventos.motivo)
         estado.mensaje?.let { MensajeError(it) }
-        Button(onClick = eventos.registrar, modifier = Modifier.fillMaxWidth().height(52.dp), shape = MaterialTheme.shapes.medium) {
+        // Se cierra el teclado para que el disponible y la marca "Stock bajo" queden a la vista.
+        Button(onClick = { foco.clearFocus(); eventos.registrar() }, modifier = Modifier.fillMaxWidth().height(52.dp), shape = MaterialTheme.shapes.medium) {
             Text(if (esAjuste) "Revisar ajuste" else "Registrar ${estado.tipo?.etiqueta()?.lowercase() ?: "movimiento"}",
                 style = MaterialTheme.typography.titleMedium)
         }

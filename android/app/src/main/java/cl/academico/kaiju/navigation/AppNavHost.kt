@@ -186,7 +186,7 @@ fun AppNavHost(
     }
 }
 
-/** Catálogo, Movimiento y Alertas (diagrama  de la Guía 10). Alertas solo para inventario y administrador (RF-09). */
+/** Catálogo, Movimiento y Alertas (mapa de navegación de la Guía 10). Alertas solo para inventario y administrador (RF-09). */
 @Composable
 private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Boolean) {
     val destinos = buildList {

@@ -25,7 +25,7 @@ data class Confirmacion(val mensaje: String, val codigoParaEntrada: String? = nu
 /**
  * Catálogo, formularios y reglas RN del inventario. Todas las reglas se revisan aquí,
  * antes de llamar al repositorio (Guía 10 sección 3); las pantallas solo muestran el estado.
- * Decisiones de stock inicial y ajuste: docs/18-decisiones-diseno.md.
+ * Stock inicial y ajuste: el producto nace con 0 unidades y el ajuste fija la cantidad contada (ver README).
  */
 class InventarioViewModel(
     private val repository: InventarioRepository,
@@ -80,7 +80,7 @@ class InventarioViewModel(
     /**
      * Tipos que la tabla de Guía 10 sección 1 asigna a cada perfil: entrada (RF-06) y ajuste (RF-08)
      * para inventario y administrador; salida por venta para el vendedor y salidas para
-     * inventario (RF-07). El administrador no figura en RF-07 (pendiente G10-04).
+     * inventario (RF-07). El administrador no figura en RF-07, por eso no registra salidas.
      */
     fun tiposPermitidos(rol: Rol?): List<TipoMovimiento> = when (rol) {
         Rol.ADMINISTRADOR -> listOf(TipoMovimiento.ENTRADA, TipoMovimiento.AJUSTE)
@@ -98,7 +98,7 @@ class InventarioViewModel(
     /** `null` muestra todas las categorías. */
     fun filtrarPorCategoria(categoria: String?) = _filtro.update { it.copy(categoria = categoria) }
 
-    // Decisión técnica reversible (G10-06 sigue abierta): coincidencia parcial, sin distinguir mayúsculas.
+    // Decisión técnica: coincidencia parcial y sin distinguir mayúsculas, en nombre o código.
     private fun coincide(producto: Producto, filtro: FiltroCatalogo): Boolean {
         val texto = filtro.texto.trim()
         val porTexto = texto.isEmpty() ||
@@ -184,7 +184,7 @@ class InventarioViewModel(
             _confirmacion.value = Confirmacion("Producto actualizado.")
         } else {
             // Como en SAP u Odoo, la ficha nace sin unidades: las existencias entran con un movimiento
-            // (Entrada), así cada unidad queda trazada (RN-05). Ver docs/18-decisiones-diseno.md.
+            // (Entrada), así cada unidad queda trazada (RN-05).
             viewModelScope.launch { repository.agregarProducto(datos) }
             _confirmacion.value = Confirmacion("Producto creado con 0 unidades.", codigoParaEntrada = datos.codigo)
         }
@@ -248,6 +248,9 @@ class InventarioViewModel(
                 cantidad == null || cantidad <= 0 -> "Ingresa un entero mayor que cero."
                 estado.tipo?.esSalida == true && producto != null && cantidad > producto.stockActual ->
                     "La salida supera lo disponible (${producto.stockActual})."
+                // Un Int suma hasta 2.147.483.647: más allá, el stock daría la vuelta y quedaría negativo (RN-01).
+                estado.tipo == TipoMovimiento.ENTRADA && producto != null && producto.stockActual.toLong() + cantidad > Int.MAX_VALUE ->
+                    "La cantidad es demasiado grande."
                 else -> null
             },
             motivo = if (estado.tipo == TipoMovimiento.AJUSTE && estado.motivo.isBlank()) "Indica el motivo del ajuste." else null,
