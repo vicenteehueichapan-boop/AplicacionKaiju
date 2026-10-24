@@ -12,7 +12,14 @@ Kaiju controla hoy su inventario con registros manuales y planillas, lo que gene
 
 Cada perfil ve solo lo que le corresponde (administrador, personal de venta y encargado de inventario). Está construida con Kotlin, Jetpack Compose y Material 3, arquitectura MVVM y persistencia local con Room. Todos los datos son ficticios.
 
-## Integrantes
+## Integrantes participantes
+
+| Nombre completo | Correo |
+| --- | --- |
+| Vicente Hueichapan Poblete | vi.hueichapan@duocuc.cl |
+| Diego Burgos Lopez | di.burgosl@duocuc.cl |
+
+Aporte de cada integrante:
 
 - **Vicente Hueichapan**: análisis del caso y desarrollo de la app (pantallas, ViewModel, validaciones, Room y recursos nativos).
 - **Diego Burgos** ([@DiegoBurgosL](https://github.com/DiegoBurgosL)): auditoría final y ajustes (control de stock en las entradas, diseño negro con bordes blancos, colores por sección y capturas de evidencia).
@@ -125,6 +132,7 @@ android/app/src/main/java/cl/academico/kaiju/
 └── ui/            pantallas, componentes, recursos nativos y tema
 ```
 
-## Planificación
+## Organización del equipo
 
-Tablero de Trello: [Kaiju · DSY1105 · Vicente Hueichapan y Diego Burgos](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan)
+- **Planificación:** tablero de Trello [Kaiju · DSY1105 · Vicente Hueichapan y Diego Burgos](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan), con las tareas por estado y fecha.
+- **Código:** este repositorio, con commits de cada integrante que describen el cambio realizado. El aporte de cada uno está en [Integrantes participantes](#integrantes-participantes).
