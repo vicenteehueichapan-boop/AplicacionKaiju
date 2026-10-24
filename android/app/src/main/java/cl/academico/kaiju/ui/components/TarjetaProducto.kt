@@ -8,17 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.Producto
+import cl.academico.kaiju.ui.theme.ColoresKaiju
 
 /** Producto en el catálogo y en alertas: los cuatro datos de RF-02 y la marca de RN-06. */
 @Composable
 fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
     // El borde y el disponible se tiñen de rojo de forma gradual cuando el producto entra en alerta.
     val borde by animateColorAsState(
-        if (enAlerta) MaterialTheme.colorScheme.error.copy(alpha = 0.6f) else Color.Transparent, label = "bordeAlerta")
+        if (enAlerta) MaterialTheme.colorScheme.error.copy(alpha = 0.6f) else ColoresKaiju.borde, label = "bordeAlerta")
     val colorStock by animateColorAsState(
         if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface, label = "colorStock")
     Card(

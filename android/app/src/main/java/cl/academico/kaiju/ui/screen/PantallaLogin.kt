@@ -15,7 +15,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import cl.academico.kaiju.model.Rol
@@ -29,7 +28,7 @@ import cl.academico.kaiju.viewmodel.SesionEstado
 @Composable
 fun PantallaLogin(usuarios: List<Usuario>, estado: SesionEstado, elegir: (String) -> Unit, ingresar: () -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-        // Encabezado de marca con degradado morado → negro.
+        // Encabezado de marca con degradado gris → negro.
         Column(Modifier.fillMaxWidth().background(ColoresKaiju.degradadoMarca).padding(horizontal = 24.dp, vertical = 40.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Text("KAIJU", style = MaterialTheme.typography.displaySmall, color = MaterialTheme.colorScheme.onPrimaryContainer)
@@ -63,7 +62,7 @@ private fun TarjetaPerfil(usuario: Usuario, seleccionado: Boolean, elegir: () ->
     Card(
         modifier = Modifier.fillMaxWidth().selectable(seleccionado, role = Role.RadioButton, onClick = elegir),
         colors = CardDefaults.cardColors(containerColor = if (seleccionado) color.secondaryContainer else color.surfaceContainer),
-        border = BorderStroke(if (seleccionado) 2.dp else 1.dp, if (seleccionado) color.primary else Color.Transparent),
+        border = BorderStroke(if (seleccionado) 2.dp else 1.dp, if (seleccionado) color.primary else ColoresKaiju.borde),
     ) {
         Row(Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(icono, contentDescription = null, tint = color.primary, modifier = Modifier.size(28.dp))

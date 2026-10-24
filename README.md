@@ -91,7 +91,7 @@ Los dos recursos salen del caso: "notificaciones asociadas a niveles mínimos de
 
 ### Identidad visual
 
-Tema oscuro de Material 3 en negro y morado, definido en `ui/theme/Theme.kt`. El rojo se reserva para stock bajo y errores; el verde, para el disponible normal y las entradas; el naranja, para las salidas. Cada pantalla tiene título, bajada e indicadores grandes, y la app tiene un ícono propio.
+Tema oscuro de Material 3 en negro, con acentos blancos y tarjetas con borde blanco suave, definido en `ui/theme/Theme.kt`. El rojo se reserva para stock bajo y errores; el verde, para el disponible normal y las entradas; el naranja, para las salidas. Cada pantalla tiene título, bajada e indicadores grandes, y la app tiene un ícono propio.
 
 ### Módulo propio
 

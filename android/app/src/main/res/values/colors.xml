@@ -1,4 +1,4 @@
 <resources>
-    <color name="ic_launcher_background">#4A2A8A</color>
-    <color name="fondo_kaiju">#0E0B14</color>
+    <color name="ic_launcher_background">#000000</color>
+    <color name="fondo_kaiju">#000000</color>
 </resources>

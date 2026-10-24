@@ -84,7 +84,7 @@ fun PantallaMovimiento(
         }
 
         Text("2. Tipo de movimiento", style = MaterialTheme.typography.titleMedium)
-        // Fichas en dos columnas: el tipo elegido queda resaltado en morado.
+        // Fichas en dos columnas: el tipo elegido queda resaltado.
         tiposPermitidos.chunked(2).forEach { fila ->
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 fila.forEach { tipo ->

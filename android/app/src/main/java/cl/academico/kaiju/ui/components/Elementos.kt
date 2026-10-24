@@ -1,6 +1,7 @@
 package cl.academico.kaiju.ui.components
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cl.academico.kaiju.ui.theme.ColoresKaiju
 
 // Piezas visuales compartidas por las pantallas: solo presentación, sin reglas de negocio.
 
@@ -37,7 +39,8 @@ fun IndicadorClave(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     val colorAnimado by animateColorAsState(color, label = "colorIndicador")
-    Card(modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)) {
+    Card(modifier, colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
+        border = BorderStroke(1.dp, ColoresKaiju.borde)) {
         Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
             Icon(icono, contentDescription = null, tint = colorAnimado, modifier = Modifier.size(20.dp))
             Text(valor, style = MaterialTheme.typography.headlineSmall, color = colorAnimado, fontWeight = FontWeight.Bold)

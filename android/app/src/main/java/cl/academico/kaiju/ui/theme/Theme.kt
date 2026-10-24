@@ -12,21 +12,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Identidad visual (Guía 10 sección 6): negro y morado, tema oscuro de Material 3.
+// Identidad visual (Guía 10 sección 6): negro con acentos y bordes blancos, tema oscuro de Material 3.
 // Alto contraste para leer en bodega; el rojo se reserva para stock bajo y errores.
 private val colores = darkColorScheme(
-    primary = Color(0xFFBB86FC), onPrimary = Color(0xFF21005D),
-    primaryContainer = Color(0xFF4A2A8A), onPrimaryContainer = Color(0xFFEADDFF),
-    secondary = Color(0xFFCCC2DC), onSecondary = Color(0xFF332D41),
-    secondaryContainer = Color(0xFF2E2440), onSecondaryContainer = Color(0xFFE8DEF8),
+    primary = Color(0xFFFFFFFF), onPrimary = Color(0xFF000000),
+    primaryContainer = Color(0xFF2C2C2C), onPrimaryContainer = Color(0xFFFFFFFF),
+    secondary = Color(0xFFBDBDBD), onSecondary = Color(0xFF000000),
+    secondaryContainer = Color(0xFF262626), onSecondaryContainer = Color(0xFFFFFFFF),
     tertiary = Color(0xFF7FDBA8), onTertiary = Color(0xFF00391F),
-    background = Color(0xFF0E0B14), onBackground = Color(0xFFE9E1F0),
-    surface = Color(0xFF0E0B14), onSurface = Color(0xFFE9E1F0),
-    surfaceVariant = Color(0xFF231C30), onSurfaceVariant = Color(0xFFCBC2D8),
-    surfaceContainerLowest = Color(0xFF09070D), surfaceContainerLow = Color(0xFF15111D),
-    surfaceContainer = Color(0xFF1A1524), surfaceContainerHigh = Color(0xFF221C2E),
-    surfaceContainerHighest = Color(0xFF2B2438),
-    outline = Color(0xFF8E8499), outlineVariant = Color(0xFF3D3449),
+    background = Color(0xFF000000), onBackground = Color(0xFFF2F2F2),
+    surface = Color(0xFF000000), onSurface = Color(0xFFF2F2F2),
+    surfaceVariant = Color(0xFF1C1C1C), onSurfaceVariant = Color(0xFFB8B8B8),
+    surfaceContainerLowest = Color(0xFF000000), surfaceContainerLow = Color(0xFF0A0A0A),
+    surfaceContainer = Color(0xFF111111), surfaceContainerHigh = Color(0xFF181818),
+    surfaceContainerHighest = Color(0xFF222222),
+    outline = Color(0xFFE6E6E6), outlineVariant = Color(0xFF3A3A3A),
     error = Color(0xFFFF8A8A), onError = Color(0xFF5C0000),
     errorContainer = Color(0xFF5A1E24), onErrorContainer = Color(0xFFFFDAD6),
 )
@@ -37,8 +37,10 @@ object ColoresKaiju {
     val exito = Color(0xFF7FDBA8)
     /** Salidas de stock. */
     val salida = Color(0xFFFFB86B)
+    /** Borde blanco suave de las tarjetas: separa cada bloque sobre el fondo negro. */
+    val borde = Color(0x66FFFFFF)
     /** Degradado de la marca, usado en el encabezado del ingreso. */
-    val degradadoMarca = Brush.verticalGradient(listOf(Color(0xFF4A2A8A), Color(0xFF0E0B14)))
+    val degradadoMarca = Brush.verticalGradient(listOf(Color(0xFF2C2C2C), Color(0xFF000000)))
 }
 
 private val base = Typography()
