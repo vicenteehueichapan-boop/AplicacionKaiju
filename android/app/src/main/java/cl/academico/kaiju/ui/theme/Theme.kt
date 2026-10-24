@@ -37,6 +37,10 @@ object ColoresKaiju {
     val exito = Color(0xFF7FDBA8)
     /** Salidas de stock. */
     val salida = Color(0xFFFFB86B)
+    /** Color de la sección Catálogo, en el menú inferior y su indicador. */
+    val catalogo = Color(0xFF64B5F6)
+    /** Color de la sección Movimiento, en el menú inferior. */
+    val movimiento = Color(0xFF4DD0E1)
     /** Borde blanco suave de las tarjetas: separa cada bloque sobre el fondo negro. */
     val borde = Color(0x66FFFFFF)
     /** Degradado de la marca, usado en el encabezado del ingreso. */

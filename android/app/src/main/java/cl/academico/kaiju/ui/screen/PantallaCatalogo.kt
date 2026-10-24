@@ -20,6 +20,7 @@ import cl.academico.kaiju.ui.components.EncabezadoPantalla
 import cl.academico.kaiju.ui.components.EstadoVacio
 import cl.academico.kaiju.ui.components.IndicadorClave
 import cl.academico.kaiju.ui.components.TarjetaProducto
+import cl.academico.kaiju.ui.theme.ColoresKaiju
 import cl.academico.kaiju.viewmodel.FiltroCatalogo
 
 /** RF-02, RF-03 y RF-09: catálogo con resumen, buscador, filtro por categoría y marca de stock bajo. */
@@ -44,7 +45,8 @@ fun PantallaCatalogo(
             // Resumen: lo primero que necesita ver quien controla el inventario.
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    IndicadorClave("Productos", "$total", Icons.AutoMirrored.Filled.List, Modifier.weight(1f))
+                    IndicadorClave("Productos", "$total", Icons.AutoMirrored.Filled.List, Modifier.weight(1f),
+                        color = ColoresKaiju.catalogo)
                     IndicadorClave("En alerta", "$enAlerta", Icons.Default.Warning, Modifier.weight(1f),
                         color = if (enAlerta > 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary)
                 }

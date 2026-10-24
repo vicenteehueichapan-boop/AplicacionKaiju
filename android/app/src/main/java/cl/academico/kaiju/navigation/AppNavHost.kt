@@ -13,6 +13,8 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -24,6 +26,7 @@ import cl.academico.kaiju.repository.DatosDePrueba
 import cl.academico.kaiju.ui.components.etiqueta
 import cl.academico.kaiju.ui.recursos.NotificacionesStock
 import cl.academico.kaiju.ui.screen.*
+import cl.academico.kaiju.ui.theme.ColoresKaiju
 import cl.academico.kaiju.ui.theme.KaijuTheme
 import cl.academico.kaiju.viewmodel.InventarioViewModel
 import cl.academico.kaiju.viewmodel.InventarioViewModelFactory
@@ -186,16 +189,22 @@ fun AppNavHost(
     }
 }
 
-/** Catálogo, Movimiento y Alertas (mapa de navegación de la Guía 10). Alertas solo para inventario y administrador (RF-09). */
+private data class DestinoMenu(val destino: Rutas, val etiqueta: String, val icono: ImageVector, val color: Color)
+
+/**
+ * Catálogo, Movimiento y Alertas (mapa de navegación de la Guía 10). Alertas solo para inventario y administrador (RF-09).
+ * Cada sección tiene su color para reconocerla de un vistazo; Alertas usa el rojo reservado para stock bajo.
+ */
 @Composable
 private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Boolean) {
+    val rojoAlerta = MaterialTheme.colorScheme.error
     val destinos = buildList {
-        add(Triple(Rutas.Catalogo, "Catálogo", Icons.AutoMirrored.Filled.List))
-        add(Triple(Rutas.Movimiento, "Movimiento", Icons.Default.Refresh))
-        if (verAlertas) add(Triple(Rutas.Alertas, "Alertas", Icons.Default.Warning))
+        add(DestinoMenu(Rutas.Catalogo, "Catálogo", Icons.AutoMirrored.Filled.List, ColoresKaiju.catalogo))
+        add(DestinoMenu(Rutas.Movimiento, "Movimiento", Icons.Default.Refresh, ColoresKaiju.movimiento))
+        if (verAlertas) add(DestinoMenu(Rutas.Alertas, "Alertas", Icons.Default.Warning, rojoAlerta))
     }
     NavigationBar {
-        destinos.forEach { (destino, etiqueta, icono) ->
+        destinos.forEach { (destino, etiqueta, icono, color) ->
             NavigationBarItem(
                 selected = ruta == destino.ruta,
                 onClick = {
@@ -208,6 +217,10 @@ private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Bool
                 },
                 icon = { Icon(icono, contentDescription = null) },
                 label = { Text(etiqueta) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = color, selectedTextColor = color, indicatorColor = color.copy(alpha = 0.18f),
+                    unselectedIconColor = color.copy(alpha = 0.75f), unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                ),
             )
         }
     }
