@@ -14,7 +14,10 @@ Cada perfil ve solo lo que le corresponde (administrador, personal de venta y en
 
 ## Integrantes
 
-- **Vicente Hueichapan** (trabajo individual)
+- **Vicente Hueichapan**: lógica y datos (ViewModel, validaciones, Room y recursos nativos).
+- **Diego Burgos** ([@DiegoBurgosL](https://github.com/DiegoBurgosL)): análisis y diseño (requerimientos, Trello, pantallas e identidad visual).
+
+Trabajamos en pareja desde un mismo equipo; los commits hechos en conjunto indican a ambos con `Co-authored-by`.
 
 ## Funcionalidades implementadas
 

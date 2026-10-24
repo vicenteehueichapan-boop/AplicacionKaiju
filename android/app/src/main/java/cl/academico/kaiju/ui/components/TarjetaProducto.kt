@@ -16,9 +16,11 @@ import cl.academico.kaiju.model.Producto
 /** Producto en el catálogo y en alertas: los cuatro datos de RF-02 y la marca de RN-06. */
 @Composable
 fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
-    // El borde se tiñe de rojo de forma gradual cuando el producto entra en alerta.
+    // El borde y el disponible se tiñen de rojo de forma gradual cuando el producto entra en alerta.
     val borde by animateColorAsState(
         if (enAlerta) MaterialTheme.colorScheme.error.copy(alpha = 0.6f) else Color.Transparent, label = "bordeAlerta")
+    val colorStock by animateColorAsState(
+        if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface, label = "colorStock")
     Card(
         onClick = abrir,
         modifier = Modifier.fillMaxWidth(),
@@ -37,9 +39,9 @@ fun TarjetaProducto(producto: Producto, enAlerta: Boolean, abrir: () -> Unit) {
             }
             Spacer(Modifier.width(12.dp))
             Column(horizontalAlignment = Alignment.End) {
-                Text("${producto.stockActual}", style = MaterialTheme.typography.headlineSmall,
-                    color = if (enAlerta) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
-                Text("disponibles", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("${producto.stockActual}", style = MaterialTheme.typography.headlineSmall, color = colorStock)
+                Text(if (producto.stockActual == 1) "disponible" else "disponibles", style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }
