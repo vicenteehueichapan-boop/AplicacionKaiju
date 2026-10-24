@@ -97,6 +97,20 @@ Tema oscuro de Material 3 en negro, con acentos blancos y tarjetas con borde bla
 
 No incluido. Las opciones que plantea el caso (productos más y menos vendidos, tendencias de venta) requieren que el cliente defina cómo se miden y en qué período; se implementarán después de la entrevista. La base de la Guía 10 está completa.
 
+## Capturas
+
+Tomadas en el emulador (Android, API 37) con el diseño negro con bordes blancos. Están en [`docs/capturas`](docs/capturas).
+
+| Ingreso por perfil | Catálogo | Búsqueda |
+|---|---|---|
+| <img src="docs/capturas/01-login.png" width="220"> | <img src="docs/capturas/02-catalogo.png" width="220"> | <img src="docs/capturas/03-busqueda.png" width="220"> |
+| **Detalle e historial** | **Nuevo producto** | **Validación por campo** |
+| <img src="docs/capturas/04-detalle.png" width="220"> | <img src="docs/capturas/05-formulario.png" width="220"> | <img src="docs/capturas/06-formulario-errores-1.png" width="220"> |
+| **Validación (resto del formulario)** | **Registrar movimiento** | **Confirmación del ajuste** |
+| <img src="docs/capturas/07-formulario-errores-2.png" width="220"> | <img src="docs/capturas/08-movimiento.png" width="220"> | <img src="docs/capturas/09-ajuste-confirmacion.png" width="220"> |
+| **Alertas y permiso de avisos** | **Productos en alerta** | **Vista del vendedor (sin Alertas)** |
+| <img src="docs/capturas/10-alertas.png" width="220"> | <img src="docs/capturas/11-alertas-lista.png" width="220"> | <img src="docs/capturas/12-vendedor-catalogo.png" width="220"> |
+
 ## Estructura
 
 ```text
