@@ -109,6 +109,10 @@ Tomadas en el emulador (Android, API 37) con el diseño negro con bordes blancos
 | **Alertas y permiso de avisos** | **Productos en alerta** | **Vista del vendedor (sin Alertas)** |
 | <img src="docs/capturas/10-alertas.png" width="220"> | <img src="docs/capturas/11-alertas-lista.png" width="220"> | <img src="docs/capturas/12-vendedor-catalogo.png" width="220"> |
 
+## Video de respaldo
+
+[`docs/video/recorrido-app.mp4`](docs/video/recorrido-app.mp4) (5 min): recorrido de la app en el emulador, por si el equipo de la defensa no puede ejecutarla. Muestra el ingreso por perfil, el formulario con validación por campo, el alta de un producto con su entrada inicial, el permiso de notificaciones, una salida rechazada por superar el stock, la marca "Stock bajo", la notificación, la validación del ajuste, el lector de códigos, la persistencia al cerrar y abrir la app, y la vista del vendedor.
+
 ## Estructura
 
 ```text
