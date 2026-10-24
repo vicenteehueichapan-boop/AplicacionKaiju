@@ -14,10 +14,8 @@ Cada perfil ve solo lo que le corresponde (administrador, personal de venta y en
 
 ## Integrantes
 
-- **Vicente Hueichapan**: lógica y datos (ViewModel, validaciones, Room y recursos nativos).
-- **Diego Burgos** ([@DiegoBurgosL](https://github.com/DiegoBurgosL)): análisis y diseño (requerimientos, Trello, pantallas e identidad visual).
-
-Trabajamos en pareja desde un mismo equipo; los commits hechos en conjunto indican a ambos con `Co-authored-by`.
+- **Vicente Hueichapan**: análisis del caso y desarrollo de la app (pantallas, ViewModel, validaciones, Room y recursos nativos).
+- **Diego Burgos** ([@DiegoBurgosL](https://github.com/DiegoBurgosL)): auditoría final y ajustes (control de stock en las entradas, diseño negro con bordes blancos, colores por sección y capturas de evidencia).
 
 ## Funcionalidades implementadas
 
@@ -125,4 +123,4 @@ android/app/src/main/java/cl/academico/kaiju/
 
 ## Planificación
 
-Tablero de Trello: [Kaiju · DSY1105 · Vicente Hueichapan](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan)
+Tablero de Trello: [Kaiju · DSY1105 · Vicente Hueichapan y Diego Burgos](https://trello.com/b/c2KIi6VL/kaiju-dsy1105-vicente-hueichapan)
