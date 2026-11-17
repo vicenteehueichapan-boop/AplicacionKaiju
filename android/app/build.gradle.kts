@@ -41,6 +41,9 @@ dependencies {
     implementation("androidx.room:room-runtime:$room")
     implementation("androidx.room:room-ktx:$room")
     ksp("androidx.room:room-compiler:$room")
+    // Guía 12: consumo de API REST con Retrofit y conversión de JSON con Gson.
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     // Recurso nativo: lector de códigos de Google Play services, sin permiso de cámara (Guía 11 sección 6).
     implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
     testImplementation("junit:junit:4.13.2")

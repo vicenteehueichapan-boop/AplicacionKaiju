@@ -11,4 +11,5 @@ sealed class Rutas(val ruta: String) {
     data object Formulario : Rutas("formulario")
     data object Movimiento : Rutas("movimiento")
     data object Alertas : Rutas("alertas")
+    data object Feriados : Rutas("feriados")
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
@@ -21,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import cl.academico.kaiju.feriados.ui.PantallaFeriadosConectada
 import cl.academico.kaiju.model.TipoMovimiento
 import cl.academico.kaiju.repository.DatosDePrueba
 import cl.academico.kaiju.ui.components.etiqueta
@@ -184,6 +186,10 @@ fun AppNavHost(
                     if (inventario.puedeVerAlertas(rol)) PantallaAlertas(alertas) { nav.navigate(Rutas.Detalle.crear(it)) }
                     else Text("Este perfil no tiene acceso a las alertas.", Modifier.padding(20.dp))
                 }
+                composable(Rutas.Feriados.ruta) {
+                    if (inventario.puedeVerAlertas(rol)) PantallaFeriadosConectada(productosEnAlerta = alertas.size)
+                    else Text("Este perfil no tiene acceso al calendario de reposición.", Modifier.padding(20.dp))
+                }
             }
         }
     }
@@ -202,6 +208,7 @@ private fun MenuInferior(nav: NavHostController, ruta: String?, verAlertas: Bool
         add(DestinoMenu(Rutas.Catalogo, "Catálogo", Icons.AutoMirrored.Filled.List, ColoresKaiju.catalogo))
         add(DestinoMenu(Rutas.Movimiento, "Movimiento", Icons.Default.Refresh, ColoresKaiju.movimiento))
         if (verAlertas) add(DestinoMenu(Rutas.Alertas, "Alertas", Icons.Default.Warning, rojoAlerta))
+        if (verAlertas) add(DestinoMenu(Rutas.Feriados, "Feriados", Icons.Default.DateRange, ColoresKaiju.exito))
     }
     NavigationBar {
         destinos.forEach { (destino, etiqueta, icono, color) ->

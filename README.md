@@ -38,6 +38,7 @@ Aporte de cada integrante:
 | RF-08 | Registrar ajustes por conteo físico, con motivo y confirmación | Movimiento |
 | RF-09 | Marca de stock bajo, pantalla de alertas y notificación al teléfono | Catálogo, Movimiento, Alertas |
 | RF-10 | Los datos se conservan al cerrar y volver a abrir la app (Room) | Toda la app |
+| RF-11 | Consultar los feriados de Chile por año, ver el próximo y cuántos productos en alerta hay antes de esa fecha (API REST, Guía 12) | Feriados |
 
 **Reglas de negocio:** se validan en `InventarioViewModel` antes de guardar: una salida nunca deja el stock bajo cero (RN-01); el precio es mayor que cero y el mínimo mayor o igual a cero (RN-02); el código es obligatorio y único (RN-03); todo ajuste exige motivo (RN-04); y un producto está en alerta cuando su disponible es igual o menor a su mínimo (RN-06). RN-05 se cumple en la base de datos: cada movimiento guarda fecha, tipo, cantidad y usuario, no existen operaciones para editarlo ni borrarlo, y el stock y su movimiento se guardan juntos en una sola transacción.
 
@@ -102,6 +103,103 @@ Tema oscuro de Material 3 en negro, con acentos blancos y tarjetas con borde bla
 
 No incluido. Las opciones que plantea el caso (productos más y menos vendidos, tendencias de venta) requieren que el cliente defina cómo se miden y en qué período; se implementarán después de la entrevista. La base de la Guía 10 está completa.
 
+## Integración con API REST: calendario de reposición (Guía 12, Opción B)
+
+Funcionalidad complementaria que consume una API externa con **Retrofit** y corrutinas, organizada en MVVM. Responde al problema de las reposiciones tardías: antes de un feriado, proveedores y despachos se detienen, por lo que conviene reponer con anticipación los productos que ya están en alerta de stock.
+
+### API elegida
+
+**Nager.Date** (<https://date.nager.at/Api>): API pública y gratuita de feriados, sin API Key ni registro. Es de solo lectura (GET) y responde en JSON.
+
+| Concepto | Valor |
+|---|---|
+| URL base | `https://date.nager.at/api/v3/` |
+| Endpoint | `GET PublicHolidays/{anio}/{pais}`; la app usa `pais = CL`, por ejemplo `https://date.nager.at/api/v3/PublicHolidays/2026/CL` |
+| Convertidor | Gson, hacia la data class `FeriadoDto` |
+| Código de estado | `200` éxito; `400` o `404` el año no está disponible |
+
+Extracto de la respuesta (cada feriado es un objeto de la lista):
+
+```json
+[{ "date": "2026-12-08", "localName": "Inmaculada Concepción", "name": "Immaculate Conception",
+   "countryCode": "CL", "global": true, "types": ["Public"] }]
+```
+
+### Qué muestra la pantalla
+
+- Un campo **Año** (por defecto el año actual) y el botón **Buscar**.
+- Tarjeta con el **próximo feriado**, su fecha y los días que faltan (solo cuando se consulta el año en curso).
+- Tarjeta de **stock**: cuántos productos están hoy en alerta y un aviso para reponerlos antes de esa fecha. Usa los datos de Alertas que la app ya tiene.
+- Lista de todos los feriados del año, con el próximo destacado.
+- Tres estados claros: **carga** (`CircularProgressIndicator`), **éxito** (datos en pantalla) y **error** (mensaje claro y botón **Reintentar**).
+
+### Cómo acceder a la función
+
+1. Ejecutar la app (necesita internet) e ingresar como **Administrador de prueba** o **Inventario de prueba**.
+2. Tocar la pestaña **Feriados** del menú inferior (a la derecha de Alertas).
+
+El perfil **Vendedor** no ve la pestaña, igual que Alertas: la reposición no es parte de sus tareas.
+
+### Cómo probar los casos
+
+| Caso | Pasos | Resultado esperado |
+|---|---|---|
+| Consulta exitosa | Abrir Feriados (carga el año actual) o escribir `2027` y tocar **Buscar** | Se ve el indicador de carga y luego el resumen y la lista de feriados. |
+| Mismo año otra vez | Buscar de nuevo un año ya consultado | Aparece "Datos reutilizados de una consulta anterior": no hay nueva llamada a la API. |
+| Entrada inválida | Dejar el campo vacío, o escribir `abcd`, `26` o `1800`, y tocar **Buscar** | Mensaje de error bajo el campo; no se hace ninguna petición y se mantiene lo que había en pantalla. |
+| Fallo de conexión | Activar el modo avión y buscar un año que no se haya consultado | Mensaje "No hay conexión a internet" con botón **Reintentar**. |
+| Recuperación | Desactivar el modo avión y tocar **Reintentar** | Se carga la lista y desaparece el error. |
+| Rotación | Girar el teléfono | El ViewModel conserva el estado, sin nueva consulta. |
+
+Pruebas unitarias (sin red, con una API falsa), desde la carpeta `android/`:
+
+```bash
+./gradlew testDebugUnitTest
+```
+
+`FeriadosViewModelTest` cubre: consulta exitosa con el cálculo del próximo feriado, uso de la caché, entradas inválidas sin llamada a la API, fallo de conexión con recuperación al reintentar, tiempo agotado y respuesta sin feriados.
+
+### Recorrido de los datos por capa MVVM
+
+```text
+Usuario toca "Buscar"
+  → Pantalla       PantallaFeriados envía la acción al ViewModel
+  → ViewModel      FeriadosViewModel.consultar() valida el año (4 dígitos, entre 2000 y 2100)
+  → Repository     FeriadosRepository.obtenerFeriados(anio): ¿está en la caché de memoria?
+  → ApiService     FeriadosApiService (Retrofit): GET PublicHolidays/{anio}/CL
+  → Modelo / DTO   Gson crea List<FeriadoDto>; aModelo() la convierte en List<Feriado>
+  → Repository     devuelve ResultadoFeriados (Exito o Fallo) y guarda el año en la caché
+  → ViewModel      arma ContenidoFeriados (Cargando, Exito o Error) y lo publica en el StateFlow
+  → Pantalla       collectAsStateWithLifecycle() y la dibuja: carga, datos o error con Reintentar
+```
+
+| Capa | Archivo (`feriados/`) | Responsabilidad |
+|---|---|---|
+| Modelo / DTO | `model/FeriadoDto.kt`, `model/Feriado.kt` | El DTO copia el JSON; `Feriado` es el dato ya validado (con `LocalDate`). También define `ResultadoFeriados` y `TipoFallo`. |
+| ApiService | `data/FeriadosApiService.kt` | Contrato HTTP de Retrofit (`suspend`) y creación única del cliente. |
+| Repository | `data/FeriadosRepository.kt` | Único que conoce la API: llama, convierte, traduce excepciones a mensajes y mantiene la caché por año. No lanza excepciones hacia el ViewModel. |
+| ViewModel | `viewmodel/FeriadosViewModel.kt` | Valida la entrada, controla la consulta en curso y expone un `StateFlow` de solo lectura. Calcula el próximo feriado. |
+| Pantalla | `ui/PantallaFeriados.kt` | Compose y Material 3. No tiene lógica: solo dibuja el estado y envía eventos. |
+
+**Sin llamadas repetidas:** la primera consulta se hace en el `init` del ViewModel, una sola vez, y no dentro de un composable, así que recomponer o rotar no vuelve a llamar a la API. Además, un único Repository (`FeriadosModulo`) mantiene la caché aunque cambies de pestaña, y el botón **Buscar** se desactiva mientras carga.
+
+**Errores contemplados:** sin conexión, tiempo agotado, año sin datos (`400`/`404`), error del servidor y respuesta que no se puede interpretar.
+
+### Archivos existentes que se tocaron
+
+Todo el código está en archivos nuevos (`feriados/` y su prueba). En los archivos existentes solo se agregaron líneas, sin modificar ni borrar ninguna:
+
+| Archivo | Líneas agregadas |
+|---|---|
+| `app/build.gradle.kts` | Dependencias `retrofit` y `converter-gson` (2.11.0). |
+| `AndroidManifest.xml` | Permiso `INTERNET`. |
+| `navigation/Rutas.kt` | La ruta `Feriados`. |
+| `navigation/AppNavHost.kt` | 2 imports, el destino `composable(Rutas.Feriados.ruta)` y la pestaña "Feriados" del menú inferior. |
+
+### Captura del resultado
+
+![Pantalla Feriados](docs/capturas/13-feriados.png)
+
 ## Capturas
 
 Tomadas en el emulador (Android, API 37) con el diseño negro con bordes blancos. Están en [`docs/capturas`](docs/capturas).
@@ -129,6 +227,7 @@ android/app/src/main/java/cl/academico/kaiju/
 ├── repository/    InventarioRepository (único que conoce al DAO) y datos de prueba
 ├── viewmodel/     SesionViewModel, InventarioViewModel (validaciones y reglas) y su Factory
 ├── navigation/    rutas, NavHost y menú inferior
+├── feriados/      Guía 12: API Nager.Date con Retrofit (model, data, viewmodel y ui)
 └── ui/            pantallas, componentes, recursos nativos y tema
 ```
 

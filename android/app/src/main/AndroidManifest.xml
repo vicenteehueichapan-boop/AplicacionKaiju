@@ -4,6 +4,9 @@
     <!-- Avisos de stock bajo (RF-09). Desde Android 13 se piden con diálogo en la pantalla de alertas. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Guía 12: consulta de feriados a la API Nager.Date. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- El lector de códigos usa la cámara mediante Google Play services, sin permiso CAMERA.
          Es opcional: un teléfono sin cámara puede instalar la app y elegir el producto de la lista. -->
     <uses-feature android:name="android.hardware.camera.any" android:required="false" />
