@@ -244,6 +244,10 @@ Tomadas en el emulador (Android, API 37) con el diseño negro con bordes blancos
 
 [`docs/video/recorrido-app.mp4`](docs/video/recorrido-app.mp4) (5 min): recorrido de la app en el emulador, por si el equipo de la defensa no puede ejecutarla. Muestra el ingreso por perfil, el formulario con validación por campo, el alta de un producto con su entrada inicial, el permiso de notificaciones, una salida rechazada por superar el stock, la marca "Stock bajo", la notificación, la validación del ajuste, el lector de códigos, la persistencia al cerrar y abrir la app, y la vista del vendedor.
 
+## Video del Hito 2 (Guía 13, sección 12)
+
+[`docs/video/hito2-equipo5.mp4`](docs/video/hito2-equipo5.mp4): video de 1:26 (MP4, 720 px, 27,8 MB) con la propuesta de solución, los avances y la app funcionando. Se entregó el 17-11-2026 a las 13:01 con AzCopy en la ruta institucional `san-bernardo/desarrollo-aplicaciones-moviles/002D`, como `Videoequipo5.mp4`. Esta copia queda como respaldo; el registro de la subida está en [`docs/video/comprobante-hito2.txt`](docs/video/comprobante-hito2.txt) (AzCopy: `UPLOADSUCCESSFUL`, `Final Job Status: Completed`).
+
 ## Estructura
 
 ```text

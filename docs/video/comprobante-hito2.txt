@@ -1,0 +1,8 @@
+COMPROBANTE DE ENTREGA - VIDEO HITO 2
+Equipo 5: Vicente Hueichapan, Diego Burgos
+Archivo: Videoequipo5.mp4 (29.152.384 bytes, 1:26, MP4, 720 px)
+Destino: https://stduocvalhito2x95v26.blob.core.windows.net/evidencias-estudiantes/san-bernardo/desarrollo-aplicaciones-moviles/002D/Videoequipo5.mp4
+Cuenta: vi.hueichapan@duocuc.cl (tenant Duoc UC)
+AzCopy 10.34.1 - Job 5b9af092-d360-7741-4671-cd8e1c11a448
+Resultado: Final Job Status: Completed (1 transferido, 0 fallidos)
+Fecha: 17-11-2026 13:01
