@@ -200,6 +200,32 @@ Todo el código está en archivos nuevos (`feriados/` y su prueba). En los archi
 
 ![Pantalla Feriados](docs/capturas/13-feriados.png)
 
+## App firmada y lista para publicar (Guía 13)
+
+La app se compila en modo **release** y se firma con una llave propia, como pide el indicador IL3.3: un **APK firmado** para instalar y entregar, y un **AAB firmado** (Android App Bundle), que es el formato que exige Google Play para apps nuevas. No se publicó en Google Play; no es requisito del curso.
+
+| Archivo | Para qué | Dónde queda al compilar |
+|---|---|---|
+| `app-release.apk` | Instalar en un teléfono o emulador y entregar el Encargo | `android/app/build/outputs/apk/release/` |
+| `app-release.aab` | Subir a Google Play Console | `android/app/build/outputs/bundle/release/` |
+| `practica-curso.jks` | Llave de práctica del curso (alias `practica`, válida hasta 2054) | `android/llaves/` (incluida en el repositorio) |
+
+**Cómo está configurada la firma** (`android/app/build.gradle.kts`): Gradle lee las credenciales desde `android/keystore.properties` y las usa en `signingConfigs.release`. Ese archivo tiene las contraseñas y **no se sube a GitHub** (está en `.gitignore`). La única excepción del `.gitignore` es la llave de práctica, porque el Encargo pide entregarla; nunca se debe usar para una app real.
+
+**Cómo generar los paquetes firmados:**
+
+1. Copiar `android/keystore.properties.example` como `android/keystore.properties` y completar las contraseñas (las tiene el equipo).
+2. En Android Studio, panel **Gradle** → `app` → `Tasks` → `build` → doble clic en **assembleRelease** (APK) y luego en **bundleRelease** (AAB). Desde la terminal, en `android/`: `./gradlew assembleRelease bundleRelease` (en Windows, `gradlew.bat`).
+
+Sin `keystore.properties`, el proyecto igual compila, pero el APK sale como `app-release-unsigned.apk`: ese nombre indica que falta la configuración de firma.
+
+**Cómo se comprobó la firma:**
+
+- El archivo generado se llama `app-release.apk` (no `unsigned`).
+- `app` → `Tasks` → `android` → **signingReport**: la variante `release` usa `practica-curso.jks` con el alias `practica`.
+- `apksigner verify --print-certs app-release.apk` responde **Verifies** (esquema v2) con el certificado `CN=Vicente Hueichapan y Diego Burgos, OU=DSY1105 Equipo 5, O=Duoc UC`.
+- El `targetSdk` es 36 (Android 16), el mínimo que exige Google Play desde el 31 de agosto de 2026.
+
 ## Capturas
 
 Tomadas en el emulador (Android, API 37) con el diseño negro con bordes blancos. Están en [`docs/capturas`](docs/capturas).
